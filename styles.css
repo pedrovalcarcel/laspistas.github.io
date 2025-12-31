@@ -1,0 +1,313 @@
+body {
+    font-family: 'Times New Roman', Times, serif;
+    background-color:rgb(35, 35, 245);
+    text-align: center;
+}
+nav a{
+    padding : 10px 15px;
+    margin: 0.3%;
+    background-color: rgb(13, 147, 224);
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+nav{
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+nav a:hover{
+    background-color: red;
+}
+.pagina-inicio{
+    background-color: rgb(47, 47, 238);
+    width: auto;
+    text-decoration: none;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+.inicio-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 2%;
+    width: 90%;
+    margin: 1% auto auto auto;
+    align-items: start;
+}
+.bloque{
+    background-color: rgb(255,255,255,0.1);
+    padding: 2%;
+    border-radius: 15px;
+    color: white;
+}
+.bloque h2{
+    text-align: center;
+}
+.cabecera{
+    position: relative;
+    margin: auto auto -0.3% auto;
+    height: 150px;
+    align-items: center;
+    padding: 0.5%;
+}
+.cabecera-centro{
+    flex: 1;
+    text-align: center;
+}
+.escudo{
+    width: 150px;
+    height: auto;
+    position: absolute;
+    left: 1%;
+    top: 50%;
+    transform: translateY(-50%);
+
+}
+.racha{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5%;
+    padding: 1%;
+}
+.racha a{
+    text-decoration: none;
+}
+.racha a:hover .cuadrado-resultado{
+    transform: scale(1.1);
+    transition: transform 0.2s;
+    cursor: pointer;
+}
+.cuadrado-resultado{
+    width: 40px;
+    height: 40px;
+    border-radius: 6px;
+}
+.cuadrado-resultado.ultimo{
+    border: 3px solid black;
+}
+.v{ background-color: green;}
+.e{ background-color: yellow;}
+.d{ background-color: red;}
+
+#partidos-mes{
+    list-style: none;
+    padding: 0;
+}
+#partidos-mes li{
+    margin: auto auto auto auto;
+    font-size: 120%;
+}
+#partidos-mes a{
+    color: white;
+    text-decoration: none;
+}
+#partidos-mes a:hover{
+    text-decoration: underline;
+}
+
+.pagina-resultados{
+   background-color:  rgb(47, 47, 238);
+}
+.pagina-resultados ul li a{
+    color: white;
+    text-decoration: none;
+}  
+.pagina-resultados h1{
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.tabla-clasificacion{
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    margin: auto;
+    padding: 2%;
+    font-size: 120%;
+}
+.bloque-clasificacion h2{
+    text-align: left;
+}
+.foto-equipo{
+    width: 50%;
+    height: 50%;
+    position: relative;
+    margin-top: -14%;
+    left: 17%;
+}
+.pagina-resultados ul{
+    list-style-type: none;
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, 300px);
+    gap: 5%;
+    text-align: center;
+    height: auto;
+    margin-left: auto;
+    margin-right: auto;    
+    font-size: 20px;
+    align-items: center;
+    width: calc(100% - 20%);
+    margin: auto;
+    justify-content: center;
+}
+.pagina-resultados li{
+    margin: 10% auto auto auto;
+    padding: 2%;
+    width: auto;    
+    display: flex;
+    flex-direction: row;
+    text-align: center;
+    align-items: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.pagina-resultados a:hover{
+        text-decoration: underline;
+
+}
+.pagina-partidos{
+    background: rgb(47, 47, 238);
+    padding: 10px auto;
+    width: auto;
+    text-decoration: none;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    display: row;
+    flex-direction: column;
+    align-items: center;
+}
+.pagina-partidos li a{
+    list-style-type: none;
+    padding: 0;
+    color : white;
+    text-decoration: none;
+    list-style: none;
+}
+.pagina-partidos ul{
+    padding-left: 0;
+    list-style: none;
+}
+.pagina-jugador ul{
+    list-style: none;
+    padding-left: 0;
+}
+.pagina-jugadores {
+    background: rgb(47, 47, 238);
+    width: auto;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+}
+.pagina-jugadores h1{
+    color: white;
+}
+.pagina-jugador{
+    background: rgb(47, 47, 238);
+    width: auto;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    color: white;
+    text-align: center;
+}
+.plantilla ul{
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10%;                 /* separación entre columnas */
+    font-size: 20px;
+    width: 70%;
+    list-style: none;
+    align-items: start;       /* 🔑 todas empiezan arriba */
+    justify-content: center;
+    margin: auto;
+    justify-content: center;
+    margin-left: auto;
+    margin-right: auto;;
+}
+
+.plantilla li{
+    background-color: rgb(13,147,224);
+    color: white;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    break-inside: avoid;
+    text-align: center;
+    padding: 2%;
+    border: 2px solid white;
+    border-radius: 10px;
+    width: 60%;
+    margin: 0 auto 0 auto;
+}
+
+.plantilla a{
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.plantilla a:hover{
+    text-decoration: underline;
+}
+.ranking-goles h3{
+    margin: 7% 52% 0 0;
+        color: white;
+
+}
+.ranking-goles li a{
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 5px 0;
+    list-style-type: none;
+    padding: 0;
+    color : white;
+    text-decoration: none;
+    list-style: none;
+}
+.ranking-goles ul{
+    list-style: none;
+    color:white;
+    text-decoration: none;
+    margin: 1% 19.5%;
+    text-align: left;
+}
+.ranking-asistencias h3{
+    color: white;
+    margin: -20% 0 0 0;
+}
+.ranking-asistencias li a{
+    color:white;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-decoration: none;
+}
+.ranking-asistencias ul{
+    list-style: none;
+    color:white;
+    text-decoration: none;
+    text-align: center;
+    margin-right: 2%;
+}
+.ranking-total h3{
+    text-align: right;
+    margin: -20% 19% 0 0;
+    color: white;
+}
+.ranking-total li a{
+    color:white;
+    text-decoration: none;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 5% 0;
+    text-decoration: none;
+    
+}
+.ranking-total ul{
+    list-style: none;
+    color:white;
+    text-decoration: none;
+    margin: 1% 21.5%;
+    text-align: right;
+}
+

@@ -1,0 +1,257 @@
+{
+    "jugadores": [
+        {"dorsal": "7", "nombre": "Pedro"},
+        {"dorsal": "11", "nombre": "Ferchup"},
+        {"dorsal": "28", "nombre": "Castro"},
+        {"dorsal": "17", "nombre": "Fran"},
+        {"dorsal": "44", "nombre": "Morales"},
+        {"dorsal": "80", "nombre": "Nico"},
+        {"dorsal": "8", "nombre": "López"},
+        {"dorsal": "77", "nombre": "Zouhayr"},
+        {"dorsal": "6", "nombre": "Óscar"},
+        {"dorsal": "21", "nombre": "Davichu"},
+        {"dorsal": "10", "nombre": "Prestes"},
+        {"dorsal": "23", "nombre": "Pablo"},
+        {"dorsal": "1", "nombre": "Manglano"},
+        {"dorsal": "93", "nombre": "Javi"},
+        {"dorsal": "9", "nombre": "Rivas"}
+    ],
+    "partidos": [
+        {
+            "id": 1,
+            "jornada": 1,
+            "fecha": "28/09/2025",
+            "hora": "11:00",
+            "campo": "C2",
+            "arbitro": "103",
+            "local": "El Columpio FC",
+            "goles_local": 3,
+            "visitante": "Las Pistas FC",
+            "goles_visitante": 4,
+            "jugadores": [
+                "7", "11", "17", "44", "80", "8", "77", "6", "21", "10", "23", "1"
+            ],
+            "goles": [
+                {"dorsal": "44", "cantidad": 2},
+                {"dorsal": "6", "cantidad": 1},
+                {"dorsal": "23", "cantidad": 1}
+            ],
+            "asistencias": [
+                {"asistente": "8", "goleador": "23"},
+                {"asistente": "17", "goleador": "6"},
+                {"asistente": "8", "goleador": "44"},
+                {"asistente": "6", "goleador": "44"}
+            ],
+            "tarjetas": []
+        },
+        {
+            "id": 2,
+            "jornada": 2,
+            "fecha": "05/10/2025",
+            "hora": "11:00",
+            "campo": "C2",
+            "arbitro": "105",
+            "local": "Las Pistas FC",
+            "goles_local": 1,
+            "visitante": "Las Jarritas de la Esquinita",
+            "goles_visitante": 0,
+            "jugadores": [
+                "7","28", "11", "17", "44", "80", "8", "77", "6", "21", "23", "1"
+            ],
+            "goles": [
+                {"dorsal": "23", "cantidad": 1}
+            ],
+            "asistencias": [
+            ],
+            "tarjetas": []
+        },
+        {
+            "id": 3,
+            "jornada": 3,
+            "fecha": "18/10/2025",
+            "hora": "16:00",
+            "campo": "C1",
+            "arbitro": "109",
+            "local": "Te Camelo FC",
+            "goles_local": 2,
+            "visitante": "Las Pistas FC",
+            "goles_visitante": 1,
+            "jugadores": [
+                "7","28", "11", "17", "44", "80", "8", "77", "6", "21", "23", "1"
+            ],
+            "goles": [
+                {"dorsal": "77", "cantidad": 1}
+            ],
+            "asistencias": [
+            ],
+            "tarjetas": []
+        },
+        {
+            "id": 4,
+            "jornada": "Previa Copa",
+            "fecha": "26/10/2025",
+            "hora": "09:00",
+            "campo": "C2",
+            "arbitro": "106",
+            "local": "Las Pistas FC",
+            "goles_local": 1,
+            "visitante": "River Valdemoro",
+            "goles_visitante": 3,
+            "jugadores": [
+                "7","28", "11", "17", "44", "80", "8", "77", "21", "23", "1"
+            ],
+            "goles": [
+                {"dorsal": "44", "cantidad": 1}
+            ],
+            "asistencias": [
+            ],
+            "tarjetas": []
+        },
+        {
+            "id": 5,
+            "jornada": 4,
+            "fecha": "08/11/2025",
+            "hora": "15:00",
+            "campo": "C2",
+            "arbitro": "103",
+            "local": "Las Pistas FC",
+            "goles_local": 0,
+            "visitante": "Ramones",
+            "goles_visitante": 3,
+            "jugadores": [
+                "7","28", "11", "17", "44", "80", "8", "77", "21", "23", "1"
+            ],
+            "goles": [
+            ],
+            "asistencias": [
+            ],
+            "tarjetas": []
+        },
+        {
+            "id": 6,
+            "jornada": 5,
+            "fecha": "16/11/2025",
+            "hora": "09:00",
+            "campo": "C2",
+            "arbitro": "102",
+            "local": "El Chimbazo FC",
+            "goles_local": 5,
+            "visitante": "Las Pistas FC",
+            "goles_visitante": 2,
+            "jugadores": [
+                "11", "17", "80", "77", "6", "21", "23", "1", "93", "9"
+            ],
+            "goles": [
+                {"dorsal": "11", "cantidad": 1},
+                {"dorsal": "17", "cantidad": 1}
+            ],
+            "asistencias": [
+                {"asistente":"77","goleador":"17"},
+                {"asistente":"6","goleador":"11"}
+            ],
+            "tarjetas": []
+        },
+        {
+            "id": 7,
+            "jornada": 6,
+            "fecha": "22/11/2025",
+            "hora": "20:00",
+            "campo": "C2",
+            "arbitro": "105",
+            "local": "Las Pistas FC",
+            "goles_local": 3,
+            "visitante": "Interamerica",
+            "goles_visitante": 4,
+            "jugadores": [
+                "7","28", "11", "17", "44", "80", "8", "77", "6", "21", "23", "1"
+            ],
+            "goles": [
+                {"dorsal": "11", "cantidad": 2},
+                {"dorsal": "77", "cantidad": 1}
+            ],
+            "asistencias": [
+                {"asistente":"77","goleador":"11"},
+                {"asistente":"6","goleador":"11"},
+                {"asistente":"44","goleador":"77"}
+            ],
+            "tarjetas": []
+        },
+        {
+            "id": 8,
+            "jornada": "1 Copa",
+            "fecha": "30/11/2025",
+            "hora": "09:00",
+            "campo": "Bolitas 1",
+            "arbitro": "102",
+            "local": "Las Pistas FC",
+            "goles_local": 2,
+            "visitante": "Samados Cefeteria el Reston",
+            "goles_visitante": 1,
+            "jugadores": [
+                "7","28", "11", "44", "80", "8", "77", "6", "21", "23", "1", "9"
+            ],
+            "goles": [
+                {"dorsal": "44", "cantidad": 2}
+            ],
+            "asistencias": [
+                {"asistente":"9","goleador":"44"},
+                {"asistente":"8","goleador":"44"}
+            ],
+            "tarjetas": []
+        },
+        {
+            "id": 9,
+            "jornada": 7,
+            "fecha": "14/12/2025",
+            "hora": "12:00",
+            "campo": "C2",
+            "arbitro": "105",
+            "local": "Aegis FC",
+            "goles_local": 8,
+            "visitante": "Las Pistas FC",
+            "goles_visitante": 5,
+            "jugadores": [
+                "7","28", "11", "17", "44", "8", "77", "6", "21", "23", "1"
+            ],
+            "goles": [
+                {"dorsal": "21", "cantidad": 2},
+                {"dorsal": "11", "cantidad": 1},
+                {"dorsal": "6", "cantidad": 1},
+                {"dorsal": "1", "cantidad": 1}
+            ],
+            "asistencias": [
+                {"asistente":"44","goleador":"21"},
+                {"asistente":"44","goleador":"21"},
+                {"asistente":"77","goleador":"11"},
+                {"asistente":"8","goleador":"6"}
+            ],
+            "tarjetas": []
+        },
+        {
+            "id": 10,
+            "jornada": 8,
+            "fecha": "21/12/2025",
+            "hora": "11:00",
+            "campo": "Bolitas 2",
+            "arbitro": "106",
+            "local": "Las Pistas FC",
+            "goles_local": 4,
+            "visitante": "Ershiquiteto FC",
+            "goles_visitante": 2,
+            "jugadores": [
+                "7","28", "11", "44","80", "8", "6", "21", "23", "1"
+            ],
+            "goles": [
+                {"dorsal": "44", "cantidad": 2},
+                {"dorsal": "8", "cantidad": 1},
+                {"dorsal": "28", "cantidad": 1}
+            ],
+            "asistencias": [
+                {"asistente":"8","goleador":"28"},
+                {"asistente":"6","goleador":"44"},
+                {"asistente":"44","goleador":"8"}
+            ],
+            "tarjetas": []
+        }
+    ]
+}

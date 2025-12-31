@@ -1,0 +1,124 @@
+{
+    "clasificacion":[
+        {
+            "equipo":"Aegis FC",
+            "pj":8,
+            "pg":7,
+            "pe":0,
+            "pp":1,
+            "gf":45,
+            "gc":20,
+            "pts":21
+        },
+        {
+            "equipo":"Ramones",
+            "pj":8,
+            "pg":5,
+            "pe":1,
+            "pp":2,
+            "gf":43,
+            "gc":23,
+            "pts":16
+        },
+        {
+            "equipo":"Cerberos CF",
+            "pj":7,
+            "pg":5,
+            "pe":1,
+            "pp":1,
+            "gf":31,
+            "gc":20,
+            "pts":16
+        },
+        {
+            "equipo":"El Chimbazo FC",
+            "pj":7,
+            "pg":4,
+            "pe":1,
+            "pp":2,
+            "gf":24,
+            "gc":23,
+            "pts":13
+        },
+        {
+            "equipo":"Wolfy FC",
+            "pj":8,
+            "pg":3,
+            "pe":2,
+            "pp":3,
+            "gf":32,
+            "gc":32,
+            "pts":11
+        },
+        {
+            "equipo":"Te Camelo FC",
+            "pj":7,
+            "pg":3,
+            "pe":1,
+            "pp":3,
+            "gf":22,
+            "gc":21,
+            "pts":10
+        },
+        {
+            "equipo":"Área 51 FC",
+            "pj":8,
+            "pg":4,
+            "pe":0,
+            "pp":4,
+            "gf":28,
+            "gc":23,
+            "pts":12
+        },
+        {
+            "equipo":"Las Pistas FC",
+            "pj":8,
+            "pg":3,
+            "pe":0,
+            "pp":5,
+            "gf":20,
+            "gc":27,
+            "pts":9
+        },
+        {
+            "equipo":"Interamerica",
+            "pj":7,
+            "pg":3,
+            "pe":0,
+            "pp":4,
+            "gf":20,
+            "gc":28,
+            "pts":9
+        },
+        {
+            "equipo":"El Columpio FC",
+            "pj":7,
+            "pg":2,
+            "pe":2,
+            "pp":3,
+            "gf":23,
+            "gc":29,
+            "pts":8
+        },
+        {
+            "equipo":"Ershiquiteto FC",
+            "pj":8,
+            "pg":2,
+            "pe":0,
+            "pp":6,
+            "gf":23,
+            "gc":37,
+            "pts":6
+        },
+        {
+            "equipo":"Las Jarritas de la Esquinita",
+            "pj":7,
+            "pg":0,
+            "pe":0,
+            "pp":7,
+            "gf":23,
+            "gc":40,
+            "pts":0
+        }
+    ]
+}
