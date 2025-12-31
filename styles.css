@@ -81,6 +81,12 @@ nav a:hover{
     width: 40px;
     height: 40px;
     border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .cuadrado-resultado.ultimo{
     border: 3px solid black;
@@ -310,4 +316,5 @@ nav a:hover{
     margin: 1% 21.5%;
     text-align: right;
 }
+
 
