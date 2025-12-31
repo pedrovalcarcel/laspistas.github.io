@@ -31,6 +31,9 @@ fetch("resultados.json")
         enlace.title = `J${p.jornada}: ${p.local} ${p.goles_local} - ${p.goles_visitante} ${p.visitante}`;
 
         const cuadrado = document.createElement("div");
+        cuadrado.textContent = 
+            resultado === "v" ? "V" :
+            resultado === "e" ? "E" : "D";
         cuadrado.classList.add("cuadrado-resultado", resultado);
 
         if (cont === total){
@@ -40,4 +43,5 @@ fetch("resultados.json")
         enlace.appendChild(cuadrado);
         rachaDiv.appendChild(enlace);
     });
+
 });
