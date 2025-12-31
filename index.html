@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head class ="cabecera_pagina">
+        <meta charset="UTF-8">
+        <title>LAS PISTAS FC</title>
+        <link rel="stylesheet" href="css/styles.css">
+    </head>
+    <body class = "pagina-inicio">
+        <header class ="cabecera">
+        <img src="img/escudo_laspistas.png" alt = "Escudo" class="escudo">
+        <div class ="cabecera-centro">
+            <h1>LAS PISTAS FC</h1>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="resultados.html">Resultados</a>
+            <a href="jugadores.html">Plantilla</a>
+        </nav>
+        </div>
+        </header>
+    <section class="inicio-grid">
+        <div class="bloque">
+            <h2>Clasificacion</h2>
+            <table class="tabla-clasificacion">
+                <thead>
+                    <tr>
+                        <th>Pos</th>
+                        <th>Equipo</th>
+                        <th>PJ</th>
+                        <th>PG</th>
+                        <th>PE</th>
+                        <th>PP</th>
+                        <th>GF</th>
+                        <th>GC</th>
+                        <th>GA</th>
+                        <th>Pts</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpo-clasificacion"></tbody>
+            </table>
+        </div>
+        <div class ="bloque">
+            <h2>Últimos resultados</h2>
+            <div id="racha" class="racha"></div>
+        </div>
+        <div class = "bloque">
+            <h2>Partidos del mes</h2>
+            <ul id="partidos-mes"></ul>
+        </div>
+    </section>
+    <img src="img/foto_equipo_laspistas.jpg" alt="Foto del equipo" class = "foto-equipo">
+    <script src="js/clasificacion.js"></script>
+    <script src="js/racha.js"></script>
+    <script src="js/partidos_mes.js"></script>
+    </body>
+</html>
