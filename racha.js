@@ -3,7 +3,7 @@ fetch("resultados.json")
 .then(data => { 
     const rachaDiv = document.getElementById("racha");
     const mi_equipo = "Las Pistas FC";
-    const partidosOrdenados = [...data.partidos].sort((a,b) => {
+    const partidosOrdenados = [...data.partidos].filter(p => p.goles_local !== "?").sort((a,b) => {
         const fa = new Date(a.fecha.split("/").reverse().join("-"));
         const fb = new Date(b.fecha.split("/").reverse().join("-"));
         return fa-fb;
@@ -13,7 +13,7 @@ fetch("resultados.json")
     const total = ultimos5.length;
     ultimos5.forEach(p => {
         let resultado;
-        if(p.goles_local != "?"){
+
             if (p.local === mi_equipo){
                 if (p.goles_local > p.goles_visitante) resultado = "v";
                 else if (p.goles_local < p.goles_visitante) resultado = "d";
@@ -40,7 +40,7 @@ fetch("resultados.json")
 
             enlace.appendChild(cuadrado);
             rachaDiv.appendChild(enlace);
-        }
+        
         
     });
 });
