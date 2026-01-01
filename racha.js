@@ -13,35 +13,34 @@ fetch("resultados.json")
     const total = ultimos5.length;
     ultimos5.forEach(p => {
         let resultado;
-        if (p.local === mi_equipo){
-            if (p.goles_local > p.goles_visitante) resultado = "v";
-            else if (p.goles_local < p.goles_visitante) resultado = "d";
-            else resultado = "e";
-        } else if (p.visitante === mi_equipo){
-            if (p.goles_local > p.goles_visitante) resultado = "d";
-            else if (p.goles_local < p.goles_visitante) resultado = "v";
-            else resultado = "e";
-        }
-        else {
-            return;
-        }
-        cont++;
-        const enlace = document.createElement("a");
-        enlace.href = `partido.html?id=${p.id}`;
-        enlace.title = `J${p.jornada}: ${p.local} ${p.goles_local} - ${p.goles_visitante} ${p.visitante}`;
+        if(p.goles_local != "?"){
+            if (p.local === mi_equipo){
+                if (p.goles_local > p.goles_visitante) resultado = "v";
+                else if (p.goles_local < p.goles_visitante) resultado = "d";
+                else resultado = "e";
+            } else if (p.visitante === mi_equipo){
+                if (p.goles_local > p.goles_visitante) resultado = "d";
+                else if (p.goles_local < p.goles_visitante) resultado = "v";
+                else resultado = "e";
+            }
+            else {
+                return;
+            }
+            cont++;
+            const enlace = document.createElement("a");
+            enlace.href = `partido.html?id=${p.id}`;
+            enlace.title = `J${p.jornada}: ${p.local} ${p.goles_local} - ${p.goles_visitante} ${p.visitante}`;
 
-        const cuadrado = document.createElement("div");
-        cuadrado.textContent = 
-            resultado === "v" ? "V" :
-            resultado === "e" ? "E" : "D";
-        cuadrado.classList.add("cuadrado-resultado", resultado);
+            const cuadrado = document.createElement("div");
+            cuadrado.classList.add("cuadrado-resultado", resultado);
 
-        if (cont === total){
-            cuadrado.classList.add("ultimo");
+            if (cont === total){
+                cuadrado.classList.add("ultimo");
+            }
+
+            enlace.appendChild(cuadrado);
+            rachaDiv.appendChild(enlace);
         }
-
-        enlace.appendChild(cuadrado);
-        rachaDiv.appendChild(enlace);
+        
     });
-
 });

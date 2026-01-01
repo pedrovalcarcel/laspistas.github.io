@@ -6,7 +6,7 @@
         <link rel="stylesheet" href="styles.css">
     </head>
     <body class="pagina-jugadores">
-       <header class ="cabecera">
+        <header class ="cabecera">
         <img src="escudo_laspistas.png" alt = "Escudo" class="escudo">
         <div class ="cabecera-centro">
             <h1>Plantilla de LAS PISTAS FC</h1>
@@ -16,23 +16,20 @@
         </nav>
         </div>
         </header>
-        <section class="plantilla">
-            <ul id="lista-jugadores"></ul>
+        <main class="plantilla-grid">
+            <ul class ="lista-jugadores" id="lista-jugadores"></ul>
+            <div class = "ranking ranking-goles">
+                <h3>⚽ Ranking de Goles</h3>
+                <ul id="ranking-goles"></ul>
+            </div>
+            <div class="ranking ranking-asistencias">
+                <h3>🎯 Ranking de Asistencias</h3>
+                <ul id="ranking-asistencias"></ul>
+            </div>
+            <div class="ranking ranking-goles-asistencias">
+                <h3>🔥 Goles + Asistencias</h3>
+                <ul id="ranking-total"></ul>
+            </div>
         </section>
-        <section class="rankings">
-        <div class="ranking-goles">
-        <h3>⚽ Ranking de Goles</h2>
-        <ul id="ranking-goles"></ul>
-        </div>
-        <div class="ranking-asistencias">
-        <h3>🎯 Ranking de Asistencias</h2>
-        <ul id="ranking-asistencias"></ul>
-        </div>
-        <div class="ranking-total">
-        <h3>🔥 Goles + Asistencias</h2>
-        <ul id="ranking-total"></ul>
-        </div>
-        </section>
-        <ul id="jugadores"></ul>
         <script src="jugadores.js"></script>
     </body>

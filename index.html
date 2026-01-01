@@ -8,18 +8,18 @@
     <body class = "pagina-inicio">
         <header class ="cabecera">
         <img src="escudo_laspistas.png" alt = "Escudo" class="escudo">
-        <div class ="cabecera-centro">
-            <h1>LAS PISTAS FC</h1>
-        <nav>
-            <a href="index.html">Inicio</a>
-            <a href="resultados.html">Resultados</a>
-            <a href="jugadores.html">Plantilla</a>
-        </nav>
-        </div>
+            <div class ="cabecera-centro">
+                <h1>LAS PISTAS FC</h1>
+                <nav>
+                    <a href="index.html">Inicio</a>
+                    <a href="resultados.html">Resultados</a>
+                    <a href="jugadores.html">Plantilla</a>
+                </nav>
+            </div>
         </header>
     <section class="inicio-grid">
         <div class="bloque">
-            <h2>Clasificación</h2>
+            <h2>Clasificacion</h2>
             <table class="tabla-clasificacion">
                 <thead>
                     <tr>
@@ -31,7 +31,7 @@
                         <th>PP</th>
                         <th>GF</th>
                         <th>GC</th>
-                        <th>DG</th>
+                        <th>GA</th>
                         <th>Pts</th>
                     </tr>
                 </thead>
@@ -41,17 +41,18 @@
         <div class ="bloque">
             <h2>Últimos resultados</h2>
             <div id="racha" class="racha"></div>
+            <div class = "bloque bloque-foto">
+                <img src="foto_equipo_laspistas.jpg" alt="Foto del equipo" class = "foto-equipo">
+            </div>
         </div>
         <div class = "bloque">
             <h2>Partidos del mes</h2>
             <ul id="partidos-mes"></ul>
+            
         </div>
     </section>
-    <img src="foto_equipo_laspistas.jpg" alt="Foto del equipo" class = "foto-equipo">
     <script src="clasificacion.js"></script>
     <script src="racha.js"></script>
     <script src="partidos_mes.js"></script>
     </body>
-
 </html>
-

@@ -10,7 +10,7 @@ fetch("resultados.json")
             const li = document.createElement("li");
             li.innerHTML = `
             <a href="partido.html?id=${p.id}">
-                J${p.jornada} - ${p.local} VS ${p.visitante}
+                J: ${p.jornada} - ${p.local} VS ${p.visitante} : ${p.campo} , ${p.hora}
             </a>`;
             ul.appendChild(li);
         }
