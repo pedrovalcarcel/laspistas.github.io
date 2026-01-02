@@ -13,6 +13,7 @@ fetch("resultados.json")
             stats[jugador.dorsal] = {
                 dorsal: jugador.dorsal,
                 nombre: jugador.nombre,
+                alias: jugador.alias,
                 goles: 0,
                 asistencias: 0
             };
@@ -55,6 +56,7 @@ fetch("resultados.json")
             });
         }
     });
+
 
 
 
