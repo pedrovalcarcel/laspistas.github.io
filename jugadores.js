@@ -47,7 +47,7 @@ fetch("resultados.json")
                     li.innerHTML = `
                         <strong>${i + 1}.</strong>
                         <a href="jugador.html?dorsal=${j.dorsal}">
-                            ${j.alias}
+                            ${j.jugador}
                         </a> : ${typeof valor === "function" ? valor(j) : j[valor]}
                     `;
                     ul.appendChild(li);
@@ -55,5 +55,6 @@ fetch("resultados.json")
             });
         }
     });
+
 
 
