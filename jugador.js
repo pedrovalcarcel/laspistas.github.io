@@ -40,8 +40,8 @@ fetch("resultados.json")
             });
         });
         gya_x_partido = (goles + asistencias) / partidosJugados;
-        contenedor.innerHTML = `
-            <h1>Estadísticas</h1>
+        document.getElementById("estadisticas").innerHTML = `
+            <h2>Estadísticas</h1>
             <ul>
                 <li>Partidos jugados: ${partidosJugados}</li>
                 <li>Goles: ${goles}</li>
@@ -50,4 +50,21 @@ fetch("resultados.json")
                 <li>Tarjetas: ${tarjetas}</li>
             </ul>
         `;
+        if(!jugador) return;
+        document.getElementById("nombre-jugador").textContent =
+            `${jugador.nombre} ${jugador.apellidos}`;
+        document.getElementById("fecha").textContent = jugador.fecha_nacimiento;
+        document.getElementById("nacionalidad").textContent = jugador.nacionalidad;
+        document.getElementById("comida").textContent = jugador.comida_favorita;
+        document.getElementById("frase").textContent = jugador.frase;
+        document.getElementById("foto-jugador").src = jugador.foto;
+        document.querySelectorAll(".pos").forEach(punto => {
+            const pos = punto.dataset.pos;
+            const nivel = jugador.posiciones[pos];
+            if (nivel) punto.classList.add(nivel);
+        });
+        
     });
+
+
+    
