@@ -18,7 +18,7 @@ fetch("resultados.json")
             };
             const li = document.createElement("li");
             li.classList.add("enlace-jugador");
-            li.innerHTML = `<a href="jugador.html?dorsal=${jugador.dorsal}">${jugador.dorsal} - ${jugador.nombre}</a>`;
+            li.innerHTML = `<a href="jugador.html?dorsal=${jugador.dorsal}">${jugador.dorsal} - ${jugador.alias}</a>`;
             contenedor.appendChild(li);
         });
         partidos.forEach(partido => {
@@ -55,3 +55,4 @@ fetch("resultados.json")
             });
         }
     });
+
