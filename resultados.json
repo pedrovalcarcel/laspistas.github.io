@@ -3,7 +3,7 @@
         {"dorsal": "7", "nombre": "Pedro", 
             "apellidos": "Valcárcel Montiel",
             "fecha_nacimiento": "16/09/2005",
-            "nacionalidad": "España 🇪🇸",
+            "nacionalidad": "España",
             "comida_favorita": "Paella",
             "foto": "7.jpg",
             "frase": "3 de cada 4...",
@@ -243,7 +243,7 @@
             "nacionalidad": "España",
             "comida_favorita": "Tomate natural",
             "foto": "93.jpg",
-            "frase": "",
+            "frase": "Chiqui",
             "posiciones": {
                 "por": "mala",
                 "dfi": "buena",
@@ -551,6 +551,7 @@
         }
     ]
 }
+
 
 
 
