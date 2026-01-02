@@ -254,26 +254,7 @@
             "tarjetas": []
         },
         {
-            "id": 11,
-            "jornada": "Dieciseisavos Copa",
-            "fecha": "10/1/2026",
-            "hora" : "19:00",
-            "campo": "Bolitas 2",
-            "arbitro": "",
-            "local": "Las Pistas FC",
-            "goles_local": "?",
-            "visitante": "Bar Pencho Estrella Roja",
-            "goles_visitante": "?",
-            "jugadores": [
-            ],
-            "goles": [
-            ],
-            "asistencias": [
-            ],
-            "tarjetas": []
-        },
-        {
-            "id": 12,
+             "id": 11,
             "jornada": "Amistoso",
             "fecha": "3/1/2026",
             "hora" : "16:00",
@@ -290,9 +271,29 @@
             "asistencias": [
             ],
             "tarjetas": []
+        },
+        {
+            "id": 12,
+            "jornada": "Dieciseisavos Copa",
+            "fecha": "10/1/2026",
+            "hora" : "19:00",
+            "campo": "Bolitas 2",
+            "arbitro": "",
+            "local": "Las Pistas FC",
+            "goles_local": "?",
+            "visitante": "Bar Pencho Estrella Roja",
+            "goles_visitante": "?",
+            "jugadores": [
+            ],
+            "goles": [
+            ],
+            "asistencias": [
+            ],
+            "tarjetas": []
         }
     ]
 
 }
+
 
 
