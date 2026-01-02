@@ -202,7 +202,7 @@ nav a:hover{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 .pagina-resultados a:hover{
-        text-decoration: none;
+        text-decoration: underline;
 }
 
 /*-------------------------------------------------------------------------------*/
@@ -334,4 +334,66 @@ nav a:hover{
     }
 }
 
+/*-------------------------------------------------------------------------------*/
 
+
+.info-jugador{
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+
+.info-jugador img{
+  width: 200px;
+  border-radius: 15px;
+}
+.info-jugador h2{
+    margin: 30px 2%;
+}
+
+.campo{
+  position: relative;
+  width: 300px;
+  height: 450px;
+  margin: 0 2%;
+  background: green;
+  border-radius: 10px;
+  border: 3px solid white;
+}
+
+/* Puntos */
+.pos{
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  position: absolute;
+  border: 2px solid black;
+}
+
+/* Colores */
+.buena{ background: greenyellow; }
+.regular{ background: orange; }
+.mala{ background: red; }
+
+/* Posiciones en el campo */
+.por{ bottom: 10px; left: 50%; transform: translateX(-50%); }
+.dfi{ bottom: 100px; left: 10%; }
+.dfc{ bottom: 100px; left: 50%; transform: translateX(-50%); }
+.dfd{ bottom: 100px; right: 30px; }
+.mci{ bottom: 220px; left: 10%; ; }
+.mcc{ bottom: 220px; left: 50%; transform: translateX(-50%); }
+.mcd{ bottom: 220px; right: 30px; }
+.dci{ top: 90px; left: 10%; }
+.dcc{ top: 90px; left: 50%; transform: translateX(-50%); }
+.dcd{ top: 90px; right: 30px; }
+
+.jugador-inferior{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start; /* 🔑 misma altura arriba */
+    gap: 50px;
+    width: 100%;
+    margin-top: 2%;
+}
