@@ -3,9 +3,10 @@
         {"dorsal": "7", "nombre": "Pedro", 
             "apellidos": "Valcárcel Montiel",
             "fecha_nacimiento": "16/09/2005",
-            "nacionalidad": "España",
+            "nacionalidad": "España 🇪🇸",
             "comida_favorita": "Paella",
             "foto": "7.jpg",
+            "frase": "3 de cada 4...",
             "posiciones": {
                 "por": "regular",
                 "dfi": "regular",
@@ -20,7 +21,7 @@
         {"dorsal": "11", "nombre": "Ferchup", 
             "apellidos": "Pérez Rubio",
             "fecha_nacimiento": "09/09/2004",
-            "nacionalidad": "España",
+            "nacionalidad": "España 🇪🇸",
             "comida_favorita": "Paella",
             "foto": "11.jpg",
             "frase": "No sé",
@@ -42,7 +43,7 @@
             "nacionalidad": "España",
             "comida_favorita": "Cocido madrileño",
             "foto": "28.jpg",
-            "frase": "",
+            "frase": "Buenas noches, buenas noches. buenas noches, yeah",
             "posiciones": {
                 "por": "regular",
                 "dfi": "regular",
@@ -550,5 +551,6 @@
         }
     ]
 }
+
 
 
