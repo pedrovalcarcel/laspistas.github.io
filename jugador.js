@@ -53,6 +53,7 @@ fetch("resultados.json")
         if(!jugador) return;
         document.getElementById("nombre-jugador").textContent =
             `${jugador.nombre} ${jugador.apellidos}`;
+        document.getElementById("alias").textContent = jugador.alias;
         document.getElementById("fecha").textContent = jugador.fecha_nacimiento;
         document.getElementById("nacionalidad").textContent = jugador.nacionalidad;
         document.getElementById("comida").textContent = jugador.comida_favorita;
@@ -65,6 +66,7 @@ fetch("resultados.json")
         });
         
     });
+
 
 
     
