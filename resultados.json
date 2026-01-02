@@ -3,7 +3,7 @@
         {"dorsal": "7", "nombre": "Pedro", 
             "apellidos": "Valcárcel Montiel",
             "fecha_nacimiento": "16/09/2005",
-            "nacionalidad": "España",
+            "nacionalidad": "España 🇪🇸" ,
             "comida_favorita": "Paella",
             "foto": "7.jpg",
             "frase": "3 de cada 4...",
@@ -21,7 +21,7 @@
         {"dorsal": "11", "nombre": "Ferchup", 
             "apellidos": "Pérez Rubio",
             "fecha_nacimiento": "09/09/2004",
-            "nacionalidad": "España 🇪🇸",
+            "nacionalidad": "España",
             "comida_favorita": "Paella",
             "foto": "11.jpg",
             "frase": "No sé",
@@ -73,7 +73,6 @@
                 "dci": "regular",
                 "dcc": "mala",
                 "dcd": "buena"}},
-
         {"dorsal": "44", "nombre": "Marcos",
             "apellidos": "Morales Cano",
             "fecha_nacimiento": "1/05/2005",
@@ -551,6 +550,7 @@
         }
     ]
 }
+
 
 
 
