@@ -258,7 +258,7 @@
             "apellidos": "Rivas Garvía",
             "fecha_nacimiento": "14/12/2005",
             "nacionalidad": "ESPAÑA 🇪🇸🇪🇸🇪🇸",
-            "comida_favorita": "",
+            "comida_favorita": "Marta",
             "foto": "9.jpg",
             "frase": "Viva la Guardia Civil",
             "posiciones": {
@@ -550,6 +550,7 @@
         }
     ]
 }
+
 
 
 
