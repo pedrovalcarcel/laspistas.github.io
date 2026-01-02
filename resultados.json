@@ -1,6 +1,6 @@
 {
     "jugadores": [
-        {"dorsal": "7", "nombre": "Pedro", 
+        {"dorsal": "7", "nombre": "Pedro", "alias" :"Pedro",
             "apellidos": "Valcárcel Montiel",
             "fecha_nacimiento": "16/09/2005",
             "nacionalidad": "España 🇪🇸" ,
@@ -18,7 +18,7 @@
                 "dci": "mala",
                 "dcc": "regular",
                 "dcd": "mala"} },
-        {"dorsal": "11", "nombre": "Ferchup", 
+        {"dorsal": "11", "nombre": "Fernando", "alias": "Ferchup",
             "apellidos": "Pérez Rubio",
             "fecha_nacimiento": "09/09/2004",
             "nacionalidad": "España 🇪🇸",
@@ -37,7 +37,7 @@
                 "dcc": "buena",
                 "dcd": "mala"}
         },
-        {"dorsal": "28", "nombre": "Diego", 
+        {"dorsal": "28", "nombre": "Diego", "alias": "Castro",
             "apellidos": "Castro Yuste",
             "fecha_nacimiento": "27/10/2005",
             "nacionalidad": "España 🇪🇸",
@@ -56,7 +56,7 @@
                 "dcc": "mala",
                 "dcd": "buena"}},
 
-        {"dorsal": "17", "nombre": "Francisco Javier", 
+        {"dorsal": "17", "nombre": "Francisco Javier", "alias": "Fran",
             "apellidos": "Bastardo Bermúdez",
             "fecha_nacimiento": "10/09/2005",
             "nacionalidad": "España/Venezuela 🇪🇸/🇻🇪",
@@ -73,7 +73,7 @@
                 "dci": "regular",
                 "dcc": "mala",
                 "dcd": "buena"}},
-        {"dorsal": "44", "nombre": "Marcos",
+        {"dorsal": "44", "nombre": "Marcos", "alias": "Morales",
             "apellidos": "Morales Cano",
             "fecha_nacimiento": "1/05/2005",
             "nacionalidad": "Burundi 🇧🇮",
@@ -91,7 +91,7 @@
                 "dci": "buena",
                 "dcc": "buena",
                 "dcd": "buena"}},
-        {"dorsal": "80", "nombre": "Nicolas",
+        {"dorsal": "80", "nombre": "Nicolas", "alias": "Nico",
             "apellidos": "López Díez",
             "fecha_nacimiento": "29/11/2005",
             "nacionalidad": "Montenegro 🇲🇪",
@@ -110,7 +110,7 @@
                 "dcc": "mala",
                 "dcd": "mala"}
     },
-        {"dorsal": "8", "nombre": "Marcos", 
+        {"dorsal": "8", "nombre": "Marcos", "alias": "López",
             "apellidos": "López-Serrano Díaz-Meco",
             "fecha_nacimiento": "10/2/2005",
             "nacionalidad": "Cataluña 🇪🇸",
@@ -128,7 +128,7 @@
                 "dci": "mala",
                 "dcc": "mala",
                 "dcd": "mala"}},
-        {"dorsal": "77", "nombre": "Zouhayr", 
+        {"dorsal": "77", "nombre": "Zouhayr", "alias": "Zouhayr",
             "apellidos": "Serroukh Serroukh",
             "fecha_nacimiento": "22/5/2004",
             "nacionalidad": "España/Marruecos 🇪🇸/🇲🇦",
@@ -146,7 +146,7 @@
                 "dci": "mala",
                 "dcc": "mala",
                 "dcd": "mala"}}, 
-        {"dorsal": "6", "nombre": "Óscar",
+        {"dorsal": "6", "nombre": "Óscar", "alias": "Óscar",
             "apellidos": "Flores Hernando",
             "fecha_nacimiento": "10/1/2006",
             "nacionalidad": "España 🇪🇸",
@@ -164,7 +164,7 @@
                 "dci": "buena",
                 "dcc": "mala",
                 "dcd": "buena"} },
-        {"dorsal": "21", "nombre": "Davichu", 
+        {"dorsal": "21", "nombre": "David", "alias": "Davichu",
             "apellidos": "Martínez Vico",
             "fecha_nacimiento": "5/6/2004",
             "nacionalidad": "España 🇪🇸",
@@ -182,7 +182,7 @@
                 "dci": "mala",
                 "dcc": "mala",
                 "dcd": "mala"}},
-        {"dorsal": "10", "nombre": "Carlos", 
+        {"dorsal": "10", "nombre": "Carlos", "alias": "Prestes",
             "apellidos": "Prestes Salguero",
             "fecha_nacimiento": "6/10/2005",
             "nacionalidad": "España/Brasil 🇪🇸/🇧🇷",
@@ -200,7 +200,7 @@
                 "dci": "mala",
                 "dcc": "mala",
                 "dcd": "mala"}},
-        {"dorsal": "23", "nombre": "Pablo", 
+        {"dorsal": "23", "nombre": "Pablo", "alias": "Pablo",
             "apellidos": "Rodríguez Granados",
             "fecha_nacimiento": "23/9/2004",
             "nacionalidad": "España 🇪🇸",
@@ -218,7 +218,7 @@
                 "dci": "buena",
                 "dcc": "regular",
                 "dcd": "buena"}},
-        {"dorsal": "1", "nombre": "Sergio", 
+        {"dorsal": "1", "nombre": "Sergio", "alias": "Manglano",
             "apellidos": "Manglano Martín",
             "fecha_nacimiento": "6/6/2005",
             "nacionalidad": "España 🇪🇸",
@@ -236,7 +236,7 @@
                 "dci": "mala",
                 "dcc": "mala",
                 "dcd": "mala"}},
-        {"dorsal": "93", "nombre": "Javier", 
+        {"dorsal": "93", "nombre": "Javier", "alias": "Javi",
             "apellidos": "Megia Jaime",
             "fecha_nacimiento": "25/10/2004",
             "nacionalidad": "España 🇪🇸",
@@ -254,7 +254,7 @@
                 "dci": "mala",
                 "dcc": "mala",
                 "dcd": "mala"}},
-        {"dorsal": "9", "nombre": "Rivas",
+        {"dorsal": "9", "nombre": "Marcos", "alias": "Rivas",
             "apellidos": "Rivas Garvía",
             "fecha_nacimiento": "14/12/2005",
             "nacionalidad": "ESPAÑA 🇪🇸🇪🇸🇪🇸",
@@ -550,6 +550,7 @@
         }
     ]
 }
+
 
 
 
