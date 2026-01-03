@@ -30,27 +30,28 @@ fetch("resultados.json")
         <h2>Jugadores</h2>
           ${`<ul>` + dorsalesOrdenados.map(j => {
             const jugador = buscarJugador(j, jugadores);
-            return `<li><a href = "jugador.html?dorsal=${jugador.dorsal}">${jugador.dorsal} - ${jugador.nombre}</a></li>`;
+            return `<li><a href = "jugador.html?dorsal=${jugador.dorsal}">${jugador.dorsal} - ${jugador.alias}</a></li>`;
           }).join("") + `</ul>`}
 
         <h3>Goles</h3>
         ${partido.goles.length === 0 ? "Sin goles" : `<ul>` + partido.goles.map(g => {
             const jugador = buscarJugador(g.dorsal, jugadores);
-            return `<li>${jugador.nombre} (${g.cantidad})</li>`;
+            return `<li>${jugador.alias} (${g.cantidad})</li>`;
         }).join("") + `</ul>`}
         <h3>Asistencias</h3>
         ${partido.asistencias.length === 0 ? "Sin asistencias" : `<ul>` + partido.asistencias.map(a => {
             const asistente = buscarJugador(a.asistente, jugadores);
             const goleador = buscarJugador(a.goleador, jugadores);
-            return `<li>${asistente.nombre} a ${goleador.nombre}</li>`;
+            return `<li>${asistente.alias} a ${goleador.alias}</li>`;
         }).join("") + `</ul>`}
         <h3>Tarjetas</h3>
         ${partido.tarjetas.length === 0 ? "Sin tarjetas" : `<ul>` + partido.tarjetas.map(t => {
             const jugador = buscarJugador(t.dorsal, jugadores);
-            return `<li>${jugador.nombre} </li>`;
+            return `<li>${jugador.alias} </li>`;
         }
         ).join("") + `</ul>`}
     `;
   }
+
 
 );
