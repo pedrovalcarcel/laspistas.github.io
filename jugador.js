@@ -38,8 +38,8 @@ fetch("resultados.json")
                 if (t.dorsal === dorsal) {
                     tarjetas += 1;
                 }
-            }
             });
+            }
         });
         gya_x_partido = (goles + asistencias) / partidosJugados;
         document.getElementById("estadisticas").innerHTML = `
@@ -72,4 +72,5 @@ fetch("resultados.json")
 
 
     
+
 
