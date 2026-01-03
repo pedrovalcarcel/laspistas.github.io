@@ -23,6 +23,7 @@ fetch("resultados.json")
             contenedor.appendChild(li);
         });
         partidos.forEach(partido => {
+            if(partido.jornada != "Amistoso"){
             partido.goles.forEach(gol => {
                 if (stats[gol.dorsal]) {
                     stats[gol.dorsal].goles += gol.cantidad;
@@ -33,6 +34,7 @@ fetch("resultados.json")
                     stats[asistencia.asistente].asistencias += 1;
                 }
             });
+            }
         });
         // Convertir a array
         const jugadoresStats = Object.values(stats);
@@ -56,6 +58,7 @@ fetch("resultados.json")
             });
         }
     });
+
 
 
 
