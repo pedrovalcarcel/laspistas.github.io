@@ -20,6 +20,7 @@ fetch("resultados.json")
         let tarjetas = 0;
         let partidosJugados = 0;
         partidos.forEach(p => {
+            if(p.jornada != "Amistoso"){
             if (p.jugadores.includes(dorsal)) {
                 partidosJugados += 1;
             }
@@ -37,6 +38,7 @@ fetch("resultados.json")
                 if (t.dorsal === dorsal) {
                     tarjetas += 1;
                 }
+            }
             });
         });
         gya_x_partido = (goles + asistencias) / partidosJugados;
@@ -70,3 +72,4 @@ fetch("resultados.json")
 
 
     
+
