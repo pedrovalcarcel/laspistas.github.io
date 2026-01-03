@@ -515,17 +515,25 @@
             "jornada": "Amistoso",
             "fecha": "3/1/2026",
             "hora" : "16:00",
-            "campo": "Desconocido",
+            "campo": "C1",
             "arbitro": "",
             "local": "Las Pistas FC",
-            "goles_local": "?",
+            "goles_local": "4",
             "visitante": "Brezo City",
-            "goles_visitante": "?",
+            "goles_visitante": "2",
             "jugadores": [
+                    "7","28", "11", "44","80", "8", "6", "21", "23", "1", "93", "77"
             ],
             "goles": [
+                {"dorsal": "7", "cantidad": 1},
+                {"dorsal": "8", "cantidad": 1},
+                {"dorsal": "44", "cantidad": 1},
+                {"dorsal":"77", "cantidad":1}
             ],
             "asistencias": [
+                {"asistente":"21","goleador":"7"},
+                {"asistente":"8","goleador":"44"},
+                {"asistente":"23","goleador":"8"}
             ],
             "tarjetas": []
         },
@@ -543,13 +551,16 @@
             "jugadores": [
             ],
             "goles": [
+                
             ],
             "asistencias": [
+                
             ],
             "tarjetas": []
         }
     ]
 }
+
 
 
 
