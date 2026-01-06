@@ -10,10 +10,16 @@ fetch("resultados.json")
             const li = document.createElement("li");
             li.innerHTML = `
             <a href="partido.html?id=${p.id}">
-                J: ${p.jornada} - ${p.local} VS ${p.visitante} : ${p.fecha} , ${p.hora} , ${p.campo}
+                J: ${p.jornada} - ${p.local} VS ${p.visitante} : ${obtenerDiaSemana(p.fecha)} ${p.fecha} , ${p.hora} , ${p.campo}
             </a>`;
             ul.appendChild(li);
         }
     });
 
 });
+function obtenerDiaSemana(fecha) {
+  const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+  const [dia,mes,ano] = fecha.split("/").map(Number);
+  const date = new Date(ano, mes - 1, dia); // Crea un objeto Date a partir de la fecha
+  return dias[date.getDay()]; // Devuelve el nombre del día
+  }

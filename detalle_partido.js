@@ -24,7 +24,7 @@ fetch("resultados.json")
     
     const dorsalesOrdenados = ordenarDorsales(partido.jugadores);
     contenedor.innerHTML = `
-        <p>📅 ${partido.fecha} ⏰ ${partido.hora}</p>
+        <p>📅  ${obtenerDiaSemana(partido.fecha)} ${partido.fecha} ⏰ ${partido.hora}</p>
         <p>📍 Campo: ${partido.campo} 👨‍⚖️ Arbitro: ${partido.arbitro}</p>
 
         <h2>Jugadores</h2>
@@ -51,7 +51,13 @@ fetch("resultados.json")
         }
         ).join("") + `</ul>`}
     `;
-  }
-
+  },
+  
 
 );
+function obtenerDiaSemana(fecha) {
+  const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
+  const date = new Date(fecha); // Crea un objeto Date a partir de la fecha
+  const numeroDia = date.getDay(); // Obtiene el número del día (0-6)
+  return dias[numeroDia]; // Devuelve el nombre del día
+  }
