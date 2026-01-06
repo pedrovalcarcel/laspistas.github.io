@@ -557,7 +557,71 @@
                 
             ],
             "tarjetas": []
+        },
+        {
+            "id": 13,
+            "jornada": "9",
+            "fecha": "17/1/2026",
+            "hora" : "16:00",
+            "campo": "C1",
+            "arbitro": "",
+            "local": "Area 51 FC",
+            "goles_local": "?",
+            "visitante": "Las Pistas FC",
+            "goles_visitante": "?",
+            "jugadores": [
+            ],
+            "goles": [
+                
+            ],
+            "asistencias": [
+                
+            ],
+            "tarjetas": []
+        },
+        {
+            "id": 14,
+            "jornada": "10",
+            "fecha": "25/1/2026",
+            "hora" : "11:00",
+            "campo": "C2",
+            "arbitro": "",
+            "local": "Wolfy FC",
+            "goles_local": "?",
+            "visitante": "Las Pistas FC",
+            "goles_visitante": "?",
+            "jugadores": [
+            ],
+            "goles": [
+                
+            ],
+            "asistencias": [
+                
+            ],
+            "tarjetas": []
+        },
+        {
+            "id": 15,
+            "jornada": "11",
+            "fecha": "1/2/2026",
+            "hora" : "9:00",
+            "campo": "C2",
+            "arbitro": "",
+            "local": "Las Pistas FC",
+            "goles_local": "?",
+            "visitante": "Cerberos FC",
+            "goles_visitante": "?",
+            "jugadores": [
+            ],
+            "goles": [
+                
+            ],
+            "asistencias": [
+                
+            ],
+            "tarjetas": []
         }
+       
     ]
 }
 
