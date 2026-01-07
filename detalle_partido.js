@@ -57,7 +57,8 @@ fetch("resultados.json")
 );
 function obtenerDiaSemana(fecha) {
   const dias = ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"];
-  const date = new Date(fecha); // Crea un objeto Date a partir de la fecha
-  const numeroDia = date.getDay(); // Obtiene el número del día (0-6)
-  return dias[numeroDia]; // Devuelve el nombre del día
+  const [dia,mes,ano] = fecha.split("/").map(Number);
+  const date = new Date(ano, mes - 1, dia); // Crea un objeto Date a partir de la fecha
+  return dias[date.getDay()]; // Devuelve el nombre del día
   }
+
