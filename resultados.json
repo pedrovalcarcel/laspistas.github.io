@@ -543,18 +543,23 @@
             "fecha": "10/1/2026",
             "hora" : "19:00",
             "campo": "Bolitas 2",
-            "arbitro": "",
+            "arbitro": "102",
             "local": "Las Pistas FC",
-            "goles_local": "?",
+            "goles_local": "4",
             "visitante": "Bar Pencho Estrella Roja",
-            "goles_visitante": "?",
+            "goles_visitante": "3",
             "jugadores": [
+                "7", "28", "11", "44", "80", "8", "21", "23", "1", "93", "77"
             ],
             "goles": [
-                
+                {"dorsal": "21", "cantidad": 1},
+                {"dorsal": "44", "cantidad": 1},
+                {"dorsal":"77", "cantidad":2}
             ],
             "asistencias": [
-                
+                {"asistente":"80","goleador":"77"},
+                {"asistente":"28","goleador":"44"},
+                {"asistente":"11","goleador":"77"}
             ],
             "tarjetas": []
         },
@@ -624,6 +629,7 @@
        
     ]
 }
+
 
 
 
