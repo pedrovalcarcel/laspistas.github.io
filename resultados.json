@@ -569,18 +569,23 @@
             "fecha": "17/1/2026",
             "hora" : "16:00",
             "campo": "C1",
-            "arbitro": "",
+            "arbitro": "106",
             "local": "Area 51 FC",
-            "goles_local": "?",
+            "goles_local": "1",
             "visitante": "Las Pistas FC",
-            "goles_visitante": "?",
+            "goles_visitante": "5",
             "jugadores": [
+                "28", "11", "44", "8", "77","6", "21",  "1"
             ],
             "goles": [
-                
+                {"dorsal": "44", "cantidad": 2},
+                {"dorsal": "77", "cantidad": 1},
+                {"dorsal":"6", "cantidad":1},
+                {"dorsal": "21", "cantidad": 1}
             ],
             "asistencias": [
-                
+                {"asistente":"44","goleador":"21"},
+                {"asistente":"28","goleador":"44"}
             ],
             "tarjetas": []
         },
@@ -629,6 +634,7 @@
        
     ]
 }
+
 
 
 
