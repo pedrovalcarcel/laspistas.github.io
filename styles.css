@@ -142,6 +142,7 @@ nav a:hover{
     border-radius: 15px;
     padding: 8px;
     color: white;
+    margin: 0 auto;
 }
 
 .calendario h3{
@@ -153,6 +154,7 @@ nav a:hover{
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 6px;
+    justify-items: center;
 }
 
 .dia{
@@ -161,6 +163,7 @@ nav a:hover{
     font-size: 12px;
     padding: 4px;
     text-align: center;
+    width: 100%;
 }
 
 .partido{
@@ -463,10 +466,12 @@ nav a:hover{
     .calendario {
         width: 100%;
         max-width: 100%;
+        margin: 0 auto;
     }
 
     .grid-calendario {
         width: 100%;
+        justify-items: center;
     }
 
 }
@@ -478,6 +483,7 @@ nav a:hover{
         padding: 3px;
         min-height: 55px;
         overflow-y: auto;
+        width: 100%
     }
 
     .partido {
@@ -491,4 +497,5 @@ nav a:hover{
     }
 
 }
+
 
