@@ -28,11 +28,7 @@ nav a:hover{
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
 }
-@media (max-width:700px) {
-    .inicio-grid{
-        grid-template-columns: 1fr;
-    }
-}
+
 .inicio-grid{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -442,26 +438,56 @@ nav a:hover{
 }
 @media (max-width: 700px) {
 
+    /* Layout principal */
     .inicio-grid {
-        grid-template-columns: 1fr;   /* 🔑 UNA COLUMNA */
-        gap: 20px;
+        display: flex;          /* 🔑 rompe el grid */
+        flex-direction: column; /* 🔑 flujo vertical */
+        gap: 25px;
     }
 
+    /* Todos los bloques */
     .bloque {
         width: 100%;
+        max-width: 100%;
         margin: 0 auto;
     }
 
-    .bloque h2 {
-        font-size: 18px;
-    }
+}
+@media (max-width: 700px) {
 
-     #partidos-mes {
+    #partidos-mes {
         width: 100%;
+        overflow-x: hidden;
     }
 
     .calendario {
-        margin: 0 auto;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .grid-calendario {
+        width: 100%;
+    }
+
+}
+
+@media (max-width: 700px) {
+
+    .dia {
+        font-size: 10px;
+        padding: 3px;
+        min-height: 55px;
+        overflow-y: auto;
+    }
+
+    .partido {
+        font-size: 9px;
+        line-height: 1.2;
+        padding: 2px;
+    }
+
+    .calendario h3 {
+        font-size: 16px;
     }
 
 }
