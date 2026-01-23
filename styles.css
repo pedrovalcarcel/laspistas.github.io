@@ -124,8 +124,11 @@ nav a:hover{
 /*-------------------------------------------------------------------------------*/
 
 #partidos-mes{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 10px;
     list-style: none;
-    padding: 0;
 }
 #partidos-mes li{
     margin: auto auto auto auto;
@@ -138,6 +141,46 @@ nav a:hover{
 #partidos-mes a:hover{
     text-decoration: underline;
 }
+.calendario{
+    background: rgba(255,255,255,0.12);
+    border-radius: 15px;
+    padding: 12px;
+    color: white;
+}
+
+.calendario h3{
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.grid-calendario{
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+}
+
+.dia{
+    background: rgba(0,0,0,0.25);
+    border-radius: 6px;
+    font-size: 12px;
+    padding: 4px;
+    text-align: center;
+}
+
+.partido{
+    margin-top: 4px;
+    background: #00bfff;
+    border-radius: 4px;
+    font-size: 10px;
+    padding: 2px;
+}
+
+.dia.hoy {
+    background: rgba(228, 203, 61, 0.9);
+    color: black;
+    border: 2px solid #000000;
+}
+
 
 /*-------------------------------------------------------------------------------*/
 
@@ -396,4 +439,29 @@ nav a:hover{
     gap: 50px;
     width: 100%;
     margin-top: 2%;
+}
+@media (max-width: 700px) {
+
+    .inicio-grid {
+        grid-template-columns: 1fr;   /* 🔑 UNA COLUMNA */
+        gap: 20px;
+    }
+
+    .bloque {
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .bloque h2 {
+        font-size: 18px;
+    }
+
+     #partidos-mes {
+        width: 100%;
+    }
+
+    .calendario {
+        margin: 0 auto;
+    }
+
 }
