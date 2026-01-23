@@ -140,7 +140,7 @@ nav a:hover{
 .calendario{
     background: rgba(255,255,255,0.12);
     border-radius: 15px;
-    padding: 12px;
+    padding: 8px;
     color: white;
 }
 
@@ -491,3 +491,4 @@ nav a:hover{
     }
 
 }
+
