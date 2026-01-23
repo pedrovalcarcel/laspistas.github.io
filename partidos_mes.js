@@ -77,7 +77,6 @@ function crearCalendario(ano, mes, partidos, contenedor) {
         partido.className = "partido";
         partido.innerHTML = `
           <a href="partido.html?id=${p.id}">
-            ${p.local} vs ${p.visitante}<br>
             ${p.hora} · ${p.campo}
           </a>
         `;
@@ -95,6 +94,7 @@ function fechaDesdeString(fecha) {
   const [dia, mes, ano] = fecha.split("/");
   return new Date(ano, mes - 1, dia);
 }
+
 
 
 
