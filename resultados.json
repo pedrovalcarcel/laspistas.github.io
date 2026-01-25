@@ -595,18 +595,31 @@
             "fecha": "25/1/2026",
             "hora" : "11:00",
             "campo": "C2",
-            "arbitro": "",
+            "arbitro": "109",
             "local": "Wolfy FC",
-            "goles_local": "?",
+            "goles_local": "6",
             "visitante": "Las Pistas FC",
-            "goles_visitante": "?",
+            "goles_visitante": "9",
             "jugadores": [
+                "7", "11", "17","28, "44", "80", "8", "77", "6", "21", "23", "1"
             ],
             "goles": [
-                
+                {"dorsal": "44", "cantidad": 2},
+                {"dorsal": "77", "cantidad": 1},
+                {"dorsal": "17", "cantidad":2},
+                {"dorsal": "21", "cantidad": 1},
+                {"dorsal": "23", "cantidad": 1},
+                {"dorsal": "8", "cantidad": 2},
             ],
             "asistencias": [
-                
+                {"asistente":"77","goleador":"17"},
+                {"asistente":"77","goleador":"23"},
+                {"asistente":"44","goleador":"77"},
+                {"asistente":"44","goleador":"17"},
+                {"asistente":"17","goleador":"8"},
+                {"asistente":"23","goleador":"8"},
+                {"asistente":"7","goleador":"21"},
+                {"asistente":"21","goleador":"44"}
             ],
             "tarjetas": []
         },
@@ -718,6 +731,7 @@
        
     ]
 }
+
 
 
 
