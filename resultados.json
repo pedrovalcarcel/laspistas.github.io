@@ -609,7 +609,7 @@
                 {"dorsal": "17", "cantidad":2},
                 {"dorsal": "21", "cantidad": 1},
                 {"dorsal": "23", "cantidad": 1},
-                {"dorsal": "8", "cantidad": 2},
+                {"dorsal": "8", "cantidad": 2}
             ],
             "asistencias": [
                 {"asistente":"77","goleador":"17"},
@@ -731,6 +731,7 @@
        
     ]
 }
+
 
 
 
