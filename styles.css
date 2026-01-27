@@ -131,7 +131,7 @@ nav a:hover{
     font-size: 120%;
 }
 #partidos-mes a{
-    color: white;
+    color: black;
     text-decoration: none;
 }
 #partidos-mes a:hover{
@@ -140,9 +140,8 @@ nav a:hover{
 .calendario{
     background: rgba(255,255,255,0.12);
     border-radius: 15px;
-    padding: 8px;
+    padding: 12px;
     color: white;
-    margin: 0 auto;
 }
 
 .calendario h3{
@@ -154,7 +153,6 @@ nav a:hover{
     display: grid;
     grid-template-columns: repeat(7, 1fr);
     gap: 6px;
-    justify-items: center;
 }
 
 .dia{
@@ -163,7 +161,6 @@ nav a:hover{
     font-size: 12px;
     padding: 4px;
     text-align: center;
-    width: 100%;
 }
 
 .partido{
@@ -172,6 +169,7 @@ nav a:hover{
     border-radius: 4px;
     font-size: 10px;
     padding: 2px;
+    color: black;
 }
 
 .dia.hoy {
@@ -247,6 +245,95 @@ nav a:hover{
         text-decoration: underline;
 }
 
+/* RESULTADOS */
+.partido {
+  margin-top: 4px;
+  padding: 3px;
+  font-size: 10px;
+  border-radius: 4px;
+  color: black;
+}
+
+/* Estados */
+.partido.ganado {
+  background-color: #3cb371; /* verde */
+}
+
+.partido.empatado {
+  background-color: #ffd700; /* amarillo */
+}
+
+.partido.perdido {
+  background-color: #ff6b6b; /* rojo */
+}
+
+.partido.pendiente {
+  background-color: #cccccc;
+  color: black;
+}
+.dia {
+    min-height: 45px;
+    font-size: 10px;
+    padding: 3px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
+}
+
+.dia.hoy {
+    border: 2px solid #ffd700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.7);
+}
+
+.grid-calendario {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 5px;
+}
+
+.cabecera-dia {
+    background: none;
+    border: none;
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    text-align: center;
+    padding: 4px 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Para que no parezcan días normales */
+.cabecera-dia strong {
+    font-weight: bold;
+}
+
+.dia.vacio {
+    background: transparent;
+    border: none;
+}
+
+.partido {
+    text-decoration: none;
+    color: white;
+    display: block;
+    transition: transform 0.15s ease;
+}
+
+.partido:hover {
+    text-decoration: none;   /* 🔥 elimina subrayado */
+    transform: scale(1.08);  /* 🔍 efecto zoom */
+}
+.calendario h3 {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.pagina-resultados a.partido,
+.pagina-resultados a.partido:hover,
+.pagina-resultados a.partido:visited,
+.pagina-resultados a.partido:active,
+.pagina-resultados a.partido:focus {
+    text-decoration: none !important;
+    color: white;
+}
 /*-------------------------------------------------------------------------------*/
 
 .pagina-partidos{
@@ -466,12 +553,10 @@ nav a:hover{
     .calendario {
         width: 100%;
         max-width: 100%;
-        margin: 0 auto;
     }
 
     .grid-calendario {
         width: 100%;
-        justify-items: center;
     }
 
 }
@@ -483,7 +568,6 @@ nav a:hover{
         padding: 3px;
         min-height: 55px;
         overflow-y: auto;
-        width: 100%
     }
 
     .partido {
@@ -497,5 +581,47 @@ nav a:hover{
     }
 
 }
+#calendarios-resultados,
+#pagina-partidos {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    width: 95%;
+    margin: 30px auto;
+}
 
+/* CALENDARIO MÁS PEQUEÑO */
+.calendario {
+    padding: 10px;
+    font-size: 12px;
+}
 
+@media (max-width: 900px) {
+    #calendarios-resultados,
+    #pagina-partidos {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    #calendarios-resultados,
+    #pagina-partidos {
+        grid-template-columns: 1fr;
+    }
+}
+@media (max-width: 600px) {
+    .dia {
+        min-height: 45px;
+        padding: 2px;
+    }
+}
+@media (max-width: 600px) {
+    .partido {
+        text-align: center;
+    }
+}
+@media (max-width: 700px) {
+    .partido:hover {
+        transform: none;
+    }
+}
