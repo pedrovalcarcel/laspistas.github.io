@@ -13,12 +13,14 @@ fetch("resultados.json")
     const total = ultimos5.length;
     ultimos5.forEach(p => {
         let resultado;
-            
-            if (p.local === mi_equipo && p.jornada != "Amistoso"){
+            if (p.jornada === "Amistoso"){
+                return;
+            }
+            else if (p.local === mi_equipo){
                 if (p.goles_local > p.goles_visitante) resultado = "v";
                 else if (p.goles_local < p.goles_visitante) resultado = "d";
                 else resultado = "e";
-            } else if (p.visitante === mi_equipo && p.jornada != "Amistoso"){
+            } else if (p.visitante === mi_equipo){
                 if (p.goles_local > p.goles_visitante) resultado = "d";
                 else if (p.goles_local < p.goles_visitante) resultado = "v";
                 else resultado = "e";
@@ -45,3 +47,4 @@ fetch("resultados.json")
     });
 
 });
+
