@@ -73,13 +73,26 @@ function crearCalendario(ano, mes, partidos, contenedor) {
         );
         })
       .forEach(p => {
-        const partido = document.createElement("div");
-        partido.className = "partido";
-        partido.innerHTML = `
-          <a href="partido.html?id=${p.id}">
-            ${p.hora} · ${p.campo}
-          </a>
-        `;
+        const partido = document.createElement("a");
+        partido.classList.add("partido");
+        partido.href = `partido.html?id=${p.id}`;
+
+        // 🔥 MISMA LÓGICA QUE EN RESULTADOS
+        if (p.goles_local !== "?" && p.goles_visitante !== "?") {
+
+          const esLocal = p.local === "Las Pistas FC";
+          const gf = esLocal ? p.goles_local : p.goles_visitante;
+          const gc = esLocal ? p.goles_visitante : p.goles_local;
+
+          if (gf > gc) partido.classList.add("ganado");
+          else if (gf === gc) partido.classList.add("empatado");
+          else partido.classList.add("perdido");
+
+        } else {
+          partido.classList.add("pendiente");
+        }
+
+        partido.textContent = `${p.hora} · ${p.campo}`;
         celda.appendChild(partido);
       });
 
@@ -94,8 +107,3 @@ function fechaDesdeString(fecha) {
   const [dia, mes, ano] = fecha.split("/");
   return new Date(ano, mes - 1, dia);
 }
-
-
-
-
-
