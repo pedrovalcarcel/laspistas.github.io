@@ -313,7 +313,7 @@ nav a:hover{
 
 .partido {
     text-decoration: none;
-    color: white;
+    color: black;
     display: block;
     transition: transform 0.15s ease;
 }
@@ -625,3 +625,4 @@ nav a:hover{
         transform: none;
     }
 }
+
