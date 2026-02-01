@@ -114,7 +114,7 @@
             "apellidos": "López-Serrano Díaz-Meco",
             "fecha_nacimiento": "10/2/2005",
             "nacionalidad": "Cataluña 🇪🇸",
-            "comida_favorita": "Vizcas",
+            "comida_favorita": "Sushi",
             "foto": "8.jpg",
             "frase": "",
             "posiciones": {
@@ -736,6 +736,7 @@
        
     ]
 }
+
 
 
 
