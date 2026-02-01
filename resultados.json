@@ -629,18 +629,23 @@
             "fecha": "1/2/2026",
             "hora" : "9:00",
             "campo": "C2",
-            "arbitro": "",
+            "arbitro": "105",
             "local": "Las Pistas FC",
-            "goles_local": "?",
+            "goles_local": "4",
             "visitante": "Cerberos FC",
-            "goles_visitante": "?",
+            "goles_visitante": "5",
             "jugadores": [
+                "7", "11", "17", "28", "44", "80", "8", "77", "6", "21", "23", "1"
             ],
             "goles": [
-                
+                {"dorsal": "44", "cantidad": 1},
+                {"dorsal": "11", "cantidad": 1},
+                {"dorsal": "8", "cantidad": 1},
+                {"dorsal": "77", "cantidad": 1}           
             ],
             "asistencias": [
-                
+                {"asistente":"23","goleador":"11"},
+                {"asistente":"44","goleador":"8"}
             ],
             "tarjetas": []
         },
@@ -731,6 +736,7 @@
        
     ]
 }
+
 
 
 
