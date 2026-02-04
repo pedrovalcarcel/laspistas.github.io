@@ -2,126 +2,127 @@
     "clasificacion":[
         {
             "equipo":"Aegis FC",
-            "pj":10,
+            "pj":11,
             "pg":9,
-            "pe":0,
+            "pe":1,
             "pp":1,
-            "gf":59,
-            "gc":21,
-            "pts":27
+            "gf":61,
+            "gc":23,
+            "pts":28
         },
         {
             "equipo":"Ramones",
-            "pj":10,
+            "pj":11,
             "pg":7,
-            "pe":1,
+            "pe":2,
             "pp":2,
-            "gf":51,
-            "gc":24,
-            "pts":22
+            "gf":54,
+            "gc":27,
+            "pts":23
         },
         {
             "equipo":"Cerberos CF",
-            "pj":9,
-            "pg":7,
+            "pj":10,
+            "pg":8,
             "pe":1,
             "pp":1,
-            "gf":39,
-            "gc":24,
-            "pts":22
+            "gf":44,
+            "gc":28,
+            "pts":25
         },
         {
             "equipo":"El Chimbazo FC",
-            "pj":9,
-            "pg":5,
+            "pj":10,
+            "pg":6,
             "pe":1,
             "pp":3,
-            "gf":30,
-            "gc":29,
-            "pts":16
+            "gf":39,
+            "gc":34,
+            "pts":19
         },
         {
             "equipo":"Wolfy FC",
-            "pj":10,
+            "pj":11,
             "pg":3,
             "pe":2,
-            "pp":5,
-            "gf":38,
-            "gc":47,
+            "pp":6,
+            "gf":43,
+            "gc":56,
             "pts":11
         },
         {
             "equipo":"Te Camelo FC",
-            "pj":9,
+            "pj":10,
             "pg":3,
-            "pe":1,
+            "pe":2,
             "pp":5,
-            "gf":28,
-            "gc":29,
-            "pts":10
+            "gf":30,
+            "gc":31,
+            "pts":11
         },
         {
             "equipo":"Área 51 FC",
-            "pj":10,
+            "pj":11,
             "pg":4,
-            "pe":0,
+            "pe":1,
             "pp":6,
-            "gf":31,
-            "gc":32,
-            "pts":9
+            "gf":36,
+            "gc":37,
+            "pts":10
         },
         {
             "equipo":"Las Pistas FC",
-            "pj":10,
+            "pj":11,
             "pg":5,
             "pe":0,
-            "pp":5,
-            "gf":34,
-            "gc":34,
+            "pp":6,
+            "gf":38,
+            "gc":39,
             "pts":15
         },
         {
             "equipo":"Interamerica",
-            "pj":9,
+            "pj":10,
             "pg":5,
-            "pe":0,
+            "pe":1,
             "pp":4,
-            "gf":29,
-            "gc":30,
-            "pts":15
+            "gf":32,
+            "gc":33,
+            "pts":16
         },
         {
             "equipo":"El Columpio FC",
-            "pj":9,
-            "pg":2,
-            "pe":2,
-            "pp":5,
-            "gf":26,
-            "gc":34,
-            "pts":8
-        },
-        {
-            "equipo":"Ershiquiteto FC",
             "pj":10,
-            "pg":3,
-            "pe":0,
-            "pp":7,
-            "gf":28,
-            "gc":43,
+            "pg":2,
+            "pe":3,
+            "pp":5,
+            "gf":31,
+            "gc":39,
             "pts":9
         },
         {
+            "equipo":"Ershiquiteto FC",
+            "pj":11,
+            "pg":4,
+            "pe":0,
+            "pp":7,
+            "gf":35,
+            "gc":44,
+            "pts":12
+        },
+        {
             "equipo":"Las Jarritas de la Esquinita",
-            "pj":9,
+            "pj":10,
             "pg":0,
             "pe":0,
-            "pp":9,
-            "gf":12,
-            "gc":58,
+            "pp":10,
+            "gf":13,
+            "gc":65,
             "pts":0
         }
     ]
 
 }
+
 
 
