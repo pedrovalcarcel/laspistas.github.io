@@ -674,8 +674,8 @@
             "id": 17,
             "jornada": "Octavos Copa",
             "fecha": "14/2/2026",
-            "hora" : "?",
-            "campo": "?",
+            "hora" : "20:00",
+            "campo": "Bolitas 2",
             "arbitro": "",
             "local": "Las Pistas FC",
             "goles_local": "?",
@@ -736,6 +736,7 @@
        
     ]
 }
+
 
 
 
