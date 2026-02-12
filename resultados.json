@@ -657,16 +657,20 @@
             "campo": "C2",
             "arbitro": "",
             "local": "Las Pistas FC",
-            "goles_local": "?",
+            "goles_local": "3",
             "visitante": "El Columpio FC",
-            "goles_visitante": "?",
+            "goles_visitante": "5",
             "jugadores": [
+                7", "11", "17", "28", "44", "80", "8", "77", "6", "21", "23", "1"
             ],
             "goles": [
-                
+                {"dorsal": "80", "cantidad": 1},
+                {"dorsal": "23", "cantidad": 1},
+                {"dorsal": "28", "cantidad": 1}
             ],
             "asistencias": [
-                
+                {"asistente":"8","goleador":"80"},
+                {"asistente":"1","goleador":"23"}
             ],
             "tarjetas": []
         },
@@ -736,6 +740,7 @@
        
     ]
 }
+
 
 
 
