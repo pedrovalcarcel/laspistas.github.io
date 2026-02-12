@@ -659,7 +659,7 @@
             "local": "Las Pistas FC",
             "goles_local": "3",
             "visitante": "El Columpio FC",
-            "goles_visitante": "5",
+            "goles_visitante": "4",
             "jugadores": [
                 "7", "11", "17", "28", "44", "80", "8", "77", "6", "21", "23", "1"
             ],
@@ -740,6 +740,7 @@
        
     ]
 }
+
 
 
 
