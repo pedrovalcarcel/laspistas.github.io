@@ -655,7 +655,7 @@
             "fecha": "8/2/2026",
             "hora" : "11:00",
             "campo": "C2",
-            "arbitro": "",
+            "arbitro": "101",
             "local": "Las Pistas FC",
             "goles_local": "3",
             "visitante": "El Columpio FC",
@@ -740,6 +740,7 @@
        
     ]
 }
+
 
 
 
