@@ -714,7 +714,7 @@
                 {"asistente":"7","goleador":"4"},
                 {"asistente":"23","goleador":"4"},
                 {"asistente":"1","goleador":"4"},
-            ],
+            ]
             "tarjetas": []
         },
         {
@@ -762,6 +762,7 @@
        
     ]
 }
+
 
 
 
