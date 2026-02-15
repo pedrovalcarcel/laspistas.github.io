@@ -271,7 +271,25 @@
                 "mcd": "regular",
                 "dci": "buena",
                 "dcc": "mala",
-                "dcd": "buena"}}
+                "dcd": "buena"}},
+        {"dorsal": "4", "nombre": "Marcos", "alias": "Camapayo",
+            "apellidos": "Campayo",
+            "fecha_nacimiento": "",
+            "nacionalidad": "ESPAÑA",
+            "comida_favorita": "",
+            "foto": "",
+            "frase": "",
+            "posiciones": {
+                "por": "mala",
+                "dfi": "buena",
+                "dfc": "buena",
+                "dfd": "buena",
+                "mci": "buena",
+                "mcc": "buena",
+                "mcd": "buena",
+                "dci": "regular",
+                "dcc": "mala",
+                "dcd": "regular"}}
     ],
     "partidos": [
         {
@@ -680,18 +698,22 @@
             "fecha": "14/2/2026",
             "hora" : "20:00",
             "campo": "Bolitas 2",
-            "arbitro": "",
+            "arbitro": "101",
             "local": "Las Pistas FC",
-            "goles_local": "?",
+            "goles_local": "4",
             "visitante": "ATM TEAM",
-            "goles_visitante": "?",
+            "goles_visitante": "5",
             "jugadores": [
+                 "7", "11", "44", "80", "77", "21", "23", "1", "4"
             ],
             "goles": [
-                
+                {"dorsal": "4", "cantidad": 3},
+                {"dorsal": "77", "cantidad": 1}
             ],
             "asistencias": [
-                
+                {"asistente":"7","goleador":"4"},
+                {"asistente":"23","goleador":"4"},
+                {"asistente":"1","goleador":"4"},
             ],
             "tarjetas": []
         },
@@ -740,6 +762,7 @@
        
     ]
 }
+
 
 
 
