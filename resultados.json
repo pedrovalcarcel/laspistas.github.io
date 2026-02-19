@@ -272,7 +272,7 @@
                 "dci": "buena",
                 "dcc": "mala",
                 "dcd": "buena"}},
-        {"dorsal": "4", "nombre": "Marcos", "alias": "Camapayo",
+        {"dorsal": "4", "nombre": "Marcos", "alias": "Campayo",
             "apellidos": "Campayo",
             "fecha_nacimiento": "",
             "nacionalidad": "ESPAÑA",
@@ -762,6 +762,7 @@
        
     ]
 }
+
 
 
 
