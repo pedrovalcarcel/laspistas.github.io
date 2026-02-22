@@ -723,18 +723,20 @@
             "fecha": "22/2/2026",
             "hora" : "9:00",
             "campo": "C2",
-            "arbitro": "",
+            "arbitro": "102",
             "local": "Las Jarritas de la Esquinita",
-            "goles_local": "?",
+            "goles_local": "2",
             "visitante": "Las Pistas FC",
-            "goles_visitante": "?",
+            "goles_visitante": "2",
             "jugadores": [
+                "11", "17", "28", "44", "80", "8", "77", "6", "21", "23", "1"
             ],
             "goles": [
-                
+                {"dorsal": "8", "cantidad": 1},
+                {"dorsal": "23", "cantidad": 1}
             ],
             "asistencias": [
-                
+                {"asistente":"17","goleador":"8"}
             ],
             "tarjetas": []
         },
@@ -762,6 +764,7 @@
        
     ]
 }
+
 
 
 
