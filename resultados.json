@@ -736,7 +736,8 @@
                 {"dorsal": "23", "cantidad": 1}
             ],
             "asistencias": [
-                {"asistente":"17","goleador":"8"}
+                {"asistente":"17","goleador":"8"},
+                {"asistente":"1", "goleador": "23"}
             ],
             "tarjetas": []
         },
@@ -764,6 +765,7 @@
        
     ]
 }
+
 
 
 
