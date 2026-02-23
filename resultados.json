@@ -1,4 +1,4 @@
-i{
+{
     "jugadores": [
         {"dorsal": "7", "nombre": "Pedro", "alias" :"Pedro",
             "apellidos": "Valcárcel Montiel",
@@ -807,6 +807,7 @@ i{
        
     ]
 }
+
 
 
 
