@@ -747,20 +747,24 @@
             "fecha": "28/2/2026",
             "hora" : "20:00",
             "campo": "C2",
-            "arbitro": "",
+            "arbitro": "102",
             "local": "Las Pistas FC",
-            "goles_local": "?",
+            "goles_local": "2",
             "visitante": "Te Camelo FC",
-            "goles_visitante": "?",
+            "goles_visitante": "3",
             "jugadores": [
+                "11", "17", "28", "44", "8", "77", "6", "21", "23", "1"
             ],
             "goles": [
-                
+                {"dorsal": "77", "cantidad": 1},
+                {"dorsal": "23", "cantidad": 1}
             ],
             "asistencias": [
-                
+                 
             ],
-            "tarjetas": []
+            "tarjetas": [
+                {"tipo" :"Amarilla", "dorsal": "44"}
+            ]
         }, 
         {
             "id": 20,
@@ -807,6 +811,7 @@
        
     ]
 }
+
 
 
 
