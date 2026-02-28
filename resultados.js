@@ -16,9 +16,9 @@ fetch("resultados.json")
       { nombre: "Mayo", mes: 4 }
     ];
 
-   const diasSemana = ["L", "M", "X", "J", "V", "S", "D"];
-
-meses.forEach(m => {
+    const diasSemana = ["L", "M", "X", "J", "V", "S", "D"];
+    const statsArbitros = {};
+    meses.forEach(m => {
 
     const calendario = document.createElement("div");
     calendario.classList.add("calendario");
@@ -71,7 +71,13 @@ meses.forEach(m => {
         partidos
             .filter(p => convertirFecha(p.fecha) === fecha)
             .forEach(p => {
-
+                if (!statsArbitros[p.arbitro]) {
+                    statsArbitros[p.arbitro] = {
+                        ganados: 0,
+                        empatados: 0,
+                        perdidos: 0
+                    };
+                }
                 const partido = document.createElement("a");
                 partido.classList.add("partido");
                 partido.href = `partido.html?id=${p.id}`;
@@ -81,9 +87,18 @@ meses.forEach(m => {
                     const gf = esLocal ? p.goles_local : p.goles_visitante;
                     const gc = esLocal ? p.goles_visitante : p.goles_local;
 
-                    if (gf > gc) partido.classList.add("ganado");
-                    else if (gf === gc) partido.classList.add("empatado");
-                    else partido.classList.add("perdido");
+                    if (gf > gc){
+                        partido.classList.add("ganado");
+                        statsArbitros[p.arbitro].ganados++;
+                    } 
+                    else if (gf === gc) {
+                        partido.classList.add("empatado");
+                        statsArbitros[p.arbitro].empatados++;
+                    }
+                    else {
+                        partido.classList.add("perdido");
+                        statsArbitros[p.arbitro].perdidos++;
+                    }
 
                     partido.textContent =
                         `${p.local} ${p.goles_local}-${p.goles_visitante} ${p.visitante}`;
@@ -100,8 +115,25 @@ meses.forEach(m => {
 
     contenedor.appendChild(calendario);
 });
-});
+// 🟢 MOSTRAR ESTADÍSTICAS EN HTML
+    const resumen = document.createElement("div");
+    resumen.classList.add("resumen-arbitros");
+    resumen.innerHTML = `<h2>Estadísticas por árbitro</h2>`;
 
+    for (const arbitro in statsArbitros) {
+      const datos = statsArbitros[arbitro];
+      const p = document.createElement("p");
+      if(arbitro !== "Sin arbitro" && arbitro !== "") {
+        totalPartidos = datos.ganados + datos.empatados + datos.perdidos;
+        const porcentajePartidos = totalPartidos > 0 ? Math.round((datos.ganados / totalPartidos) * 100) : 0;
+      p.textContent =
+        `${arbitro} → 🟢 ${datos.ganados} | 🟡 ${datos.empatados} | 🔴 ${datos.perdidos} | (${porcentajePartidos} %)`;
+      resumen.appendChild(p);
+    }
+    }
+
+    contenedor.appendChild(resumen);
+});
   function convertirFecha(fecha) {
     const [dia, mes, año] = fecha.split("/");
     return `${año}-${mes.padStart(2, "0")}-${dia.padStart(2, "0")}`;
