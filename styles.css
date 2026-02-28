@@ -332,7 +332,6 @@ nav a:hover{
 .pagina-resultados a.partido:active,
 .pagina-resultados a.partido:focus {
     text-decoration: none !important;
-    color: white;
 }
 /*-------------------------------------------------------------------------------*/
 
@@ -626,3 +625,24 @@ nav a:hover{
     }
 }
 
+/* ---------------- ESTADÍSTICAS ÁRBITROS ---------------- */
+
+.resumen-arbitros {
+    grid-column: 1 / -1; /* 🔑 ocupa todo el ancho del grid */
+    background: rgba(255,255,255,0.12);
+    border-radius: 15px;
+    padding: 20px;
+    color: white;
+    text-align: center;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.resumen-arbitros h2 {
+    margin-bottom: 15px;
+    font-size: 22px;
+}
+
+.resumen-arbitros p {
+    margin: 6px 0;
+    font-size: 15px;
+}
