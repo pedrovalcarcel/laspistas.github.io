@@ -47,7 +47,7 @@ fetch("resultados.json")
         <h3>Tarjetas</h3>
         ${partido.tarjetas.length === 0 ? "Sin tarjetas" : `<ul>` + partido.tarjetas.map(t => {
             const jugador = buscarJugador(t.dorsal, jugadores);
-            return `<li>${jugador.alias} </li>`;
+            return `<li>${t.tipo} a ${jugador.alias} </li>`;
         }
         ).join("") + `</ul>`}
     `;
@@ -63,3 +63,4 @@ function obtenerDiaSemana(fecha) {
 
     return dias[date.getDay()];
 }
+
