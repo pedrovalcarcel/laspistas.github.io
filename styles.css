@@ -205,39 +205,37 @@ zoom: calc(1.1);
 
 /*-------------------------------------------------------------------------------*/
 
-
-.tabla-contenedor {
-    width: 100%;
-    overflow-x: auto;
-    margin: 15px 0;
-    -webkit-overflow-scrolling: touch; 
-}
-
-.tabla-clasi {
+.tabla-clasificacion {
     width: 100%;
     border-collapse: collapse;
-    color: white;
-    font-size: 13px;
-    min-width: 500px; /* Esto fuerza el scroll horizontal en móviles */
+    table-layout: fixed; /* Esto obliga a que el diseño no se rompa */
+    margin-top: 15px;
+    font-size: 17px; /* Tamaño un poco más compacto para que quepa todo */
 }
-/* Alineación limpia para el nombre del equipo */
-.tabla-clasi td:nth-child(2) {
+
+/* La columna "Equipo" (la segunda) se lleva el 30% del espacio */
+.tabla-clasificacion th:nth-child(2), 
+.tabla-clasificacion td:nth-child(2) {
+    width: 30%; 
     text-align: left;
-    white-space: nowrap; /* Evita que el nombre del equipo se parta en dos líneas */
+    padding-left: 8px;
+    white-space: nowrap; /* Evita que el nombre salte de línea */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Si el nombre es muy largo, pone "..." */
 }
 
-/* En móviles, ocultamos columnas menos críticas para ganar espacio */
-@media (max-width: 600px) {
-    /* Si tienes una tabla, oculta columnas menos críticas en pantallas pequeñas */
-    .tabla-clasi th:nth-child(3), .tabla-clasi td:nth-child(3), /* PJ */
-    .tabla-clasi th:nth-child(4), .tabla-clasi td:nth-child(4), /* PG */
-    .tabla-clasi th:nth-child(5), .tabla-clasi td:nth-child(5) { /* PE */
-        display: none;
-    }
+/* El resto de columnas (Pos, PJ, PG, PE, PP, GF, GC, GA, Pts) se llevan lo mismo */
+.tabla-clasificacion th:not(:nth-child(2)), 
+.tabla-clasificacion td:not(:nth-child(2)) {
+    width: 8.75%; /* Esto reparte el 70% restante entre las 8 columnas */
+    text-align: center;
+    padding: 6px 2px;
+}
 
-    /* Ajustar tamaños de fuente para que no se vean desproporcionados */
-    body {
-        font-size: 14px;
+/* Asegurar que en móvil no se vea fatal */
+@media (max-width: 600px) {
+    .tabla-clasificacion {
+        font-size: 10px; /* Reducimos la letra en móvil para ganar espacio */
     }
 }
 /*-------------------------------------------------------------------------------*/
