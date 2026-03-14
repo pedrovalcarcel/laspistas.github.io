@@ -212,20 +212,22 @@ zoom: calc(1.1);
     margin: 15px 0;
 }
 
+.tabla-contenedor {
+    width: 100%;
+    overflow-x: auto; /* Permite scroll horizontal si es necesario */
+    -webkit-overflow-scrolling: touch; 
+    margin: 15px 0;
+}
+
 .tabla-clasi {
     width: 100%;
-    min-width: 500px; /* Tamaño mínimo para que no se apriete */
+    min-width: 500px; /* Evita que la tabla se colapse en pantallas muy estrechas */
     border-collapse: collapse;
     color: white;
     font-size: 13px;
 }
 
-.tabla-clasi th, .tabla-clasi td {
-    padding: 6px 4px;
-    text-align: center;
-}
-
-/* Alineación especial para el nombre del equipo */
+/* Alineación limpia para el nombre del equipo */
 .tabla-clasi td:nth-child(2) {
     text-align: left;
     white-space: nowrap; /* Evita que el nombre del equipo se parta en dos líneas */
@@ -233,13 +235,18 @@ zoom: calc(1.1);
 
 /* En móviles, ocultamos columnas menos críticas para ganar espacio */
 @media (max-width: 600px) {
+    /* Si tienes una tabla, oculta columnas menos críticas en pantallas pequeñas */
     .tabla-clasi th:nth-child(3), .tabla-clasi td:nth-child(3), /* PJ */
     .tabla-clasi th:nth-child(4), .tabla-clasi td:nth-child(4), /* PG */
     .tabla-clasi th:nth-child(5), .tabla-clasi td:nth-child(5) { /* PE */
         display: none;
     }
-}
 
+    /* Ajustar tamaños de fuente para que no se vean desproporcionados */
+    body {
+        font-size: 14px;
+    }
+}
 /*-------------------------------------------------------------------------------*/
 
 .bloque-foto{
