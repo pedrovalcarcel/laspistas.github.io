@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8">
+        <title>Estadísticas</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body class = "pagina-estadisticas">
+        <header class ="cabecera">
+        <img src="escudo_laspistas.png" alt = "Escudo" class="escudo">
+        <div class ="cabecera-centro">
+            <h1>Estadísticas de LAS PISTAS FC</h1>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="resultados.html">Resultados</a>
+            <a href="jugadores.html">Plantilla</a>
+            <a href="estadisticas.html">Estadísticas</a>
+        </nav>
+        </div>
+        </header>
+        <ul id="estadisticas"></ul>
+        <div class="dashboard-graficas">
+            <div class="contenedor-grafica-puntos">
+                <canvas id="graficaPuntos"></canvas>
+            </div>
+            <div class="contenedor-grafica-horas">
+                <canvas id="graficaVictoriasHora"></canvas>
+                <div id="lista-partidos" style="color: white; margin-top: 15px; padding: 10px; background: rgba(0,0,0,0.2); border-radius: 8px; display:none;">
+                </div>
+            </div>
+            <div class="contenedor-grafica-goles-jugador">
+                <canvas id="graficaGolesPorJugador"></canvas>
+            </div>
+            <div class="contenedor-grafica-asistencias-jugador">
+                <canvas id="graficaAsistenciasPorJugador"></canvas>
+            </div>
+            <div class="contenedor-grafica-posicion">
+                <canvas id="graficaPosicion"></canvas>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+        <script src="modeloPrediccion.js"></script>
+        <script src="estadisticas.js"></script>
+    </body>
+
+</html>

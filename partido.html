@@ -1,22 +1,40 @@
 <!DOCTYPE html>
-<html lang = "es">
-    <head>
-        <meta charset="UTF-8">
-        <title></title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body class="pagina-partidos">
-        <header class ="cabecera">
-        <img src="escudo_laspistas.png" alt = "Escudo" class="escudo">
-        <div class ="cabecera-centro">
-        <h1 id="titulo-partido"></h1>
-        <nav>
-            <a href="index.html">Inicio</a>
-            <a href="resultados.html">Resultados</a>
-            <a href="jugadores.html">Plantilla</a>
-        </nav>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalle del Partido</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="pagina-partidos">
+    <header class="cabecera">
+        <img src="escudo_laspistas.png" alt="Escudo" class="escudo">
+        <div class="cabecera-centro">
+            <h1 id="titulo-partido"></h1>
+            <nav>
+                <a href="index.html">Inicio</a>
+                <a href="resultados.html">Resultados</a>
+                <a href="jugadores.html">Plantilla</a>
+                <a href="estadisticas.html">Estadísticas</a>
+            </nav>
         </div>
-        </header>
+    </header>
+
+    <div id="pagina-detalle-partido"></div>
+    
+    <div class="contenedor-padre">
         <div id="pagina-detalle-partido"></div>
-        <script src="detalle_partido.js"></script>
-</html>
+        <div id="contenedor-prediccion"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+
+    <script src="https://unpkg.com/brain.js"></script>
+
+    <script src="modeloPrediccion.js"></script>
+    <script src="racha.js"></script>
+    <script src="detalle_partido.js"></script>
+
+    <script>
+        
+    </script>
+</body>

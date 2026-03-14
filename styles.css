@@ -117,6 +117,30 @@ nav a:hover{
 .e{ background-color: yellow;}
 .d{ background-color: red;}
 
+.proximo-partido{
+margin-top:20px;
+padding:15px;
+background:rgba(255,255,255,0.08);
+border-radius:10px;
+text-align:center;
+}
+
+.card-partido{
+font-size:18px;
+line-height:1.6;
+}
+.link-partido{
+color:white;
+font-size:20px;
+text-decoration:none;
+font-weight:bold;
+}
+
+.link-partido:hover{
+color:#ffd34d;
+zoom: calc(1.1);
+}
+
 /*-------------------------------------------------------------------------------*/
 
 #partidos-mes{
@@ -372,6 +396,21 @@ nav a:hover{
     text-align: center;
     color: white;
     text-align: center;
+}
+
+/*-------------------------------------------------------------------------------*/
+
+.pagina-estadisticas{
+    background: rgb(47, 47, 238);
+    padding: 10px auto;
+    width: auto;
+    text-decoration: none;
+    color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    display: row;
+    flex-direction: column;
+    align-items: center;
 }
 
 /*-------------------------------------------------------------------------------*/
@@ -645,4 +684,521 @@ nav a:hover{
 .resumen-arbitros p {
     margin: 6px 0;
     font-size: 15px;
+}
+
+.resumen-arbitros {
+    display: flex;
+    flex-direction: column; /* Esto fuerza a que cada elemento hijo se coloque debajo del anterior */
+    align-items: center; /* Alinea la lista a la izquierda */
+    gap: 10px; /* Espacio entre cada árbitro */
+    padding: 20px;
+}
+/* Opcional: añade un efecto visual al pasar el ratón */
+.resumen-arbitros p:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+}
+
+/* -------------------- ESTADÍSTICAS ---------------------- */
+.dashboard-graficas {
+    display: flex;
+    flex-wrap: wrap; /* Permite que si no caben, bajen a la siguiente fila */
+    justify-content: space-around; /* Distribuye el espacio entre ellos */
+    align-items: flex-start;
+    gap: 20px;
+    padding: 20px;
+    width: 95%;
+    margin: 0 auto;
+}
+
+.contenedor-grafica-puntos,
+.contenedor-grafica-horas,
+.contenedor-grafica-goles-jugador,
+.contenedor-grafica-asistencias-jugador {
+    flex: 1 1 300px; /* Crecen, se encogen y tienen un tamaño base de 300px */
+    max-width: 450px; /* Para que no se vuelvan gigantes en pantallas grandes */
+    height: 400px; /* Altura fija para mantener orden */
+    background: rgba(255, 255, 255, 0.05); /* Fondo suave */
+    border-radius: 15px;
+    padding: 15px;
+}
+
+
+/* 2. Cuando pasamos el ratón sobre el canvas, mostramos el div */
+#graficaVictoriasHora:hover {
+    display: block; /* Hacemos que aparezca */
+}
+#graficaVictoriasHora {
+    cursor: pointer;
+}
+.contenedor-grafica-horas {
+    display: flex;
+    flex-direction: column;
+}
+.contenedor-grafica-horas:hover #lista-partidos {
+    display: block;
+}
+#lista-partidos {
+    display: none;
+    position: fixed; /* Cambiado a fixed para que flote sobre todo */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: black;
+    color: white;
+    padding: 25px;
+    border-radius: 12px;
+    border: 3px solid yellow; /* El borde amarillo que ya tienes */
+    text-align: center; /* Centra el texto */
+    min-width: 300px;
+}
+
+.boton-cerrar {
+    margin-top: 15px;
+    padding: 8px 16px;
+    background: yellow;
+    color: black;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+#lista-partidos ul{
+    align-items: center;
+    list-style: none;
+}
+
+/* Asegurar que el contenedor padre no aplaste la lista */
+
+/* IMPORTANTE: Ajuste para móviles */
+@media (max-width: 900px) {
+    .contenedor-grafica-puntos, 
+    .contenedor-grafica-horas {
+        flex: 0 0 100%;      /* En pantallas pequeñas, cada una ocupa el 100% */
+        max-width: 100%;
+    }
+}
+
+/* Ajuste para móviles, si tienes media queries */
+@media (max-width: 900px) {
+    .contenedor-grafica-goles-jugador {
+        flex: 0 0 100%;      /* En pantallas pequeñas, ocupa el 100% */
+        max-width: 100%;
+    }
+}
+.contenedor-grafica-asistencias-jugador {
+    flex: 0 0 25%;           /* Ocupa 1/4 del ancho */
+    max-width: 25%;          
+    height: 400px;           /* Misma altura que los otros */
+    background: rgba(255, 255, 255, 0.05);
+    padding: 15px;
+    border-radius: 12px;
+    
+    /* Para que el canvas rellene todo el espacio */
+    display: flex;
+    flex-direction: column;
+    padding: 0; 
+    overflow: hidden; 
+}
+@media (max-width: 900px) {
+    .contenedor-grafica-asistencias-jugador {
+        flex: 0 0 100%;      /* En pantallas pequeñas, ocupa el 100% */
+        max-width: 100%;
+    }
+}
+
+.contenedor-flex {
+    display: grid !important;
+    grid-template-columns: 2fr 1fr !important; /* Acta 2 partes, Predicción 1 parte */
+    gap: 20px !important;
+    align-items: start !important;
+}
+
+#pagina-detalle-partido {
+    flex: 0 0 60%; /* Ocupa el 60% del ancho fijo */
+}
+
+.layout-acta-tres-columnas {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    padding: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+.columna {
+    flex: 1; /* Todas las columnas ocupan el mismo ancho */
+    background: #2a3eb1; /* Mantenemos tu color de fondo */
+    padding: 15px;
+    border-radius: 8px;
+    color: white;
+}
+
+/* Opcional: Si quieres que el acta sea un poco más ancha */
+.columna-centro {
+    flex: 1.5; 
+}
+
+/* Responsive para pantallas pequeñas */
+@media (max-width: 1000px) {
+    .layout-acta-tres-columnas {
+        flex-direction: column;
+    }
+}
+
+.racha-container {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    justify-content: center;
+}
+
+/* Estilo base de los cuadrados */
+.cuadrado-resultado {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 4px;
+    color: white;
+    box-sizing: border-box; /* Importante para que el borde no cambie el tamaño */
+}
+
+/* Clase para resaltar el último partido */
+.cuadrado-resultado.ultimo {
+    border: 2px solid black;
+}
+
+/* Colores */
+.cuadrado-resultado.v { background-color: #28a745; }
+.cuadrado-resultado.e { background-color: #ffc107; color: #000; }
+.cuadrado-resultado.d { background-color: #dc3545; }
+
+#contenedor-prediccion {
+    flex: 0 0 35%; /* Ocupa el 35% del ancho fijo */
+    padding: 20px;
+    position: sticky;
+    top: 20px;
+}
+
+.barra-probabilidades {
+    display: flex;
+    height: 30px;
+    width: 120%;           /* Ocupa el 90% del contenedor padre */
+    max-width: 500px;     /* No dejará que sea demasiado ancha */
+    margin: 15px auto;    /* 'auto' a los lados centra el bloque horizontalmente */
+    border-radius: 4px;
+    overflow: hidden;
+    background-color: #eee;
+    font-size: 0.85em;
+    font-weight: bold;
+    color: white;
+    /* Esto centra el texto dentro de la barra */
+    text-align: center;
+}
+
+.segmento {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    white-space: nowrap; /* Evita que el texto salte de línea */
+}
+
+.victoria { background-color: #2ecc71; } 
+.empate   { background-color: #f1c40f; color: #333; } /* Color oscuro para el texto amarillo */
+.derrota  { background-color: #e74c3c; }
+
+.tabla-clasi{
+width:100%;
+border-collapse:collapse;
+margin-top:15px;
+font-size:14px;
+}
+
+.tabla-clasi td,
+.tabla-clasi th{
+padding:6px;
+border-bottom:1px solid rgba(255,255,255,0.2);
+text-align:center;
+}
+
+.contenedor-grafica-posicion {
+    flex: 1 1 300px; /* Igual que las otras gráficas */
+    max-width: 450px; /* Limita el ancho para que no se estire sola */
+    height: 400px; 
+    background: rgba(255, 255, 255, 0.05); 
+    border-radius: 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Asegúrate de que el canvas llene su contenedor */
+#graficaPosicion {
+    width: 100% !important;
+    height: 100% !important;
+}
+
+
+/*------------------------------------ PÁGINA EQUIPO ----------------------------------------*/
+body { 
+    background-color: rgb(35, 35, 245); 
+    color: white; 
+    font-family: sans-serif; 
+    padding: 20px; 
+}
+
+.racha-box { margin: 20px 0; font-size: 24px; }
+
+.resultado-item { 
+    display: inline-block; 
+    padding: 10px 15px; 
+    margin-right: 5px; 
+    border-radius: 4px; 
+    font-weight: bold; 
+}
+
+.win { background-color: #28a745; }
+.draw { background-color: #edfa34; color:black;}
+.loss { background-color: #dc3545; }
+
+.lista-partidos-equipo { 
+    list-style-type: none; 
+    padding: 0; 
+}
+
+.lista-partidos-equipo li { 
+    margin-bottom: 8px; 
+    padding: 5px;
+    border-bottom: 1px solid #333;
+}
+
+.grafica-container { 
+    width: 100%; 
+    max-width: 800px; 
+    height: 300px; 
+    margin-bottom: 40px; 
+}
+
+/* Estilo para el botón de volver si quieres que parezca un botón real */
+a { color: #0d93e0; text-decoration: none; }
+a:hover { text-decoration: none; }
+
+.link-equipo {
+    color: #ffffff; /* Un azul deportivo que destaca */
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s;
+}
+
+.link-equipo:hover {
+    color: #ff3333;
+    text-decoration: underline;
+    zoom: 120%;
+}
+
+.dashboard-grid {
+    display: grid;
+    /* Esto divide el contenedor en 3 columnas de igual tamaño */
+    grid-template-columns: 1fr 1fr 1fr; 
+    gap: 20px;
+    padding: 20px;
+    align-items: start;
+    /* Asegura que no se desborde */
+    max-width: 100vw; 
+    overflow-x: hidden;
+}
+.col-izq {
+    background: #2936ec;
+    padding: 10px;
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Esto crea el espacio entre Racha y Lista */
+}
+
+#rachaContainer {
+    display: flex;
+    justify-content: center; /* Centra la racha */
+    gap: 10px;
+}
+.col-centro {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* Esto evita que los hijos expandan la columna */
+    min-width: 0; 
+    overflow: hidden;
+}
+
+ .col-derecha {
+    background: #2936ec;
+    padding: 15px;
+    border-radius: 10px;
+    color: white;
+    /* Importante para que el contenido no rompa el diseño */
+    min-width: 0; 
+}
+
+.grafica-wrapper {
+    background: #2936ec;
+    padding: 15px;
+    border-radius: 10px;
+    height: 300px;
+    /* Fuerza al canvas a no superar nunca el ancho de la columna */
+    width: 100%; 
+    box-sizing: border-box; 
+    position: relative;
+}
+canvas {
+    /* Fuerza absoluta a que el canvas quepa dentro */
+    width: 100% !important;
+    height: 100% !important;
+}
+
+.col-derecha {
+    background: #2936ec; /* O déjalo transparente si no quieres que se vea */
+    border-radius: 10px;
+    min-height: 100px;
+}
+#listaPartidosEquipo li {
+    margin-bottom: 5px; /* Ajusta este valor para más o menos espacio */
+    padding-bottom: 5px;
+    list-style-type: none;
+}
+
+.styled-select {
+    width: 100%;
+    padding: 10px;
+    background: #252525;
+    color: white;
+    border: 1px solid #4da6ff;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.comparacion-stats {
+    margin-top: 15px;
+    font-size: 0.9rem;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid #333;
+}
+
+.stat-label { color: #aaa; }
+.stat-value { font-weight: bold; color: #4da6ff; }
+
+.comparacion-box h4 { color: #ffd700; margin-bottom: 15px; }
+.comparacion-box h5 { margin-top: 20px; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.2); }
+
+.stat-row-header {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    font-size: 0.75rem;
+    color: #aaa;
+    margin-bottom: 5px;
+}
+
+.stat-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: rgba(0,0,0,0.2);
+    margin-bottom: 4px;
+    padding: 8px 12px;
+    border-radius: 5px;
+}
+
+.stat-row .lab { font-size: 0.7rem; color: #ccc; }
+.stat-row .val { font-weight: bold; width: 30px; }
+
+.racha-mini {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.cuadrado-resultado.mini {
+    width: 25px;
+    height: 25px;
+    font-size: 12px;
+}
+
+.h2h-lista {
+    list-style: none;
+    padding: 0;
+    font-size: 0.8rem;
+    text-align: left;
+    margin-top: 10px;
+}
+
+.h2h-lista li {
+    padding: 4px 0;
+    border-bottom: 1px dotted rgba(255,255,255,0.1);
+}
+
+.link-comparar { color: #4da6ff; text-decoration: none; }
+.link-comparar:hover { text-decoration: underline; }
+.h2h-lista a { color: white; text-decoration: none; }
+.h2h-lista a:hover { color: #ffd34d; }
+
+.link-acta {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block; /* Necesario para que el transform funcione */
+    transition: all 0.2s ease-in-out; /* Suaviza el cambio de color y tamaño */
+}
+
+/* Efecto al pasar el ratón (amarillo y zoom) */
+.link-acta:hover {
+    color: #850bf7; /* Amarillo */
+    zoom: 120%; /* Zoom de 20% */
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+
+/* 1. Evitar desbordamiento global */
+html, body {
+    max-width: 100%;
+    overflow-x: hidden; /* Evita el scroll horizontal forzado */
+}
+
+/* 2. Reemplazo del 'zoom' por 'transform' */
+.link-acta:hover {
+    color: #850bf7;
+    transform: scale(1.2); /* Reemplaza zoom: 120% */
+    display: inline-block; /* Necesario para que el transform funcione bien */
+    text-decoration: underline;
+}
+
+/* 3. Asegurar que las tablas no rompan el diseño */
+table {
+    width: 100% !important;
+    table-layout: fixed; /* Fuerza a que no se estiren */
+}
+
+/* 4. Ajuste universal para móviles */
+@media (max-width: 600px) {
+    .dashboard-grid, .pagina-resultados ul, .plantilla-grid {
+        grid-template-columns: 1fr !important; /* Una sola columna en todo */
+    }
+    
+    /* Reducir márgenes excesivos en móviles */
+    body { padding: 10px; }
 }

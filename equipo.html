@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class = "pagina-equipo">
+    <header class ="cabecera">
+        <img src="escudo_laspistas.png" alt = "Escudo" class="escudo">
+        <div class ="cabecera-centro">
+            <h1>Estadísticas de <span id="tituloEquipo"></span></h1>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="resultados.html">Resultados</a>
+            <a href="jugadores.html">Plantilla</a>
+            <a href="estadisticas.html">Estadísticas</a>
+        </nav>
+        </div>
+        </header>
+    
+    <div class="dashboard-grid">
+        <div class="col-izq">
+            <h3>Últimos 5 partidos</h3>
+            <div id="racha"></div>
+            <h3>Partidos del equipo</h3>
+            <div id="listaPartidosEquipo"></div>
+        </div>
+
+        <div class="col-centro">
+            <div class="grafica-wrapper">
+                <canvas id="graficaPuntosEquipo"></canvas>
+            </div>
+            <div class="grafica-wrapper">
+                <canvas id="graficaPosicionEquipo"></canvas>
+            </div>
+        </div>
+
+        <div class="col-derecha">
+            <h3>Comparar equipo</h3>
+                <select id="selectorComparar" class="styled-select">
+                    <option value="">Selecciona un equipo...</option>
+                </select>
+                
+                <div id="contenedorComparacion" class="comparacion-stats">
+                </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="modeloPrediccion.js"></script>
+    <script src="estadisticas.js"></script>
+    <script src="equipo.js"></script>
+</body>
+</html>
