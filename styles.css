@@ -205,32 +205,38 @@ zoom: calc(1.1);
 
 /*-------------------------------------------------------------------------------*/
 
-.tabla-clasificacion {
-    color: white;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    text-align: center;
-    margin: auto;
+
+.tabla-contenedor {
     width: 100%;
-    overflow-x: auto; /* Permite scroll horizontal si la tabla es muy ancha */
-    display: block;   /* Necesario para el scroll */
+    overflow-x: auto;
+    margin: 15px 0;
 }
 
 .tabla-clasi {
     width: 100%;
+    min-width: 500px; /* Tamaño mínimo para que no se apriete */
     border-collapse: collapse;
-    font-size: 12px; /* Reducimos un poco el tamaño en general */
+    color: white;
+    font-size: 13px;
 }
 
 .tabla-clasi th, .tabla-clasi td {
-    padding: 6px 4px; /* Menos padding lateral */
-    white-space: nowrap; /* Evita que los nombres de equipo se partan en varias líneas */
+    padding: 6px 4px;
+    text-align: center;
 }
 
-/* Ocultar columnas menos importantes en móviles muy pequeños */
+/* Alineación especial para el nombre del equipo */
+.tabla-clasi td:nth-child(2) {
+    text-align: left;
+    white-space: nowrap; /* Evita que el nombre del equipo se parta en dos líneas */
+}
+
+/* En móviles, ocultamos columnas menos críticas para ganar espacio */
 @media (max-width: 600px) {
-    .tabla-clasi th:nth-child(n+3):nth-child(-n+7), 
-    .tabla-clasi td:nth-child(n+3):nth-child(-n+7) {
-        display: none; /* Oculta PG, PE, PP, GF, GC */
+    .tabla-clasi th:nth-child(3), .tabla-clasi td:nth-child(3), /* PJ */
+    .tabla-clasi th:nth-child(4), .tabla-clasi td:nth-child(4), /* PG */
+    .tabla-clasi th:nth-child(5), .tabla-clasi td:nth-child(5) { /* PE */
+        display: none;
     }
 }
 
