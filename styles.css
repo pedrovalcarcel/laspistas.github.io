@@ -205,16 +205,33 @@ zoom: calc(1.1);
 
 /*-------------------------------------------------------------------------------*/
 
-.tabla-clasificacion{
+.tabla-clasificacion {
     color: white;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     text-align: center;
     margin: auto;
-    padding: 2%;
-    font-size: 120%;
+    width: 100%;
+    overflow-x: auto; /* Permite scroll horizontal si la tabla es muy ancha */
+    display: block;   /* Necesario para el scroll */
 }
-.bloque-clasificacion h2{
-    text-align: left;
+
+.tabla-clasi {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px; /* Reducimos un poco el tamaño en general */
+}
+
+.tabla-clasi th, .tabla-clasi td {
+    padding: 6px 4px; /* Menos padding lateral */
+    white-space: nowrap; /* Evita que los nombres de equipo se partan en varias líneas */
+}
+
+/* Ocultar columnas menos importantes en móviles muy pequeños */
+@media (max-width: 600px) {
+    .tabla-clasi th:nth-child(n+3):nth-child(-n+7), 
+    .tabla-clasi td:nth-child(n+3):nth-child(-n+7) {
+        display: none; /* Oculta PG, PE, PP, GF, GC */
+    }
 }
 
 /*-------------------------------------------------------------------------------*/
