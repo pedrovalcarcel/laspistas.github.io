@@ -235,7 +235,7 @@ zoom: calc(1.1);
 /* Asegurar que en móvil no se vea fatal */
 @media (max-width: 600px) {
     .tabla-clasificacion {
-        font-size: 10px !important; /* Tamaño reducido para que no se desborde */
+        font-size: 4px !important; /* Tamaño reducido para que no se desborde */
     }
 
     /* Opcional: reducimos un poco el padding en móviles para ganar espacio */
