@@ -22,8 +22,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 
         const partidosEquipo = partidos.filter(p => 
-            (p.local === nombreEquipo || p.visitante === nombreEquipo) && 
-            p.goles_local !== ""
+            (p.local === nombreEquipo || p.visitante === nombreEquipo) 
         );
         partidosEquipo.sort((a, b) => parseInt(b.jornada) - parseInt(a.jornada));
 
