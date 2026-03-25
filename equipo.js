@@ -66,7 +66,8 @@ function mostrarListaPartidos(partidos) {
 function pintarRacha(partidos, nombre) {
     const contenedor = document.getElementById('racha');
     contenedor.innerHTML = ''; 
-    const ultimos5 = partidos.slice(0, 5).reverse();
+    partidosConResultado = partidos.filter(p => p.goles_local !== ""); // Solo partidos con resultado registrado
+    const ultimos5 = partidosConResultado.slice(0, 5).reverse();
 
     ultimos5.forEach(p => {
         const golesL = parseInt(p.goles_local);
