@@ -29,13 +29,52 @@ nav a:hover{
     text-align: center;
 }
 
-.inicio-grid{
+.inicio-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2rem;
-    width: 90%;
-    margin: 2rem auto;
-    align-items: start;
+}
+
+.col-izquierda {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.col-derecha {
+    display: flex;
+    flex-direction: column;
+}
+
+.bloque-calendario {
+    position: sticky;
+    top: 10px;
+}
+
+@media (max-width: 700px) {
+    .inicio-grid {
+        grid-template-columns: 2fr 1fr;
+        gap: 15px;
+    }
+
+    /* IZQUIERDA */
+    .bloque-clasificacion {
+        grid-column: 1;
+    }
+
+    .bloque-resultados {
+        grid-column: 1;
+    }
+
+    .bloque-partidos {
+        grid-column: 1;
+    }
+
+    /* DERECHA */
+    .bloque-calendario {
+        grid-column: 2;
+        grid-row: 1 / span 3; /* ocupa toda la altura */
+    }
 }
 
 /*-------------------------------------------------------------------------------*/
@@ -235,13 +274,7 @@ zoom: calc(1.1);
 /* Asegurar que en móvil no se vea fatal */
 @media (max-width: 600px) {
     .tabla-clasificacion {
-        font-size: 4px !important; /* Tamaño reducido para que no se desborde */
-    }
-
-    /* Opcional: reducimos un poco el padding en móviles para ganar espacio */
-    .tabla-clasificacion th, 
-    .tabla-clasificacion td {
-        padding: 4px 2px !important;
+        font-size: 10px; /* Reducimos la letra en móvil para ganar espacio */
     }
 }
 /*-------------------------------------------------------------------------------*/
@@ -591,23 +624,7 @@ zoom: calc(1.1);
     width: 100%;
     margin-top: 2%;
 }
-@media (max-width: 700px) {
 
-    /* Layout principal */
-    .inicio-grid {
-        display: flex;          /* 🔑 rompe el grid */
-        flex-direction: column; /* 🔑 flujo vertical */
-        gap: 25px;
-    }
-
-    /* Todos los bloques */
-    .bloque {
-        width: 100%;
-        max-width: 100%;
-        margin: 0 auto;
-    }
-
-}
 @media (max-width: 700px) {
 
     #partidos-mes {
