@@ -29,11 +29,6 @@ nav a:hover{
     text-align: center;
 }
 
-.inicio-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-}
 
 .col-izquierda {
     display: flex;
@@ -51,6 +46,24 @@ nav a:hover{
     top: 10px;
 }
 
+/* ================== GRID PRINCIPAL ================== */
+
+/* PC (por defecto) */
+.inicio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+/* TABLET */
+@media (max-width: 900px) {
+    .inicio-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+}
+
+/* MÓVIL (lo que tú quieres: 2 columnas) */
 @media (max-width: 700px) {
     .inicio-grid {
         grid-template-columns: 2fr 1fr;
@@ -58,14 +71,8 @@ nav a:hover{
     }
 
     /* IZQUIERDA */
-    .bloque-clasificacion {
-        grid-column: 1;
-    }
-
-    .bloque-resultados {
-        grid-column: 1;
-    }
-
+    .bloque-clasificacion,
+    .bloque-resultados,
     .bloque-partidos {
         grid-column: 1;
     }
@@ -73,7 +80,19 @@ nav a:hover{
     /* DERECHA */
     .bloque-calendario {
         grid-column: 2;
-        grid-row: 1 / span 3; /* ocupa toda la altura */
+        grid-row: 1 / span 3;
+    }
+}
+
+/* MÓVIL PEQUEÑO (opcional pero recomendado) */
+@media (max-width: 500px) {
+    .inicio-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .bloque-calendario {
+        grid-column: auto;
+        grid-row: auto;
     }
 }
 
@@ -853,7 +872,7 @@ zoom: calc(1.1);
 
 .contenedor-flex {
     display: grid !important;
-    grid-template-columns: 2fr 1fr !important; /* Acta 2 partes, Predicción 1 parte */
+    grid-template-columns: 2fr 1fr ; /* Acta 2 partes, Predicción 1 parte */
     gap: 20px !important;
     align-items: start !important;
 }
