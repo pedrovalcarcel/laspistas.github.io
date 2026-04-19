@@ -228,8 +228,8 @@ function calcularForma(equipo, partidos) {
 // ===============================
 function marcadorMasProbable(xgL, xgV) {
     let mejorP = 0, marcador = "0-0";
-    for (let i = 0; i <= 6; i++) {
-        for (let j = 0; j <= 6; j++) {
+    for (let i = 0; i <= 50; i++) {
+        for (let j = 0; j <= 50; j++) {
             const p = poisson(xgL, i) * poisson(xgV, j);
             if (p > mejorP) { mejorP = p; marcador = `${i}-${j}`; }
         }
