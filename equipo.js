@@ -2,6 +2,43 @@
 const urlParams = new URLSearchParams(window.location.search);
 const nombreEquipo = urlParams.get('nombre');
 
+// Convierte el nombre del equipo en el nombre de archivo de su
+// escudo (misma lógica que en clasificacion.js/historico.js, para
+// que los nombres de archivo coincidan en todo el proyecto).
+function obtenerNombreArchivoEscudo(equipo) {
+    return equipo
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .trim()
+        .replace(/\s+/g, "_")
+        .replace(/[^a-z0-9_]/g, "");
+}
+
+function mostrarEscudoEquipo(equipo) {
+
+    const img = document.getElementById('escudoEquipoPagina');
+
+    if (!img || !equipo) {
+        return;
+    }
+
+    const nombreArchivo = obtenerNombreArchivoEscudo(equipo);
+
+    img.alt = `Escudo de ${equipo}`;
+    img.src = `img/equipos/${nombreArchivo}.png`;
+
+    // Si no existe el .png, probamos con .jpg; si tampoco, ocultamos
+    // el hueco del escudo en vez de dejar un icono de imagen rota.
+    img.onerror = () => {
+        img.onerror = () => {
+            img.style.display = 'none';
+        };
+        img.src = `img/equipos/${nombreArchivo}.jpg`;
+    };
+
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
     if (!nombreEquipo) {
         document.getElementById('tituloEquipo').innerText = "Equipo no encontrado";
@@ -9,19 +46,21 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     document.getElementById('tituloEquipo').innerText = nombreEquipo;
+    mostrarEscudoEquipo(nombreEquipo);
+
 
     // 2. Cargar los datos (Asumiendo que 'partidos.csv' es tu fuente y 'csvToJSON' está global)
     try {
         const res = await fetch(urlPartidosCSV);
         const csvText = await res.text();
         const partidos = csvToJSON(csvText);
-        const partidosLiga = partidos.filter(p => !isNaN(parseInt(p.jornada)));
+        const partidosTemporada = filtrarTemporadaActual(partidos);
+        const partidosLiga = partidosTemporada.filter(p => !isNaN(parseInt(p.jornada)));
         const equiposLiga = [...new Set(
             partidosLiga.map(p => p.local).concat(partidosLiga.map(p => p.visitante))
         )].filter(nombre => nombre && nombre.trim() !== ""); // Limpieza extra
 
-
-        const partidosEquipo = partidos.filter(p => 
+        const partidosEquipo = partidosTemporada.filter(p => 
             (p.local === nombreEquipo || p.visitante === nombreEquipo) 
         );
         partidosEquipo.sort((a, b) => parseInt(b.jornada) - parseInt(a.jornada));
@@ -32,14 +71,35 @@ document.addEventListener("DOMContentLoaded", async () => {
         // Solo llama a las gráficas que existen en equipo.html
         // Asegúrate de que los IDs coincidan exactamente con tu HTML
         generarGraficaEvolucion(partidosEquipo, nombreEquipo, 'graficaPuntosEquipo');
-        generarGraficaPosicionJornada(partidos, nombreEquipo, 'graficaPosicionEquipo');
+        generarGraficaPosicionJornada(partidosTemporada, nombreEquipo, 'graficaPosicionEquipo');
         inicializarComparador(equiposLiga, nombreEquipo,partidosLiga);
+        inicializarExpandirGraficas();
         
         // NO llames a generarGraficaVictoriasPorHora aquí a menos que tengas ese canvas en equipo.html
     } catch (error) {
         console.error("Error al cargar los datos:", error);
     }
 });
+
+function inicializarExpandirGraficas() {
+    const wrappers = document.querySelectorAll('.pagina-equipo .grafica-wrapper:not(.racha-wrapper)');
+
+    wrappers.forEach(wrapper => {
+        const canvas = wrapper.querySelector('canvas');
+        if (!canvas) return;
+
+        wrapper.style.cursor = 'zoom-in';
+        wrapper.addEventListener('click', () => {
+            const expanded = wrapper.classList.toggle('enlarged');
+            wrapper.style.cursor = expanded ? 'zoom-out' : 'zoom-in';
+
+            const chart = window.chartInstances?.[canvas.id];
+            if (chart && typeof chart.resize === 'function') {
+                setTimeout(() => chart.resize(), 50);
+            }
+        });
+    });
+}
 
 // --- Funciones auxiliares ---
 
@@ -65,26 +125,52 @@ function mostrarListaPartidos(partidos) {
 
 function pintarRacha(partidos, nombre) {
     const contenedor = document.getElementById('racha');
-    contenedor.innerHTML = ''; 
-    partidosConResultado = partidos.filter(p => p.goles_local !== ""); // Solo partidos con resultado registrado
-    const ultimos5 = partidosConResultado.slice(0, 5).reverse();
+    if (!contenedor) return;
 
-    ultimos5.forEach(p => {
-        const golesL = parseInt(p.goles_local);
-        const golesV = parseInt(p.goles_visitante);
-        let resultado = "";
+    contenedor.className = 'racha';
+    contenedor.innerHTML = '';
 
-        if (p.local === nombre) {
-            resultado = (golesL > golesV) ? "win" : (golesL < golesV) ? "loss" : "draw";
-        } else {
-            resultado = (golesV > golesL) ? "win" : (golesV < golesL) ? "loss" : "draw";
+    const partidosConResultado = partidos.filter(
+        p => p.goles_local !== "" && p.goles_visitante !== ""
+    );
+
+    const ultimos5 = partidosConResultado.slice(-5);
+
+    if (ultimos5.length === 0) {
+        contenedor.innerHTML = '<p class="sin-datos">No hay resultados recientes.</p>';
+        return;
+    }
+
+    const html = ultimos5.map(p => {
+        const golesL = parseInt(p.goles_local, 10);
+        const golesV = parseInt(p.goles_visitante, 10);
+        const esLocal = p.local === nombre;
+
+        let claseResultado = 'racha-e';
+        let letra = 'E';
+
+        if ((esLocal && golesL > golesV) || (!esLocal && golesV > golesL)) {
+            claseResultado = 'racha-v';
+            letra = 'V';
+        } else if ((esLocal && golesL < golesV) || (!esLocal && golesV < golesL)) {
+            claseResultado = 'racha-d';
+            letra = 'D';
         }
-        
-        const span = document.createElement('span');
-        span.className = `resultado-item ${resultado}`;
-        span.textContent = resultado === 'win' ? 'V' : resultado === 'draw' ? 'E' : 'D';
-        contenedor.appendChild(span);
-    });
+
+        return `
+            <a href="partido.html?id=${encodeURIComponent(p.id)}" style="text-decoration:none;">
+                <div class="partido-racha ${claseResultado}" data-id="${p.id}">
+                    ${letra}
+                </div>
+            </a>
+        `;
+    }).join('');
+
+    contenedor.innerHTML = html;
+
+    if (typeof activarTooltipsRacha === "function") {
+        activarTooltipsRacha(contenedor, partidos);
+    }
 }
 
 function inicializarComparador(equipos, equipoActual, todosLosPartidos) {

@@ -1,8 +1,8 @@
 // 1. Configuración de URLs
 // Usamos la URL de tu Spreadsheet (pestaña de resultados/partidos)
 
-const urlPartidosCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSGb45ee7oLsTv2vO5bmbkdsEOV_mMpCOi_jpINeNh7d5xAu8CMo7r8C5yFZS7amamHT7rfKiL39U6C/pub?gid=0&single=true&output=csv";
-const urlGolesCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSGb45ee7oLsTv2vO5bmbkdsEOV_mMpCOi_jpINeNh7d5xAu8CMo7r8C5yFZS7amamHT7rfKiL39U6C/pub?gid=1785101781&single=true&output=csv";
+const urlPartidosCSV = obtenerUrlPartidosTemporadaActual();
+const urlGolesCSV = obtenerUrlEventosTemporadaActual();
 const nombreMiEquipo = "Las Pistas FC"; // Asegúrate de que coincida exactamente con el texto en tu Excel
 const urlJugadores = "jugadores.json"; // Para mostrar alias en lugar de dorsales en la gráfica de goles por jugador
 
@@ -22,7 +22,7 @@ async function inicializarDashboard() {
     const mapaPoder = obtenerMapaPoder(datosClasif);
     
     console.log("Entrenando IA...");
-    entrenarIA(datosPartidos, mapaPoder, listaArbitros);
+    //entrenarIA(datosPartidos, mapaPoder, listaArbitros);
     
     modeloEntrenado = true;
     console.log("IA lista para predecir.");
@@ -41,6 +41,8 @@ async function cargarDatosYGraficar() {
 
         // 2. Procesamos cada archivo
         const partidos = csvToJSON(await resPartidos.text());
+        console.log(partidos[0]);
+        const partidosTemporada = filtrarTemporadaActual(partidos);
         const golesData = csvToJSON(await resGoles.text());
         
         // 3. Obtenemos el JSON y nos aseguramos de que sea un array
@@ -50,13 +52,15 @@ async function cargarDatosYGraficar() {
         console.log("Datos cargados correctamente:", { partidos, golesData, jugadores });
 
         // 4. Dibujamos las gráficas
-        generarGraficaEvolucion(partidos, nombreMiEquipo,'graficaPuntos');
-        generarGraficaVictoriasPorHora(partidos);
+        generarGraficaEvolucion(partidosTemporada, nombreMiEquipo,'graficaPuntos');
+        generarGraficaVictoriasPorHora(partidosTemporada);
         
         // Pasamos ambos argumentos: los goles (CSV) y la lista (Array) de jugadores
         generarGraficaGolesPorJugador(golesData, jugadores);
         generarGraficaAsistenciasPorJugador(golesData, jugadores); 
-        generarGraficaPosicionJornada(partidos, nombreMiEquipo, 'graficaPosicion');
+        generarGraficaPosicionJornada(partidosTemporada, nombreMiEquipo, 'graficaPosicion');
+
+        crearEstadisticasArbitros(partidosTemporada);
         
     } catch (error) {
         console.error("Error al cargar los datos:", error);
@@ -111,8 +115,8 @@ function generarGraficaEvolucion(partidos, nombreEquipo, canvasId = 'graficaPunt
             datasets: [{
                 label: `Puntos Acumulados - ${nombreEquipo}`, // Título dinámico
                 data: datosGrafica,
-                borderColor: '#0d93e0',
-                backgroundColor: 'rgba(13, 147, 224, 0.2)',
+                borderColor: '#2E6AF2',
+                backgroundColor: '#1842B7',
                 borderWidth: 4,
                 pointBackgroundColor: '#ffffff',
                 pointRadius: 5,
@@ -125,298 +129,643 @@ function generarGraficaEvolucion(partidos, nombreEquipo, canvasId = 'graficaPunt
             maintainAspectRatio: false,
             resizeDelay: 200,
             plugins: {
-                legend: { labels: { color: '#ffffff', font: { size: 14 } } }
+                legend: { labels: { color: '#020101', font: { size: 14 } } }
             },
-            scales: {
-                y: { beginAtZero: true, ticks: { color: '#ffffff', stepSize: 3, font: { size: 10 } } },
-                x: { ticks: { color: '#ffffff', font: { size: 9 }, maxRotation: 45, minRotation: 45 } }
-            }
+            scales:{
+
+                x:{
+                    ticks:{
+                        color:"#333",
+                        font:{
+                            size:12,
+                            weight:"600"
+                        },
+                        autoSkip:false,
+                        maxRotation:45,
+                        minRotation:0,
+                        align:'start'
+                    },
+                    grid:{
+                        color:"rgba(0,0,0,.08)"
+                    }
+                },
+
+                y:{
+                    beginAtZero:true,
+                    ticks:{
+                        color:"#333",
+                        font:{
+                            size:12,
+                            weight:"600"
+                        }
+                    },
+                    grid:{
+                        color:"rgba(0,0,0,.08)"
+                    }
+                }
+
+}
         }
     });
 }
-function generarGraficaVictoriasPorHora(partidos) {
+function generarGraficaVictoriasPorHora(partidos){
+
     const statsHora = {};
 
-    // 1. Filtrado y agrupación
-    partidos.filter(p => (p.local === "Las Pistas FC" || p.visitante === "Las Pistas FC") && p.goles_local !== "")
-            .forEach(p => {
-                const hora = p.hora;
-                if (!statsHora[hora]) statsHora[hora] = { totales: 0, victorias: 0, partidos: [] };
-                
-                statsHora[hora].partidos.push(p);
-                statsHora[hora].totales++;
-                
-                const golesL = parseInt(p.goles_local);
-                const golesV = parseInt(p.goles_visitante);
-                if ((p.local === "Las Pistas FC" && golesL > golesV) || 
-                    (p.visitante === "Las Pistas FC" && golesV > golesL)) {
-                    statsHora[hora].victorias++;
-                }
-            });
+    partidos
+        .filter(p =>
+            (p.local === nombreMiEquipo || p.visitante === nombreMiEquipo) &&
+            p.goles_local !== ""
+        )
+        .forEach(p => {
 
-    const labelsOrdenadas = Object.keys(statsHora).sort((a, b) => {
-        const horaA = parseInt(a.split(':')[0]);
-        const horaB = parseInt(b.split(':')[0]);
-        return horaA - horaB;
+            const hora = p.hora;
+
+            if(!statsHora[hora]){
+                statsHora[hora]={
+                    pj:0,
+                    victorias:0,
+                    partidos:[]
+                };
+            }
+
+            statsHora[hora].pj++;
+            statsHora[hora].partidos.push(p);
+
+            const gl = Number(p.goles_local);
+            const gv = Number(p.goles_visitante);
+
+            const victoria =
+                (p.local===nombreMiEquipo && gl>gv) ||
+                (p.visitante===nombreMiEquipo && gv>gl);
+
+            if(victoria){
+                statsHora[hora].victorias++;
+            }
+
+        });
+
+    const horas = Object.keys(statsHora).sort((a,b)=>{
+
+        return parseInt(a)-parseInt(b);
+
     });
 
-    const porcentajes = labelsOrdenadas.map(h => (statsHora[h].victorias / statsHora[h].totales) * 100);
+    const porcentajes = horas.map(h=>{
 
-    const ctx = document.getElementById('graficaVictoriasHora').getContext('2d');
-    if (window.miGraficoVictorias) window.miGraficoVictorias.destroy();
+        return statsHora[h].pj
+            ? statsHora[h].victorias*100/statsHora[h].pj
+            : 0;
 
-    // 2. Creación del gráfico
-    window.miGraficoVictorias = new Chart(ctx, {
-        type: 'bar',
-        plugins: [ChartDataLabels],
-        data: {
-            labels: labelsOrdenadas,
-            datasets: [{
-                label: '% Victorias',
-                data: porcentajes,
-                backgroundColor: '#0d93e0'
+    });
+
+    const canvas=document.getElementById("graficaVictoriasHora");
+    const ctx=canvas.getContext("2d");
+
+    if(window.miGraficoVictorias){
+        window.miGraficoVictorias.destroy();
+    }
+
+    window.miGraficoVictorias=new Chart(ctx,{
+
+        type:"bar",
+
+        plugins:[ChartDataLabels],
+
+        data:{
+            labels:horas,
+            datasets:[{
+                data:porcentajes,
+                backgroundColor:"#143FAF",
+                borderRadius:8
             }]
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            hover: {
-                mode: null
-            },
-            plugins: {
-                tooltip: {
+
+        options:{
+
+            responsive:true,
+            maintainAspectRatio:false,
+            animation:false,
+
+            plugins:{
+
+                legend:{
+                    display:false
+                },
+
+                tooltip:{
                     enabled:false
                 },
-                datalabels: {
-                    color: '#ffffff',
-                    anchor: 'center',
-                    align: 'center',
-                    formatter: (value, context) => {
-                        const h = labelsOrdenadas[context.dataIndex];
-                        return `${statsHora[h].victorias}/${statsHora[h].totales}`;
+
+                datalabels:{
+
+                    color:"#070404",
+
+                    anchor:"center",
+
+                    align:"center",
+
+                    formatter:(value,context)=>{
+
+                        const h=horas[context.dataIndex];
+
+                        return `${statsHora[h].victorias}/${statsHora[h].pj}`;
+
                     },
-                    font: { weight: 'bold', size: 10 }
-                },
-                legend: { display: false }
+
+                    font:{
+                        weight:"bold"
+                    }
+
+                }
+
             },
-            scales: {
-                y: { beginAtZero: true, max: 100, ticks: { color: 'white' } },
-                x: { ticks: { color: 'white' } }
-            }
-        }
-    });
 
-    // 3. EVENTO DE CLIC EXTERNO (A prueba de errores)
-    // Usamos el contenedor padre del canvas para evitar que Chart.js bloquee el clic
-    const contenedorGrafica = document.querySelector('.contenedor-grafica-horas');
-    
-    contenedorGrafica.onclick = (evt) => {
-        // Solo actuamos si el clic fue específicamente sobre el canvas
-        if (evt.target.id !== 'graficaVictoriasHora') return;
+            scales:{
 
-        const rect = ctx.canvas.getBoundingClientRect();
-        const x = evt.clientX - rect.left;
-        const xAxis = window.miGraficoVictorias.scales.x;
-        const index = xAxis.getValueForPixel(x);
+                y:{
+                    beginAtZero:true,
+                    max:100,
+                    ticks:{
+                        color:"#333"
+                    },
+                    grid:{
+                        color:"rgba(0,0,0,.08)"
+                    }
+                },
 
-        if (index !== undefined && labelsOrdenadas[index]) {
-            const horaSeleccionada = labelsOrdenadas[index];
-            const listaPartidos = statsHora[horaSeleccionada].partidos;
-
-            // Construir HTML centrado
-            let html = `<h4 style="margin-top:0;">Partidos a las ${horaSeleccionada}:</h4>
-                        <ul style="list-style-type: none; padding: 0; margin: 0 auto; display: inline-block; text-align: left;">`; 
-
-            listaPartidos.forEach(p => {
-                html += `<li style="margin-bottom: 5px;">${p.local} ${p.goles_local} - ${p.goles_visitante} ${p.visitante}</li>`;
-            });
-            html += `</ul>`;
-
-            // Añadir el botón de cierre
-            html += `<br><button class="boton-cerrar" onclick="cerrarCuadro()" 
-                    style="background: yellow; color: black; border: none; padding: 5px 15px; cursor: pointer; border-radius: 4px; font-weight: bold;">
-                    Cerrar</button>`;
-            
-            const contenedorLista = document.getElementById('lista-partidos');
-            if (contenedorLista) {
-                contenedorLista.innerHTML = html;
-                
-                // Estilos de posicionamiento para centrar el cuadro en pantalla
-                contenedorLista.style.position = 'fixed'; 
-                contenedorLista.style.top = '50%';
-                contenedorLista.style.left = '50%';
-                contenedorLista.style.transform = 'translate(-50%, -50%)';
-                contenedorLista.style.zIndex = '99999';
-                contenedorLista.style.background = 'black';
-                contenedorLista.style.color = 'white';
-                contenedorLista.style.padding = '25px';
-                contenedorLista.style.border = '3px solid yellow';
-                contenedorLista.style.borderRadius = '12px';
-                contenedorLista.style.textAlign = 'center'; // Centra el contenido interior
-                contenedorLista.style.display = 'block';
-            }
-        }
+                x:{
+                    ticks:{
+                        color:"#333"
+                    },
+                    grid:{
+                        display:false
+                    }
                 }
 
             }
+
+        }
+
+    });
+
+    // =====================================================
+    // CLICK ROBUSTO (funciona aunque la barra tenga altura 0)
+    // =====================================================
+
+    canvas.onclick=function(e){
+
+        const chart=window.miGraficoVictorias;
+
+        const rect=canvas.getBoundingClientRect();
+
+        const x=e.clientX-rect.left;
+
+        const escalaX=chart.scales.x;
+
+        let indice=-1;
+        let distancia=Infinity;
+
+        horas.forEach((hora,i)=>{
+
+            const px=escalaX.getPixelForValue(i);
+
+            const d=Math.abs(px-x);
+
+            if(d<distancia){
+
+                distancia=d;
+                indice=i;
+
+            }
+
+        });
+
+        if(indice===-1) return;
+
+        const hora=horas[indice];
+
+        document.getElementById("tituloModal").textContent=
+            `Partidos a las ${hora}`;
+
+        const lista=document.getElementById("listaModal");
+
+        lista.innerHTML="";
+
+        statsHora[hora].partidos.forEach(p=>{
+
+            lista.innerHTML += `
+                <div class="partido-modal">
+
+                    <span class="equipo-local">
+                        ${p.local}
+                    </span>
+
+                    <span
+                        class="resultado-modal"
+                        onclick="location.href='partido.html?id=${encodeURIComponent(p.id)}&temporada=${encodeURIComponent(p.temporada)}'">
+
+                        ${p.goles_local} - ${p.goles_visitante}
+
+                    </span>
+
+                    <span class="equipo-visitante">
+                        ${p.visitante}
+                    </span>
+
+                </div>
+            `;
+
+        });
+
+        document
+            .getElementById("modalPartidos")
+            .classList
+            .add("visible");
+
+    };
+
+    document.getElementById("cerrarModal").onclick=()=>{
+
+        document
+            .getElementById("modalPartidos")
+            .classList
+            .remove("visible");
+
+    };
+
+    document.getElementById("modalPartidos").onclick=(e)=>{
+
+        if(e.target.id==="modalPartidos"){
+
+            e.currentTarget.classList.remove("visible");
+
+        }
+
+    };
+
+}
 
 
 function generarGraficaGolesPorJugador(golesData, listaJugadores) {
-    // 1. Acceso seguro a la lista de jugadores (tu estructura es un array que contiene un objeto con la propiedad 'jugadores')
-    const jugadoresArray = (listaJugadores && listaJugadores[0] && listaJugadores[0].jugadores) ? listaJugadores[0].jugadores : [];
 
-    const mapaJugadores = {};
-    jugadoresArray.forEach(j => {
-        if (j.dorsal && j.alias) {
-            mapaJugadores[String(j.dorsal).trim()] = j.alias.trim();
-        }
-    });
+    // Obtener jugadores
+    const jugadoresArray =
+        (listaJugadores &&
+        listaJugadores[0] &&
+        listaJugadores[0].jugadores)
+        ? listaJugadores[0].jugadores
+        : [];
 
-    // 2. Procesamiento de goles
+    // Inicializar todos los jugadores con 0 goles
     const conteoGoles = {};
+
+    jugadoresArray.forEach(j => {
+        conteoGoles[j.alias] = 0;
+    });
+
+    // Mapa dorsal -> alias
+    const mapaJugadores = {};
+
+    jugadoresArray.forEach(j => {
+        mapaJugadores[String(j.dorsal).trim()] = j.alias;
+    });
+
+    // Contar goles
     golesData.forEach(fila => {
-        const dorsal = fila.dorsal_goleador ? String(fila.dorsal_goleador).trim() : null;
-        if (dorsal) {
-            const nombre = mapaJugadores[dorsal] || `Dorsal ${dorsal}`;
-            conteoGoles[nombre] = (conteoGoles[nombre] || 0) + 1;
+
+        const dorsal = fila.dorsal_goleador
+            ? String(fila.dorsal_goleador).trim()
+            : "";
+
+        if (mapaJugadores[dorsal]) {
+            conteoGoles[mapaJugadores[dorsal]]++;
         }
+
     });
 
-    // 3. Ordenar datos de mayor a menor (Top Goleadores)
-    const items = Object.keys(conteoGoles).map(nombre => ({
-        nombre: nombre,
-        goles: conteoGoles[nombre]
-    }));
-    items.sort((a, b) => b.goles - a.goles);
+    // Filtrar jugadores con 0 goles y ordenar de mayor a menor
+    const items = Object.entries(conteoGoles)
+        .filter(([, goles]) => goles > 0)
+        .sort((a,b)=>b[1]-a[1]);
 
-    const labels = items.map(item => item.nombre);
-    const data = items.map(item => item.goles);
-    const totalGoles = data.reduce((a, b) => a + b, 0);
+    if (items.length === 0) {
+        if (window.miGraficoGoles) {
+            window.miGraficoGoles.destroy();
+        }
+        return;
+    }
 
-    // 4. Paleta de 16 colores fijos de alto contraste
-    const paletaColores = [
-        '#E6194B', '#3CB44B', '#FFE119', '#4363D8', '#F58231', 
-        '#911EB4', '#46F0F0', '#F032E6', '#BCF60C', '#FABEBE', 
-        '#008080', '#E6BEFF', '#9A6324', '#FFFAC8', '#800000', '#AAFFC3'
-    ];
+    const nombresJugadores = items.map(i=>i[0]);
+    const golesJugadores = items.map(i=>i[1]);
 
-    // 5. Dibujar gráfico
-    const ctx = document.getElementById('graficaGolesPorJugador').getContext('2d');
-    if (window.miGraficoGoles) window.miGraficoGoles.destroy();
+    const totalGoles =
+        golesJugadores.reduce((a,b)=>a+b,0);
 
-    window.miGraficoGoles = new Chart(ctx, {
-        type: 'pie',
-        plugins: [ChartDataLabels],
-        data: {
-            labels: labels,
-            datasets: [{
-                data: data,
-                backgroundColor: labels.map((_, index) => paletaColores[index % paletaColores.length]),
-                borderColor: '#1a1a1a',
-                borderWidth: 2
+    const ctx =
+        document
+        .getElementById("graficaGolesPorJugador")
+        .getContext("2d");
+
+    if(window.miGraficoGoles){
+        window.miGraficoGoles.destroy();
+    }
+
+    window.miGraficoGoles = new Chart(ctx,{
+
+        type:"bar",
+
+        plugins:[ChartDataLabels],
+
+        data:{
+
+            labels:nombresJugadores,
+
+            datasets:[{
+
+                data:golesJugadores,
+
+                backgroundColor:"#143FAF",
+
+                borderRadius:8,
+
+                barThickness:20
+
             }]
+
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                title: {
-                    display: true,
-                    color: '#ffffff',
-                    weight: 'bold',
-                    text: 'Goles por Jugador',
+
+        options:{
+
+            indexAxis:"y",
+
+            responsive:true,
+
+            maintainAspectRatio:false,
+
+            animation:false,
+
+            plugins:{
+
+                legend:{
+                    display:false
                 },
-                legend: { 
-                    position: 'right', 
-                    labels: { color: '#ffffff', font: { size: 12 } } 
+
+                title:{
+                    display:false
                 },
-                datalabels: {
-                    color: '#000000',
-                    font: { weight: 'bold' },
-                    formatter: (value) => {
-                        const pct = ((value / totalGoles) * 100).toFixed(0);
-                        return `${value}g (${pct}%)`;
-                    }
+
+                datalabels:{
+
+                anchor:"center",
+
+                align:"center",
+
+                color:"#fff",
+
+                formatter:(value)=>{
+
+                    if(value===0) return "";
+
+                    const porcentaje =
+                        ((value/totalGoles)*100).toFixed(1);
+
+                    return `${value} · ${porcentaje}%`;
+
+                },
+
+                font:{
+                    weight:"bold",
+                    size:11
                 }
+
             }
+        },
+
+            scales:{
+
+                x:{
+
+                    beginAtZero:true,
+
+                    ticks:{
+                        color:"#333",
+                        precision:0,
+                        font:{
+                            size:11,
+                            weight:"600"
+                        }
+                    },
+
+                    grid:{
+                        color:"rgba(0,0,0,.08)"
+                    }
+
+                },
+
+                y:{
+
+                    ticks:{
+                        color:"#333",
+                        font:{
+                            size:12,
+                            weight:"600"
+                        }
+                    },
+
+                    grid:{
+                        display:false
+                    }
+
+                }
+
+            }
+
         }
+
     });
+
 }
 
 function generarGraficaAsistenciasPorJugador(asistenciasData, listaJugadores) {
-    // 1. Acceso seguro a la lista de jugadores
-    const jugadoresArray = (listaJugadores && listaJugadores[0] && listaJugadores[0].jugadores) ? listaJugadores[0].jugadores : [];
 
-    const mapaJugadores = {};
-    jugadoresArray.forEach(j => {
-        if (j.dorsal && j.alias) {
-            mapaJugadores[String(j.dorsal).trim()] = j.alias.trim();
-        }
-    });
+    // Obtener jugadores
+    const jugadoresArray =
+        (listaJugadores &&
+        listaJugadores[0] &&
+        listaJugadores[0].jugadores)
+        ? listaJugadores[0].jugadores
+        : [];
 
-    // 2. Procesamiento de asistencias (CAMBIO AQUÍ: dorsal_asistente)
+    // Inicializar todos los jugadores con 0 asistencias
     const conteoAsistencias = {};
+
+    jugadoresArray.forEach(j => {
+        conteoAsistencias[j.alias] = 0;
+    });
+
+    // Mapa dorsal -> alias
+    const mapaJugadores = {};
+
+    jugadoresArray.forEach(j => {
+        mapaJugadores[String(j.dorsal).trim()] = j.alias;
+    });
+
+    // Contar asistencias
     asistenciasData.forEach(fila => {
-        const dorsal = fila.dorsal_asistente ? String(fila.dorsal_asistente).trim() : null;
-        if (dorsal) {
-            const nombre = mapaJugadores[dorsal] || `Dorsal ${dorsal}`;
-            conteoAsistencias[nombre] = (conteoAsistencias[nombre] || 0) + 1;
+
+        const dorsal = fila.dorsal_asistente
+            ? String(fila.dorsal_asistente).trim()
+            : "";
+
+        if (mapaJugadores[dorsal]) {
+            conteoAsistencias[mapaJugadores[dorsal]]++;
         }
+
     });
 
-    // 3. Ordenar datos
-    const items = Object.keys(conteoAsistencias).map(nombre => ({
-        nombre: nombre,
-        asistencias: conteoAsistencias[nombre]
-    }));
-    items.sort((a, b) => b.asistencias - a.asistencias);
+    // Filtrar jugadores con 0 asistencias y ordenar de mayor a menor
+    const items = Object.entries(conteoAsistencias)
+        .filter(([, asistencias]) => asistencias > 0)
+        .sort((a,b)=>b[1]-a[1]);
 
-    const labels = items.map(item => item.nombre);
-    const data = items.map(item => item.asistencias);
-    const totalAsistencias = data.reduce((a, b) => a + b, 0);
+    if (items.length === 0) {
+        if (window.miGraficoAsistencias) {
+            window.miGraficoAsistencias.destroy();
+        }
+        return;
+    }
 
-    // 4. Dibujar gráfico (Asegúrate de tener un canvas con id='graficaAsistenciasPorJugador')
-    const ctx = document.getElementById('graficaAsistenciasPorJugador').getContext('2d');
-    if (window.miGraficoAsistencias) window.miGraficoAsistencias.destroy();
+    const nombresJugadores = items.map(i=>i[0]);
+    const asistenciasJugadores = items.map(i=>i[1]);
 
-    window.miGraficoAsistencias = new Chart(ctx, {
-        type: 'pie',
-        plugins: [ChartDataLabels],
-        data: {
-            labels: labels,
-            datasets: [{
-                data: data,
-                backgroundColor: [
-                    '#E6194B', '#3CB44B', '#FFE119', '#4363D8', '#F58231', 
-                    '#911EB4', '#46F0F0', '#F032E6', '#BCF60C', '#FABEBE'
-                ],
-                borderColor: '#1a1a1a',
-                borderWidth: 2
+    const totalAsistencias =
+        asistenciasJugadores.reduce((a,b)=>a+b,0);
+
+    const ctx =
+        document
+        .getElementById("graficaAsistenciasPorJugador")
+        .getContext("2d");
+
+    if(window.miGraficoAsistencias){
+        window.miGraficoAsistencias.destroy();
+    }
+
+    window.miGraficoAsistencias = new Chart(ctx,{
+
+        type:"bar",
+
+        plugins:[ChartDataLabels],
+
+        data:{
+
+            labels:nombresJugadores,
+
+            datasets:[{
+
+                data:asistenciasJugadores,
+
+                backgroundColor:"#FFC107",
+
+                borderRadius:8,
+
+                barThickness:20
+
             }]
+
         },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                title: {
-                    display: true,
-                    color: '#ffffff',
-                    weight: 'bold',
-                    text: 'Asistencias por Jugador',
+
+        options:{
+
+            indexAxis:"y",
+
+            responsive:true,
+
+            maintainAspectRatio:false,
+
+            animation:false,
+
+            plugins:{
+
+                legend:{
+                    display:false
                 },
-                legend: { position: 'right', labels: { color: '#ffffff' } },
-                datalabels: {
-                    color: '#000000',
-                    font: { weight: 'bold' },
-                    formatter: (value) => {
-                        const pct = ((value / totalAsistencias) * 100).toFixed(0);
-                        // CAMBIO: ahora mostramos 'a' de asistencias en lugar de 'g'
-                        return `${value}a (${pct}%)`;
+
+                title:{
+                    display:false
+                },
+
+                datalabels:{
+
+                    anchor:"center",
+
+                    align:"center",
+
+                    color:"#fff",
+
+                    formatter:(value)=>{
+
+                        if(value===0) return "";
+
+                        const porcentaje =
+                            ((value/totalAsistencias)*100).toFixed(1);
+
+                        return `${value} · ${porcentaje}%`;
+
+                    },
+
+                    font:{
+                        weight:"bold",
+                        size:11
                     }
+
                 }
+
+            },
+
+            scales:{
+
+                x:{
+
+                    beginAtZero:true,
+
+                    ticks:{
+                        color:"#333",
+                        precision:0,
+                        font:{
+                            size:11,
+                            weight:"600"
+                        }
+                    },
+
+                    grid:{
+                        color:"rgba(0,0,0,.08)"
+                    }
+
+                },
+
+                y:{
+
+                    ticks:{
+                        color:"#333",
+                        font:{
+                            size:12,
+                            weight:"600"
+                        }
+                    },
+
+                    grid:{
+                        display:false
+                    }
+
+                }
+
             }
+
         }
+
     });
+
 }
 
 
@@ -468,7 +817,7 @@ function generarGraficaPosicionJornada(partidos, nombreEquipo, canvasId = 'grafi
             datasets: [{
                 label: 'Posición',
                 data: posiciones,
-                borderColor: '#FFD700',
+                borderColor: '#1842B7',
                 tension: 0.3
             }]
         },
@@ -479,33 +828,222 @@ function generarGraficaPosicionJornada(partidos, nombreEquipo, canvasId = 'grafi
             plugins: {
                 legend: {
                     labels: {
-                        color: '#ffffff', // Etiquetas en blanco
+                        color: '#000000', // Etiquetas en blanco
                         font: { size: 14 }
                     }
                 }
             },
-            scales: {
-                y: {
-                    reverse: true,
+            scales:{
+
+                x:{
+                    ticks:{
+                        color:"#333",
+                        font:{
+                            size:12,
+                            weight:"600"
+                        },
+                        autoSkip:false,
+                        maxRotation:45,
+                        minRotation:0,
+                        align:'start'
+                    },
+                    grid:{
+                        color:"rgba(0,0,0,.08)"
+                    }
+                },
+
+                y:{
                     min: 1,
                     max: 12,
-                    ticks: {
-                        color: '#ffffff', // Números del eje Y en blanco
-                        stepSize: 1
+                    reverse: true,
+                    ticks:{
+                        stepSize: 1,
+                        color:"#333",
+                        font:{
+                            size:12,
+                            weight:"600"
+                        }
                     },
-                    grid: { color: 'rgba(255, 255, 255, 0.1)' } // Líneas suaves
-                },
-                x: {
-                    ticks: {
-                        color: '#ffffff', // Etiquetas del eje X en blanco
-                        maxRotation: 45,
-                        minRotation: 45
-                    },
-                    grid: { color: 'rgba(255, 255, 255, 0.1)' }
+                    grid:{
+                        color:"rgba(0,0,0,.08)"
+                    }
                 }
+
             }
         }
     });
+}
+
+// =====================================
+// ESTADÍSTICAS POR ÁRBITRO
+// =====================================
+
+function crearEstadisticasArbitros(partidos){
+
+    const estadisticas = {};
+
+    partidos.forEach(p=>{
+
+        if(
+            !p.arbitro ||
+            p.goles_local === "" ||
+            p.goles_visitante === ""
+        ){
+            return;
+        }
+
+        if(!estadisticas[p.arbitro]){
+
+            estadisticas[p.arbitro] = {
+                pj:0,
+                v:0,
+                e:0,
+                d:0
+            };
+
+        }
+
+        const gl = Number(p.goles_local);
+        const gv = Number(p.goles_visitante);
+
+        const esLocal = p.local.trim() === nombreMiEquipo;
+
+        estadisticas[p.arbitro].pj++;
+
+        if(gl === gv){
+
+            estadisticas[p.arbitro].e++;
+
+        }else if(
+
+            (esLocal && gl > gv) ||
+            (!esLocal && gv > gl)
+
+        ){
+
+            estadisticas[p.arbitro].v++;
+
+        }else{
+
+            estadisticas[p.arbitro].d++;
+
+        }
+
+    });
+
+    const contenedor = document.getElementById("estadisticas-arbitros");
+
+    contenedor.innerHTML = "";
+
+    Object.entries(estadisticas)
+
+    .sort((a,b)=>{
+
+        const pa = a[1].pj ? a[1].v/a[1].pj : 0;
+        const pb = b[1].pj ? b[1].v/b[1].pj : 0;
+
+        return pb-pa;
+
+    })
+
+    .forEach(([arbitro,d])=>{
+
+        const porcentaje =
+            d.pj ? Math.round((d.v/d.pj)*100) : 0;
+
+        contenedor.innerHTML += `
+
+            <div class="fila-arbitro"
+                 data-arbitro="${arbitro}">
+
+                <span class="nombre-arbitro">
+                    ${arbitro}
+                </span>
+
+                <span class="balance-arbitro">
+                    <span class="verde">🟢 ${d.v}</span>
+                    <span class="amarillo">🟡 ${d.e}</span>
+                    <span class="rojo">🔴 ${d.d}</span>
+                </span>
+
+                <span class="porcentaje-arbitro">
+                    ${porcentaje}%
+                </span>
+
+            </div>
+
+        `;
+
+    });
+
+    // ===========================
+    // CLICK EN UN ÁRBITRO
+    // ===========================
+
+    document.querySelectorAll(".fila-arbitro").forEach(fila=>{
+
+        fila.onclick=()=>{
+
+            const arbitro = fila.dataset.arbitro;
+
+            const partidosArbitro = partidos.filter(p=>
+
+                p.arbitro === arbitro &&
+                p.goles_local !== "" &&
+                p.goles_visitante !== ""
+
+            );
+
+            document.getElementById("tituloModal").textContent =
+                `Partidos arbitrados por ${arbitro}`;
+
+            const lista = document.getElementById("listaModal");
+
+            lista.innerHTML = "";
+
+            partidosArbitro.forEach(p=>{
+
+                lista.innerHTML += `
+                    <div class="partido-modal">
+
+                        <span class="equipo-local">
+                            ${p.local}
+                        </span>
+
+                        <span class="resultado-modal"
+                            onclick="window.location.href='partido.html?id=${encodeURIComponent(p.id)}'">
+                            ${p.goles_local} - ${p.goles_visitante}
+                        </span>
+
+                        <span class="equipo-visitante">
+                            ${p.visitante}
+                        </span>
+
+                    </div>
+                `;
+
+            });
+
+            document
+                .getElementById("modalPartidos")
+                .classList
+                .add("visible");
+
+        };
+
+    });
+
+}
+
+function obtenerTemporadaActual(partidos){
+    const temporadas = partidos
+        .map(p => p.temporada)
+        .filter(t => t)
+        .map(String)
+        .map(t => t.trim())
+        .filter(Boolean);
+
+    return temporadas.sort().pop();
 }
 
 

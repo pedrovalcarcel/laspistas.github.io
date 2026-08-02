@@ -1,88 +1,165 @@
-// URL de tu CSV de partidos publicado
-const urlPartidos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSGb45ee7oLsTv2vO5bmbkdsEOV_mMpCOi_jpINeNh7d5xAu8CMo7r8C5yFZS7amamHT7rfKiL39U6C/pub?gid=0&single=true&output=csv";
-const MI_EQUIPO3 = "Las Pistas FC"; 
+// ================================
+// CONFIGURACIÓN
+// ================================
+
+const urlPartidos = obtenerUrlPartidosTemporadaActual();
+
+const MI_EQUIPO = "Las Pistas FC";
+
+
+// ================================
+// PORTADA (INDEX)
+// ================================
 
 fetch(urlPartidos)
-    .then(res => res.text())
-    .then(csvText => {
-        const partidos = csvToJSON(csvText);
-        // Filtramos partidos terminados y quitamos amistosos
-        const partidosOficiales = partidos.filter(p => 
-            p.jornada !== "Amistoso" && 
-            p.goles_local !== "" && 
-            (p.local.trim() === MI_EQUIPO3.trim() || p.visitante.trim() === MI_EQUIPO3.trim())
-        );
-        const ultimos5 = partidosOficiales.slice(-5);
+.then(r => r.text())
+.then(csv => {
+    const partidos = csvToJSON(csv);
+    const hoy = new Date();
+    // Últimos 5 partidos oficiales disputados
+    const ultimos5 = partidos
+        .filter(p =>
+            p.jornada !== "Amistoso" &&
+            partidoJugado(p) &&
+            partidoEnElPasado(p, hoy) &&
+            (
+                p.local.trim() === MI_EQUIPO ||
+                p.visitante.trim() === MI_EQUIPO
+            )
+        )
+        .slice(-5);
+    const html = ultimos5.map((p, index) => {
+        const esLocal = p.local.trim() === MI_EQUIPO;
+        const gf = esLocal
+            ? Number(p.goles_local)
+            : Number(p.goles_visitante);
+        const gc = esLocal
+            ? Number(p.goles_visitante)
+            : Number(p.goles_local);
+       let clase = "racha-e";
+        let letra = "E";
 
-        const rachaHTML = ultimos5.map((p, index) => {
-    const esLocal = p.local.trim() === MI_EQUIPO3.trim();
-    const golesFavor = esLocal ? parseInt(p.goles_local) : parseInt(p.goles_visitante);
-    const golesContra = esLocal ? parseInt(p.goles_visitante) : parseInt(p.goles_local);
-    
-    // Asignamos las letras v, e, d según tu CSS
-    let clase = golesFavor > golesContra ? "v" : (golesFavor < golesContra ? "d" : "e");
-    
-    // Añadimos 'ultimo' solo al último elemento de la lista (el más reciente)
-    const esUltimo = index === ultimos5.length - 1 ? "ultimo" : "";
-    
-    return `
-        <a href="partido.html?id=${p.id}" title="Jornada ${p.jornada}: ${p.local} ${p.goles_local}-${p.goles_visitante} ${p.visitante}" style="text-decoration: none;">
-                <div class="cuadrado-resultado ${clase} ${esUltimo}">
-                    ${clase.toUpperCase()}
+        if (gf > gc) {
+            clase = "racha-v";
+            letra = "V";
+        }
+
+        if (gf < gc) {
+            clase = "racha-d";
+            letra = "D";
+        }
+
+        return `
+            <a href="partido.html?id=${p.id}" style="text-decoration:none;">
+                <div class="partido-racha ${clase}" data-id="${p.id}">
+                    ${letra}
                 </div>
-            </a>`;
-}).join("");
+            </a>
+        `;
 
-// Asegúrate de que el contenedor tenga la clase 'racha' que definiste en CSS
-document.getElementById("racha").className = "racha"; 
-document.getElementById("racha").innerHTML = rachaHTML;
-    });
+    }).join("");
+    const contenedorRacha = document.getElementById("racha");
 
-// Función necesaria para leer el CSV
-function csvToJSON(csv) {
-    const lines = csv.split("\n");
-    const headers = lines[0].split(",").map(h => h.trim().toLowerCase());
-    return lines.slice(1).filter(l => l.trim() !== "").map(line => {
-        const values = line.split(",");
-        let obj = {};
-        headers.forEach((h, i) => obj[h] = values[i] ? values[i].trim() : "");
-        return obj;
+    if (contenedorRacha) {
+        contenedorRacha.innerHTML = html;
+
+        if (typeof activarTooltipsRacha === "function") {
+            activarTooltipsRacha(contenedorRacha, partidos);
+        }
+    }
     });
+// ================================
+// FUNCIÓN PARA OTRAS PÁGINAS
+// ================================
+
+function generarHTMLRacha(nombreEquipo, todosLosPartidos, fechaPartido){
+    if(!fechaPartido) return "";
+    const fechaLimite = new Date(
+        fechaPartido.split("/").reverse().join("-")
+    );
+
+    const ultimos5 = todosLosPartidos
+        .filter(p=>{
+            if(!p.fecha || !partidoJugado(p)) return false;
+            const fecha = new Date(
+                p.fecha.split("/").reverse().join("-")
+            );
+            return fecha < fechaLimite &&
+                (
+                    p.local.trim()===nombreEquipo.trim() ||
+                    p.visitante.trim()===nombreEquipo.trim()
+                );
+        })
+        .sort((a,b)=>
+            new Date(a.fecha.split("/").reverse().join("-"))-
+            new Date(b.fecha.split("/").reverse().join("-"))
+        )
+        .slice(-5);
+    return ultimos5.map((p,index)=>{
+        const esLocal = p.local.trim()===nombreEquipo.trim();
+        const gf = esLocal
+            ? Number(p.goles_local)
+            : Number(p.goles_visitante);
+        const gc = esLocal
+            ? Number(p.goles_visitante)
+            : Number(p.goles_local);
+        let clase = "racha-e";
+        let letra = "E";
+
+        if (gf > gc) {
+            clase = "racha-v";
+            letra = "V";
+        }
+
+        if (gf < gc) {
+            clase = "racha-d";
+            letra = "D";
+        }
+
+        return `
+            <a href="partido.html?id=${p.id}" style="text-decoration:none;">
+                <div class="partido-racha ${clase}" data-id="${p.id}">
+                    ${letra}
+                </div>
+            </a>
+        `;
+    }).join("");
+
 }
 
-// racha.js - SOLO funciones, nada de código que se ejecute solo
-function generarHTMLRacha(nombreEquipo, todosLosPartidos, fechaPartido) {
-    if (!fechaPartido) return "";
 
-    const fechaLimite = new Date(fechaPartido.split('/').reverse().join('-'));
+// ================================
+// CSV -> JSON
+// ================================
 
-    const partidosEquipo = todosLosPartidos
-        .filter(p => {
-            if (!p.fecha) return false;
-            const fechaP = new Date(p.fecha.split('/').reverse().join('-'));
-            return p.goles_local !== "" && 
-                   fechaP < fechaLimite && 
-                   (p.local.trim() === nombreEquipo.trim() || p.visitante.trim() === nombreEquipo.trim());
-        })
-        .sort((a, b) => new Date(b.fecha.split('/').reverse().join('-')) - new Date(a.fecha.split('/').reverse().join('-')))
-        .slice(0, 5);
+function csvToJSON(csv){
+    const lines = csv.split("\n");
+    const headers = lines[0]
+        .split(",")
+        .map(h=>h.trim().toLowerCase());
+    return lines
+        .slice(1)
+        .filter(l=>l.trim()!=="")
+        .map(line=>{
+            const values=line.split(",");
+            const obj={};
+            headers.forEach((h,i)=>{
+                obj[h]=values[i] ? values[i].trim() : "";
+            });
+            return obj;
+        });
+}
 
-    const ultimos5 = partidosEquipo.reverse();
+function partidoJugado(partido) {
+    return partido &&
+        partido.goles_local !== "" &&
+        partido.goles_visitante !== "" &&
+        !isNaN(Number(partido.goles_local)) &&
+        !isNaN(Number(partido.goles_visitante));
+}
 
-    return ultimos5.map((p, index) => {
-        const esUltimo = index === (ultimos5.length - 1) ? "ultimo" : "";
-        const esLocal = p.local.trim() === nombreEquipo.trim();
-        const golesFavor = esLocal ? parseInt(p.goles_local) : parseInt(p.goles_visitante);
-        const golesContra = esLocal ? parseInt(p.goles_visitante) : parseInt(p.goles_local);
-        
-        let clase = golesFavor > golesContra ? "v" : (golesFavor < golesContra ? "d" : "e");
-        
-        // AQUÍ ESTÁ EL CAMBIO: Envolvemos el div en un enlace <a>
-        return `
-            <a href="partido.html?id=${p.id}" title="Jornada ${p.jornada}: ${p.local} ${p.goles_local}-${p.goles_visitante} ${p.visitante}" style="text-decoration: none;">
-                <div class="cuadrado-resultado ${clase} ${esUltimo}">
-                    ${clase.toUpperCase()}
-                </div>
-            </a>`;
-    }).join("");
+function partidoEnElPasado(partido, referencia) {
+    if (!partido || !partido.fecha) return false;
+    const fecha = new Date(partido.fecha.split("/").reverse().join("-"));
+    return !isNaN(fecha.getTime()) && fecha < referencia;
 }

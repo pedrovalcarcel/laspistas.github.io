@@ -7,30 +7,42 @@
     </head>
     <body class="pagina-jugadores">
         <header class ="cabecera">
-        <img src="escudo_laspistas.png" alt = "Escudo" class="escudo">
+        <a href="index.html">
+            <img src="escudo_laspistas.png" alt="Escudo" class="escudo">
+        </a>
         <div class ="cabecera-centro">
             <h1>Plantilla de LAS PISTAS FC</h1>
         <nav>
             <a href="index.html">Inicio</a>
             <a href="resultados.html">Resultados</a>
+            <a href="jugadores.html">Plantilla</a>
             <a href="estadisticas.html">Estadísticas</a>
+            <a href="historico.html">Histórico</a>
         </nav>
         </div>
         </header>
-        <main class="plantilla-grid">
-            <ul class ="lista-jugadores" id="lista-jugadores"></ul>
-            <div class = "ranking ranking-goles">
-                <h3>⚽ Ranking de Goles</h3>
-                <ul id="ranking-goles"></ul>
-            </div>
-            <div class="ranking ranking-asistencias">
-                <h3>🎯 Ranking de Asistencias</h3>
-                <ul id="ranking-asistencias"></ul>
-            </div>
-            <div class="ranking ranking-goles-asistencias">
-                <h3>🔥 Goles + Asistencias</h3>
-                <ul id="ranking-total"></ul>
+        <main class="plantilla-page">
+        <section class="plantilla-section">
+            <h2 class="titulo-seccion">Plantilla</h2>
+            <ul class="lista-jugadores" id="lista-jugadores"></ul>
+        </section>
+        <section class="rankings-section">
+            <h2 class="titulo-seccion">Rankings</h2>
+            <div class="rankings-grid">
+                <div class="ranking ranking-goles">
+                    <h3>⚽ Goles</h3>
+                    <ul id="ranking-goles"></ul>
+                </div>
+                <div class="ranking ranking-asistencias">
+                    <h3>🎯 Asistencias</h3>
+                    <ul id="ranking-asistencias"></ul>
+                </div>
+                <div class="ranking ranking-goles-asistencias">
+                    <h3>🔥 Goles + Asistencias</h3>
+                    <ul id="ranking-total"></ul>
+                </div>
             </div>
         </section>
+    </main>
         <script src="jugadores.js"></script>
     </body>

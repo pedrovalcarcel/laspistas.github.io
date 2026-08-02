@@ -9,8 +9,9 @@
 <body class="pagina-inicio">
 
     <header class="cabecera">
-        <img src="escudo_laspistas.png" alt="Escudo" class="escudo">
-        
+        <a href="index.html">
+            <img src="escudo_laspistas.png" alt="Escudo" class="escudo">
+        </a>
         <div class="cabecera-centro">
             <h1>LAS PISTAS FC</h1>
             <nav>
@@ -18,14 +19,16 @@
                 <a href="resultados.html">Resultados</a>
                 <a href="jugadores.html">Plantilla</a>
                 <a href="estadisticas.html">Estadísticas</a>
+                <a href="historico.html">Histórico</a>
             </nav>
         </div>
     </header>
 
     <section class="inicio-grid">
 
-    <!-- 1️⃣ CLASIFICACIÓN -->
-    <div class="bloque bloque-clasificacion">
+    <!-- ================= IZQUIERDA ================= -->
+
+    <section class="bloque bloque-clasificacion">
         <h2>Clasificación</h2>
         <table class="tabla-clasificacion">
             <thead>
@@ -38,38 +41,81 @@
                     <th>PP</th>
                     <th>GF</th>
                     <th>GC</th>
-                    <th>GA</th>
+                    <th>DG</th>
                     <th>Pts</th>
                 </tr>
             </thead>
             <tbody id="cuerpo-clasificacion"></tbody>
         </table>
-    </div>
+    </section>
 
-    <!-- 2️⃣ RESULTADOS -->
-    <div class="bloque bloque-resultados">
-        <h2>Últimos resultados</h2>
-        <div id="racha" class="racha"></div>
-
-        <div class="bloque bloque-foto">
-            <img src="foto_equipo_laspistas.jpg" class="foto-equipo">
+    <!-- ================= CENTRO ================= -->
+    <section class="bloque bloque-central">
+        <div class="bloque-racha">
+            <h2>Últimos 5 partidos</h2>
+            <div id="racha" class="racha"></div>
+        </div>
+        <div class="bloque-foto">
+            <img
+                src="foto_equipo_laspistas.jpg"
+                alt="Las Pistas FC"
+                class="foto-equipo"
+                id="foto-equipo"
+            >
         </div>
 
-        <div id="proximo-partido" class="proximo-partido"></div>
-    </div>
+        <div id="visor-foto" class="visor-foto">
+            <img
+                src="foto_equipo_laspistas.jpg"
+                alt="Las Pistas FC"
+                id="foto-grande"
+            >
+        </div>
+        <div class="bloque-proximo">
+            <h2>Próximo partido</h2>
+            <div id="proximo-partido"></div>
+        </div>
+        <!-- ==========================================
+            RANKING ATAQUE / DEFENSA
+        ========================================== -->
 
-    <!-- 3️⃣ CALENDARIO -->
-    <div class="bloque bloque-partidos">
-        <h3>Calendario</h3>
-        <ul id="partidos-mes"></ul>
-    </div>
+        <section class="tarjeta-ranking" id="tarjeta-ranking">
 
+            <h2>Ranking ofensivo y defensivo</h2>
+
+            <div id="contenido-ranking">
+
+                Cargando...
+
+            </div>
+
+        </section>
+    </section>
+
+    
+
+    <!-- ================= DERECHA ================= -->
+
+    <section class="bloque bloque-calendarios">
+        <div class="calendario-card">
+            <h2 id="titulo-calendario-actual"></h2>
+            <div id="calendario-actual"></div>
+        </div>
+        <div class="calendario-card">
+            <h2 id="titulo-calendario-siguiente"></h2>
+            <div id="calendario-siguiente"></div>
+        </div>
+    </section>
 </section>
 
     <script src="modeloPrediccion.js"></script>
+    <script src="temporada.js"></script>
+    <script src="calendario.js"></script>
     <script src="clasificacion.js"></script>
+    <script src="tooltip_racha.js"></script>
     <script src="racha.js"></script>
     <script src="partidos_mes.js"></script>
-
+    <script src="proximo_partido.js"></script>
+    <script src="foto_equipo.js"></script>
 </body>
 </html>

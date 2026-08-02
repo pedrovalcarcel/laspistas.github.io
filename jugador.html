@@ -1,56 +1,129 @@
 <!DOCTYPE html>
 <html lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>Jugador</title>
-        <link rel="stylesheet" href="styles.css">
-    </head>
-    <body class="pagina-jugador">
-        <header class ="cabecera">
-        <img src="escudo_laspistas.png" alt = "Escudo" class="escudo">
-        <div class ="cabecera-centro">
-            <h1 id="nombre-jugador"></h1>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil del Jugador - Las Pistas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<header class="cabecera">
+    <a href="index.html">
+        <img src="escudo_laspistas.png" alt="Escudo" class="escudo">
+    </a>
+    <div class="cabecera-centro">
+        <h1 id="nombre-jugador">Cargando jugador...</h1>
         <nav>
             <a href="index.html">Inicio</a>
             <a href="resultados.html">Resultados</a>
             <a href="jugadores.html">Plantilla</a>
             <a href="estadisticas.html">Estadísticas</a>
+            <a href="historico.html">Histórico</a>
         </nav>
-        </div>
-        </header>
-        <div class="pagina-jugador">
-        <h1 id="nombre-jugador"></h1>
-        <div class="info-jugador">
-        <img id="foto-jugador" alt="Foto jugador">
-        <ul>
-            <li><strong>Alias:</strong> <span id="alias"></span></li>
-            <li><strong>Fecha de nacimiento:</strong> <span id="fecha"></span></li>
-            <li><strong>Nacionalidad:</strong> <span id="nacionalidad"></span></li>
-            <li><strong>Comida favorita:</strong> <span id="comida"></span></li>
-            <li><strong>Frase identificativa:</strong> <span id="frase"></span></li>
-        </ul>
-        </div>
-        
-        <div class = "jugador-inferior">
-            <div class="campo">
-            <div class="pos por" data-pos="por"></div>
-            <div class="pos dfi" data-pos="dfi"></div>
-            <div class="pos dfc" data-pos="dfc"></div>
-            <div class="pos dfd" data-pos="dfd"></div>
-            <div class="pos mci" data-pos="mci"></div>
-            <div class="pos mcc" data-pos="mcc"></div>
-            <div class="pos mcd" data-pos="mcd"></div>
-            <div class="pos dci" data-pos="dci"></div>
-            <div class="pos dcc" data-pos="dcc"></div>
-            <div class="pos dcd" data-pos="dcd"></div>
-            </div>
-            <div class = "estadisticas" id="estadisticas">
-            </div>
-        </div>
-        
-        </div>
-        
-        <div id="pagina-jugador"></div>
-        <script src="jugador.js"></script>
+    </div>
+</header>
 
-    </body>
+
+<div class="contenedor-perfil">
+    <!-- ================= CAMPO ================= -->
+    <section class="campo-futbol">
+        <div class="fila-campo">
+            <div class="posicion">
+                <div class="circulo" data-pos="dci"></div>
+            </div>
+            <div class="posicion">
+                <div class="circulo" data-pos="dcc"></div>
+            </div>
+            <div class="posicion">
+                <div class="circulo" data-pos="dcd"></div>
+            </div>
+        </div>
+        <div class="fila-campo">
+            <div class="posicion">
+                <div class="circulo" data-pos="mci"></div>
+            </div>
+            <div class="posicion">
+                <div class="circulo" data-pos="mcc"></div>
+            </div>
+            <div class="posicion">
+                <div class="circulo" data-pos="mcd"></div>
+            </div>
+        </div>
+        <div class="fila-campo">
+            <div class="posicion">
+                <div class="circulo" data-pos="dfi"></div>
+            </div>
+
+            <div class="posicion">
+                <div class="circulo" data-pos="dfc"></div>
+            </div>
+
+            <div class="posicion">
+                <div class="circulo" data-pos="dfd"></div>
+            </div>
+        </div>
+        <div class="fila-portero">
+            <div class="posicion">
+                <div class="circulo" data-pos="por"></div>
+            </div>
+        </div>
+
+    </section>
+
+    <!-- ================= CARTA ================= -->
+
+    <section class="fifa-card">
+        <div class="card-top">
+            <div class="card-meta">
+                <div id="card-rating" class="card-rating">--</div>
+                <div id="card-pos" class="card-pos">---</div>
+                <div id="card-escudo" class="card-escudo">
+                    <img src="escudo_laspistas.png" alt="Escudo del equipo">
+                </div>
+                <div id="card-flag" class="card-flag"></div>
+            </div>
+            <div class="card-picture">
+                <img id="foto-jugador" alt="Jugador">
+            </div>
+        </div>
+        <div class="card-bottom">
+            <div id="card-name" class="card-name">
+                <span id="alias"></span>
+            </div>
+            <div class="card-divider"></div>
+            <div class="card-stats">
+                <div class="stat-col">
+                    <div><strong id="ritmo"></strong> <span>RIT</span></div>
+                    <div><strong id="tiro"></strong> <span>TIR</span></div>
+                    <div><strong id="pase"></strong> <span>PAS</span></div>
+                </div>
+                <div class="stat-col">
+                    <div><strong id="regate"></strong> <span>REG</span></div>
+                    <div><strong id="defensa"></strong> <span>DEF</span></div>
+                    <div><strong id="fisico"></strong> <span>FIS</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ================= DATOS ================= -->
+
+    <section class="datos-personales">
+        <h2>Datos personales</h2>
+        <p><strong>Fecha de nacimiento</strong><br><span id="fecha"></span></p>
+        <p><strong>Nacionalidad</strong><br><span id="nacionalidad"></span></p>
+        <p><strong>Frase identificativa</strong><br><span id="frase"></span></p>
+    </section>
+</div>
+<div class="bloque-estadisticas-inferior">
+    <div class="estadisticas-header">
+        <h2>Estadísticas</h2>
+        <select id="selector-temporada"></select>
+    </div>
+    <div id="estadisticas"></div>
+</div>
+<script src="jugador.js"></script>
+</body>
+</html>

@@ -6,7 +6,9 @@
 </head>
 <body class = "pagina-equipo">
     <header class ="cabecera">
-        <img src="escudo_laspistas.png" alt = "Escudo" class="escudo">
+        <a href="index.html">
+            <img src="escudo_laspistas.png" alt="Escudo" class="escudo">
+        </a>
         <div class ="cabecera-centro">
             <h1>Estadísticas de <span id="tituloEquipo"></span></h1>
         <nav>
@@ -14,19 +16,23 @@
             <a href="resultados.html">Resultados</a>
             <a href="jugadores.html">Plantilla</a>
             <a href="estadisticas.html">Estadísticas</a>
+            <a href="historico.html">Histórico</a>
         </nav>
         </div>
+        <img id="escudoEquipoPagina" class="escudo escudo-derecha" alt="Escudo del equipo">
         </header>
     
     <div class="dashboard-grid">
         <div class="col-izq">
-            <h3>Últimos 5 partidos</h3>
-            <div id="racha"></div>
             <h3>Partidos del equipo</h3>
             <div id="listaPartidosEquipo"></div>
         </div>
 
         <div class="col-centro">
+            <div class="grafica-wrapper racha-wrapper">
+                <h3>Últimos 5 partidos</h3>
+                <div id="racha" class="racha"></div>
+            </div>
             <div class="grafica-wrapper">
                 <canvas id="graficaPuntosEquipo"></canvas>
             </div>
@@ -48,7 +54,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="modeloPrediccion.js"></script>
+    <script src="temporada.js"></script>
     <script src="estadisticas.js"></script>
+    <script src="tooltip_racha.js"></script>
     <script src="equipo.js"></script>
 </body>
 </html>

@@ -18,7 +18,28 @@ Promise.all([
         stats[j.dorsal] = { ...j, goles: 0, asistencias: 0 };
         
         const li = document.createElement("li");
-        li.innerHTML = `<a href="jugador.html?dorsal=${j.dorsal}">${j.dorsal} - ${j.alias}</a>`;
+        li.innerHTML = `
+        <a class="jugador-card" href="jugador.html?dorsal=${j.dorsal}">
+            <div class="jugador-dorsal">
+                ${j.dorsal}
+            </div>
+            <div class="jugador-foto">
+                <img src="img/jugadores/${j.dorsal}.jpg" alt="${j.alias}">
+            </div>
+            <div class="jugador-info">
+                <h3>${j.nombre} ${j.apellidos}</h3>
+                <p class="alias"><Strong>${j.alias}</Strong></p>
+                <p>
+                    <strong></strong>
+                    ${j.nacionalidad}
+                </p>
+                <p>
+                    <strong></strong>
+                    ${j.posicion}
+                </p>
+            </div>
+        </a>
+        `;
         contenedorBotones.appendChild(li);
     });
 
@@ -49,7 +70,7 @@ function pintarRanking(id, ranking, valor) {
     ranking.forEach((j, i) => {
         const cantidad = typeof valor === "function" ? valor(j) : j[valor];
             const li = document.createElement("li");
-            li.innerHTML = `<strong>${i + 1}.</strong> <a href="jugador.html?dorsal=${j.dorsal}">${j.alias}</a>: ${cantidad}`;
+            li.innerHTML = `<strong>${i + 1}</strong> <a href="jugador.html?dorsal=${j.dorsal}">${j.alias}</a> ${cantidad}`;
             ul.appendChild(li);
     });
 }

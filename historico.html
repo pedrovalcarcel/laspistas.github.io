@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Histórico - Las Pistas</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="pagina-historico">
+
+<header class="cabecera">
+    <a href="index.html">
+        <img src="escudo_laspistas.png" alt="Escudo" class="escudo">
+    </a>
+    <div class="cabecera-centro">
+        <h1>Histórico</h1>
+        <nav>
+            <a href="index.html">Inicio</a>
+            <a href="resultados.html">Resultados</a>
+            <a href="jugadores.html">Plantilla</a>
+            <a href="estadisticas.html">Estadísticas</a>
+            <a href="historico.html">Histórico</a>
+        </nav>
+    </div>
+</header>
+
+<section class="contenedor-historico">
+    <div class="historico-filtro">
+        <label for="selector-temporada">Selecciona temporada</label>
+        <select id="selector-temporada"></select>
+    </div>
+
+    <section class="historico-seccion">
+        <h2>Resultados de la temporada</h2>
+        <div id="barra-resumen" class="barra-resumen"></div>
+        <div id="calendarios-resultados" class="grid-resultados"></div>
+    </section>
+
+    <section class="historico-seccion">
+        <h2>Rankings de jugadores</h2>
+        <div class="rankings-grid">
+            <div class="ranking ranking-goles">
+                <h3>⚽ Goles</h3>
+                <ul id="ranking-goles"></ul>
+            </div>
+            <div class="ranking ranking-asistencias">
+                <h3>🎯 Asistencias</h3>
+                <ul id="ranking-asistencias"></ul>
+            </div>
+            <div class="ranking ranking-goles-asistencias">
+                <h3>🔥 Goles + Asistencias</h3>
+                <ul id="ranking-total"></ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="historico-seccion">
+        <h2>Clasificación final</h2>
+        <div class="tabla-clasificacion-container">
+            <table class="tabla-clasificacion">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Equipo</th>
+                        <th>PJ</th>
+                        <th>PG</th>
+                        <th>PE</th>
+                        <th>PP</th>
+                        <th>GF</th>
+                        <th>GC</th>
+                        <th>GA</th>
+                        <th>PTS</th>
+                    </tr>
+                </thead>
+                <tbody id="cuerpo-clasificacion"></tbody>
+            </table>
+        </div>
+    </section>
+
+    <section class="historico-seccion">
+        <h2>Último partido de copa</h2>
+        <div id="ultimo-partido-copa" class="ultimo-partido-copa"></div>
+    </section>
+</section>
+
+<script>
+    var MI_EQUIPO = "Las Pistas FC";
+</script>
+<script src="calendario.js"></script>
+<script src="temporada.js"></script>
+<script src="modeloPrediccion.js"></script>
+<script src="historico.js"></script>
+
+</body>
+</html>

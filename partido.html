@@ -1,40 +1,127 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
-    <title>Detalle del Partido</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Acta del Partido</title>
+
     <link rel="stylesheet" href="styles.css">
 </head>
+
+
 <body class="pagina-partidos">
+
+
+    <!-- ==========================================
+         CABECERA
+    =========================================== -->
+
     <header class="cabecera">
-        <img src="escudo_laspistas.png" alt="Escudo" class="escudo">
+
+        <a href="index.html">
+
+            <img
+                src="escudo_laspistas.png"
+                alt="Escudo Las Pistas FC"
+                class="escudo"
+            >
+
+        </a>
+
+
         <div class="cabecera-centro">
-            <h1 id="titulo-partido"></h1>
+
+            <h1>Acta del Partido</h1>
+
+
             <nav>
-                <a href="index.html">Inicio</a>
-                <a href="resultados.html">Resultados</a>
-                <a href="jugadores.html">Plantilla</a>
-                <a href="estadisticas.html">Estadísticas</a>
+
+                <a href="index.html">
+                    Inicio
+                </a>
+
+                <a href="resultados.html">
+                    Resultados
+                </a>
+
+                <a href="jugadores.html">
+                    Plantilla
+                </a>
+
+                <a href="estadisticas.html">
+                    Estadísticas
+                </a>
+
+                <a href="historico.html">
+                    Histórico
+                </a>
+
             </nav>
+
         </div>
+
     </header>
 
-    <div id="pagina-detalle-partido"></div>
-    
-    <div class="contenedor-padre">
+
+
+    <!-- ==========================================
+         CONTENIDO DEL ACTA
+    =========================================== -->
+
+    <main class="contenedor-acta">
+
+        <!--
+            detalle_partido.js genera aquí
+            todo el contenido del acta.
+        -->
+
         <div id="pagina-detalle-partido"></div>
-        <div id="contenedor-prediccion"></div>
-    </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    </main>
 
-    <script src="https://unpkg.com/brain.js"></script>
 
+
+    <!-- ==========================================
+         LIBRERÍAS
+    =========================================== -->
+
+    <!-- PapaParse -->
+    <script
+        src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js">
+    </script>
+
+
+    <!-- Brain.js -->
+    <script
+        src="https://unpkg.com/brain.js">
+    </script>
+
+
+
+    <!-- ==========================================
+         ARCHIVOS DEL PROYECTO
+    =========================================== -->
+
+    <!-- Modelo / IA -->
     <script src="modeloPrediccion.js"></script>
+    <script src="temporada.js"></script>
+
+
+    <!-- Rachas -->
+    <script src="tooltip_racha.js"></script>
     <script src="racha.js"></script>
+
+
+    <!-- Lógica del acta -->
     <script src="detalle_partido.js"></script>
 
-    <script>
-        
-    </script>
+
 </body>
+
+</html>
