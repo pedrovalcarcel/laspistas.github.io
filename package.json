@@ -1,0 +1,14 @@
+{
+  "name": "laspistasfc",
+  "version": "1.0.0",
+  "description": "Generador del calendario Las Pistas FC",
+  "main": "scripts/generarCalendario.js",
+  "scripts": {
+    "calendario": "node scripts/generarCalendario.js"
+  },
+  "dependencies": {
+    "node-fetch": "^3.3.2",
+    "papaparse": "^5.4.1",
+    "ics": "^3.7.2"
+  }
+}
