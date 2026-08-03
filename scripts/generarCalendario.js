@@ -1,13 +1,10 @@
 // =======================================================
-// GENERADOR DE CALENDARIO
-// LAS PISTAS FC
+// GENERADOR DE CALENDARIO - LAS PISTAS FC
 // =======================================================
 
 const fs = require("fs");
 
 const Papa = require("papaparse");
-
-const { createEvents } = require("ics");
 
 const fetch = (...args) =>
     import("node-fetch")
@@ -15,7 +12,18 @@ const fetch = (...args) =>
 
 
 // =======================================================
-// CONFIGURACIÓN GLOBAL
+// CONFIGURACIÓN
+// =======================================================
+
+const MI_EQUIPO = "Las Pistas FC";
+
+const DURACION_PARTIDO = 60; // minutos
+
+const URL_WEB = "https://pedrovalcarcel.github.io";
+
+
+// =======================================================
+// CONFIGURACIÓN DE TEMPORADAS
 // =======================================================
 
 const {
@@ -27,15 +35,8 @@ const {
 } = require("../configTemporadas");
 
 
-const MI_EQUIPO = "Las Pistas FC";
-
-const URL_WEB = "https://pedrovalcarcel.github.io/laspistas.github.io/";
-
-const DURACION_PARTIDO = 60; // minutos
-
-
 // =======================================================
-// OBTENER TEMPORADA ACTUAL
+// TEMPORADA ACTUAL
 // =======================================================
 
 function obtenerTemporadaActual() {
@@ -58,28 +59,59 @@ function obtenerTemporadaActual() {
 
 
 // =======================================================
-// OBTENER URL DEL CSV
+// URL CSV
 // =======================================================
 
 function obtenerURLCSV() {
 
-    const temporada =
-        obtenerTemporadaActual();
+    const temporada = obtenerTemporadaActual();
 
-    const config =
-        TEMPORADA_CSV_GIDS[temporada];
+    const config = TEMPORADA_CSV_GIDS[temporada];
 
     if (!config) {
 
         throw new Error(
-
-            `No existe configuración para la temporada ${temporada}.`
-
+            `No existe configuración para la temporada ${temporada}`
         );
 
     }
 
     return `https://docs.google.com/spreadsheets/d/e/${SPREADSHEET_ID}/pub?gid=${config.partidos}&single=true&output=csv`;
+
+}
+
+
+// =======================================================
+// FORMATO ICS
+// =======================================================
+
+function dos(numero) {
+
+    return String(numero).padStart(2, "0");
+
+}
+
+function fechaICS(año, mes, dia, hora, minuto) {
+
+    return `${año}${dos(mes)}${dos(dia)}T${dos(hora)}${dos(minuto)}00`;
+
+}
+
+// =======================================================
+// ESCAPAR TEXTO ICS
+// =======================================================
+
+function escaparICS(texto) {
+
+    return String(texto || "")
+
+        .replace(/\\/g, "\\\\")
+
+        .replace(/\n/g, "\\n")
+
+        .replace(/,/g, "\\,")
+
+        .replace(/;/g, "\\;");
 
 }
 
@@ -97,27 +129,21 @@ async function descargarCSV() {
 
     console.log("====================================");
 
-    const respuesta = await fetch(
-
-        obtenerURLCSV()
-
-    );
+    const respuesta = await fetch(obtenerURLCSV());
 
     if (!respuesta.ok) {
 
         throw new Error(
-
-            `Error descargando el CSV (${respuesta.status})`
-
+            `No se pudo descargar el CSV (${respuesta.status})`
         );
 
     }
 
-    const texto = await respuesta.text();
+    const csv = await respuesta.text();
 
     console.log("✅ CSV descargado correctamente.");
 
-    return texto;
+    return csv;
 
 }
 
@@ -128,355 +154,42 @@ async function descargarCSV() {
 
 function convertirCSVaJSON(csv) {
 
-    const resultado = Papa.parse(
+    const resultado = Papa.parse(csv, {
 
-        csv,
+        header: true,
 
-        {
+        skipEmptyLines: true
 
-            header: true,
+    });
 
-            skipEmptyLines: true
+    const partidos = resultado.data;
 
-        }
+    console.log(`📄 ${partidos.length} partidos leídos.`);
 
-    );
-
-    if (resultado.errors.length > 0) {
-
-        console.warn("");
-
-        console.warn("⚠ Advertencias leyendo el CSV:");
-
-        console.warn(resultado.errors);
-
-    }
-
-    console.log(
-
-        `📄 ${resultado.data.length} partidos leídos.`
-
-    );
-
-    return resultado.data;
+    return partidos;
 
 }
 
-// =======================================================
-// VALIDAR PARTIDO
-// =======================================================
-
-function validarPartido(partido) {
-
-    //--------------------------------------------------
-    // ID
-    //--------------------------------------------------
-
-    if (!partido.id) {
-
-        console.warn("⚠ Partido sin ID.");
-
-        return false;
-
-    }
-
-    //--------------------------------------------------
-    // FECHA
-    //--------------------------------------------------
-
-    if (!partido.fecha) {
-
-        console.warn(
-
-            `⚠ Partido ${partido.id} sin fecha.`
-
-        );
-
-        return false;
-
-    }
-
-    //--------------------------------------------------
-    // HORA
-    //--------------------------------------------------
-
-    if (!partido.hora) {
-
-        console.warn(
-
-            `⚠ Partido ${partido.id} sin hora.`
-
-        );
-
-        return false;
-
-    }
-
-    //--------------------------------------------------
-    // LOCAL
-    //--------------------------------------------------
-
-    if (!partido.local) {
-
-        console.warn(
-
-            `⚠ Partido ${partido.id} sin equipo local.`
-
-        );
-
-        return false;
-
-    }
-
-    //--------------------------------------------------
-    // VISITANTE
-    //--------------------------------------------------
-
-    if (!partido.visitante) {
-
-        console.warn(
-
-            `⚠ Partido ${partido.id} sin equipo visitante.`
-
-        );
-
-        return false;
-
-    }
-
-    //--------------------------------------------------
-    // FORMATO FECHA
-    //--------------------------------------------------
-
-    const partesFecha = partido.fecha.split("/");
-
-    if (partesFecha.length !== 3) {
-
-        console.warn(
-
-            `⚠ Fecha incorrecta en partido ${partido.id}: ${partido.fecha}`
-
-        );
-
-        return false;
-
-    }
-
-    //--------------------------------------------------
-    // FORMATO HORA
-    //--------------------------------------------------
-
-    const partesHora = partido.hora.split(":");
-
-    if (partesHora.length !== 2) {
-
-        console.warn(
-
-            `⚠ Hora incorrecta en partido ${partido.id}: ${partido.hora}`
-
-        );
-
-        return false;
-
-    }
-
-    //--------------------------------------------------
-    // TODO CORRECTO
-    //--------------------------------------------------
-
-    return true;
-
-}
 
 // =======================================================
-// FILTRAR PARTIDOS PARA EL CALENDARIO
+// PARTIDOS DE LAS PISTAS
 // =======================================================
 
 function obtenerPartidosCalendario(partidos) {
 
-    const partidosCalendario = partidos.filter(partido => {
+    const partidosEquipo = partidos.filter(partido =>
 
-        //--------------------------------------------------
-        // Validación
-        //--------------------------------------------------
+        partido.local === MI_EQUIPO ||
 
-        if (!validarPartido(partido)) {
-
-            return false;
-
-        }
-
-        //--------------------------------------------------
-        // Solo partidos de Las Pistas FC
-        //--------------------------------------------------
-
-        if (
-
-            partido.local !== MI_EQUIPO &&
-            partido.visitante !== MI_EQUIPO
-
-        ) {
-
-            return false;
-
-        }
-
-        //--------------------------------------------------
-        // Ignorar amistosos
-        //--------------------------------------------------
-
-        if (
-
-            String(partido.jornada)
-                .trim()
-                .toLowerCase() === "amistoso"
-
-        ) {
-
-            return false;
-
-        }
-
-        return true;
-
-    });
-
-    console.log("");
-
-    console.log(
-
-        `⚽ ${partidosCalendario.length} partidos de ${MI_EQUIPO}.`
+        partido.visitante === MI_EQUIPO
 
     );
 
-    return partidosCalendario;
-
-}
-
-// =======================================================
-// CREAR EVENTOS ICS
-// =======================================================
-
-function crearEventos(partidos) {
-
-    const eventos = [];
-
-    for (const partido of partidos) {
-
-        //------------------------------------------
-        // FECHA
-        //------------------------------------------
-
-        const [dia, mes, año] =
-            partido.fecha.split("/").map(Number);
-
-        //------------------------------------------
-        // HORA
-        //------------------------------------------
-
-        const [hora, minuto] =
-            partido.hora.split(":").map(Number);
-
-        //------------------------------------------
-        // TÍTULO
-        //------------------------------------------
-
-        const titulo =
-            `⚽ Jornada ${partido.jornada} · ${partido.local} - ${partido.visitante}`;
-
-        //------------------------------------------
-        // DESCRIPCIÓN
-        //------------------------------------------
-
-        let descripcion = "";
-
-        descripcion += `Jornada ${partido.jornada}\n\n`;
-
-        descripcion += `🏠 Local: ${partido.local}\n`;
-
-        descripcion += `🚌 Visitante: ${partido.visitante}\n\n`;
-
-        descripcion += `📍 Campo: ${partido.campo || "Por confirmar"}\n`;
-
-        descripcion += `🕒 Hora: ${partido.hora}\n`;
-
-        descripcion += `👨‍⚖️ Árbitro: ${partido.arbitro || "Por confirmar"}\n\n`;
-
-        descripcion += `📄 Acta del partido:\n`;
-
-        descripcion += `${URL_WEB}/detalle_partido.html?id=${partido.id}\n\n`;
-
-        descripcion += `🌐 Web oficial:\n`;
-
-        descripcion += `${URL_WEB}`;
-
-        //------------------------------------------
-        // EVENTO
-        //------------------------------------------
-
-        eventos.push({
-
-            uid:
-                `partido-${partido.id}@pedrovalcarcel.github.io`,
-
-            title:
-                titulo,
-
-            description:
-                descripcion,
-
-            location:
-                partido.campo || "",
-
-            start: [
-
-                año,
-
-                mes,
-
-                dia,
-
-                hora,
-
-                minuto
-
-            ],
-
-            startInputType: "local",
-
-            startOutputType: "local",
-
-            duration: {
-
-                hours: Math.floor(DURACION_PARTIDO / 60),
-
-                minutes: DURACION_PARTIDO % 60
-
-            },
-
-            startOutputType: "local",
-
-            status: "CONFIRMED",
-
-            busyStatus: "BUSY",
-
-            organizer: {
-
-                name: "Las Pistas FC",
-
-                email: "no-reply@pedrovalcarcel.github.io"
-
-            }
-
-        });
-
-    }
-
     console.log("");
 
-    console.log(`📅 ${eventos.length} eventos creados.`);
+    console.log(`⚽ ${partidosEquipo.length} partidos de ${MI_EQUIPO}.`);
 
-    return eventos;
+    return partidosEquipo;
 
 }
 
@@ -484,55 +197,159 @@ function crearEventos(partidos) {
 // GENERAR ARCHIVO ICS
 // =======================================================
 
-async function generarArchivoICS(eventos) {
+function generarICS(partidos) {
 
-    return new Promise((resolve, reject) => {
+    let ics = "";
 
-        createEvents(
+    ics += "BEGIN:VCALENDAR\r\n";
+    ics += "VERSION:2.0\r\n";
+    ics += "PRODID:-//Las Pistas FC//Calendario//ES\r\n";
+    ics += "CALSCALE:GREGORIAN\r\n";
+    ics += "METHOD:PUBLISH\r\n";
+    ics += "X-WR-CALNAME:Las Pistas FC\r\n";
+    ics += "X-WR-TIMEZONE:Europe/Madrid\r\n";
 
-            eventos,
+    ics += "BEGIN:VTIMEZONE\r\n";
+    ics += "TZID:Europe/Madrid\r\n";
 
-            (error, valor) => {
+    ics += "BEGIN:DAYLIGHT\r\n";
+    ics += "TZOFFSETFROM:+0100\r\n";
+    ics += "TZOFFSETTO:+0200\r\n";
+    ics += "TZNAME:CEST\r\n";
+    ics += "DTSTART:19700329T020000\r\n";
+    ics += "RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU\r\n";
+    ics += "END:DAYLIGHT\r\n";
 
-                if (error) {
+    ics += "BEGIN:STANDARD\r\n";
+    ics += "TZOFFSETFROM:+0200\r\n";
+    ics += "TZOFFSETTO:+0100\r\n";
+    ics += "TZNAME:CET\r\n";
+    ics += "DTSTART:19701025T030000\r\n";
+    ics += "RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU\r\n";
+    ics += "END:STANDARD\r\n";
 
-                    reject(error);
+    ics += "END:VTIMEZONE\r\n";
 
-                    return;
+    for (const partido of partidos) {
 
-                }
+        const [dia, mes, año] =
+            partido.fecha.split("/").map(Number);
 
-                fs.writeFileSync(
+        const [hora, minuto] =
+            partido.hora.split(":").map(Number);
 
-                    "calendario.ics",
+        //------------------------------------------
+        // Hora de finalización
+        //------------------------------------------
 
-                    valor,
+        let finHora = hora;
+        let finMinuto = minuto + DURACION_PARTIDO;
 
-                    "utf8"
+        while (finMinuto >= 60) {
 
-                );
+            finHora++;
 
-                console.log("");
+            finMinuto -= 60;
 
-                console.log("====================================");
+        }
 
-                console.log("✅ Calendario generado correctamente");
+        //------------------------------------------
+        // UID
+        //------------------------------------------
 
-                console.log("====================================");
+        const uid =
+            `partido-${partido.id}@pedrovalcarcel.github.io`;
 
-                console.log(`📅 Eventos: ${eventos.length}`);
+        //------------------------------------------
+        // Título
+        //------------------------------------------
 
-                console.log("📄 Archivo: calendario.ics");
+        const titulo =
+            `⚽ Jornada ${partido.jornada} · ${partido.local} - ${partido.visitante}`;
 
-                console.log("");
+        //------------------------------------------
+        // Descripción
+        //------------------------------------------
 
-                resolve();
+        let descripcion = "";
 
-            }
+        descripcion += `Jornada ${partido.jornada}\\n\\n`;
 
-        );
+        descripcion += `🏠 Local: ${partido.local}\\n`;
 
-    });
+        descripcion += `🚌 Visitante: ${partido.visitante}\\n\\n`;
+
+        descripcion += `📍 Campo: ${partido.campo || "Por confirmar"}\\n`;
+
+        descripcion += `🕒 Hora: ${partido.hora}\\n`;
+
+        descripcion += `👨‍⚖️ Árbitro: ${partido.arbitro || "Por confirmar"}\\n\\n`;
+
+        descripcion += `📄 Acta:\\n`;
+
+        descripcion += `${URL_WEB}/detalle_partido.html?id=${partido.id}\\n\\n`;
+
+        descripcion += `🌐 ${URL_WEB}`;
+
+        //------------------------------------------
+        // Evento
+        //------------------------------------------
+
+        ics += "BEGIN:VEVENT\r\n";
+
+        ics += `UID:${uid}\r\n`;
+
+        ics += `SUMMARY:${escaparICS(titulo)}\r\n`;
+
+        ics += `DTSTAMP:${fechaICS(año, mes, dia, 0, 0)}Z\r\n`;
+
+        ics += `DTSTART;TZID=Europe/Madrid:${fechaICS(año, mes, dia, hora, minuto)}\r\n`;
+
+        ics += `DTEND;TZID=Europe/Madrid:${fechaICS(año, mes, dia, finHora, finMinuto)}\r\n`;
+
+        ics += `LOCATION:${escaparICS(partido.campo)}\r\n`;
+
+        ics += `DESCRIPTION:${escaparICS(descripcion)}\r\n`;
+
+        ics += "STATUS:CONFIRMED\r\n";
+
+        ics += "END:VEVENT\r\n";
+
+    }
+
+    ics += "END:VCALENDAR\r\n";
+
+    return ics;
+
+}
+
+// =======================================================
+// GUARDAR ARCHIVO ICS
+// =======================================================
+
+async function generarArchivoICS(partidos) {
+
+    const contenido = generarICS(partidos);
+
+    fs.writeFileSync(
+        "calendario.ics",
+        contenido,
+        "utf8"
+    );
+
+    console.log("");
+
+    console.log("====================================");
+
+    console.log("✅ Calendario generado correctamente");
+
+    console.log("====================================");
+
+    console.log(`📅 Eventos: ${partidos.length}`);
+
+    console.log("📄 Archivo: calendario.ics");
+
+    console.log("");
 
 }
 
@@ -554,35 +371,14 @@ async function generarArchivoICS(eventos) {
 
         console.log("====================================");
 
-        //--------------------------------------------------
-        // Descargar CSV
-        //--------------------------------------------------
-
         const csv = await descargarCSV();
-
-        //--------------------------------------------------
-        // Convertir a JSON
-        //--------------------------------------------------
 
         const partidos = convertirCSVaJSON(csv);
 
-        //--------------------------------------------------
-        // Filtrar partidos
-        //--------------------------------------------------
+        const partidosCalendario =
+            obtenerPartidosCalendario(partidos);
 
-        const partidosCalendario = obtenerPartidosCalendario(partidos);
-
-        //--------------------------------------------------
-        // Crear eventos
-        //--------------------------------------------------
-
-        const eventos = crearEventos(partidosCalendario);
-
-        //--------------------------------------------------
-        // Generar ICS
-        //--------------------------------------------------
-
-        await generarArchivoICS(eventos);
+        await generarArchivoICS(partidosCalendario);
 
         console.log("");
 
@@ -596,7 +392,7 @@ async function generarArchivoICS(eventos) {
 
         console.log(`Partidos leídos: ${partidos.length}`);
 
-        console.log(`Eventos generados: ${eventos.length}`);
+        console.log(`Eventos generados: ${partidosCalendario.length}`);
 
         console.log("");
 
