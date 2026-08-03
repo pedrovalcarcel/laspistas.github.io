@@ -3,7 +3,7 @@
 // =======================================
 
 const URL_CALENDARIO =
-    "https://pedrovalcarcel.github.io/laspistas.github.io/calendario.ics";
+    "https://pedrovalcarcel.github.io/laspistas.github.io/laspistasfc_calendario.ics";
 
 const URL_GOOGLE =
     "https://calendar.google.com/calendar/u/0/r/settings/addbyurl";
