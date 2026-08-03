@@ -5,6 +5,9 @@ on:
     branches:
       - main
 
+  schedule:
+    - cron: '0 */12 * * *'
+
   workflow_dispatch:
 
 jobs:
@@ -20,13 +23,14 @@ jobs:
       - name: Descargar repositorio
         uses: actions/checkout@v4
 
-      - name: Instalar Node.js
+      - name: Configurar Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: npm
 
       - name: Instalar dependencias
-        run: npm install
+        run: npm ci
 
       - name: Generar calendario
         run: npm run calendario
@@ -34,5 +38,5 @@ jobs:
       - name: Subir calendario actualizado
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: "Actualizar calendario ICS"
-          file_pattern: calendario.ics
+          commit_message: "Actualizar calendario automáticamente"
+          file_pattern: laspistasfc.ics

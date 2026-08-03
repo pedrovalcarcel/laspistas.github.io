@@ -45,9 +45,9 @@ function obtenerTemporadaActual() {
 
     const año = hoy.getFullYear();
 
-    const mes = hoy.getMonth() + 1;
+    const mes = hoy.getMonth() ;
 
-    if (mes >= 9) {
+    if (mes >= 8) {
 
         return `${año}/${String(año + 1).slice(-2)}`;
 
