@@ -292,4 +292,14 @@ LOCATION:Bolitas 2
 DESCRIPTION:Jornada 23\n\n🏠 Local: Las Pistas FC\n🚌 Visitante: Interamerica\n📍 Campo: Bolitas 2\n🕒 Hora: 9:00\n👨‍⚖️ Árbitro: Por confirmar\n\n📄 Acta\nhttps://pedrovalcarcel.github.io/laspistas.github.io/detalle_partido.html?id=137\n\n🌐 Web oficial\nhttps://pedrovalcarcel.github.io/laspistas.github.io
 STATUS:CONFIRMED
 END:VEVENT
+BEGIN:VEVENT
+UID:partido-138@pedrovalcarcel.github.io
+SUMMARY:⚽ Jornada 23 · Las Pistas FC - Prueba 4
+DTSTAMP:20260808T000000Z
+DTSTART;TZID=Europe/Madrid:20260808T110000
+DTEND;TZID=Europe/Madrid:20260808T120000
+LOCATION:C2
+DESCRIPTION:Jornada 23\n\n🏠 Local: Las Pistas FC\n🚌 Visitante: Prueba 4\n📍 Campo: C2\n🕒 Hora: 11:00\n👨‍⚖️ Árbitro: Por confirmar\n\n📄 Acta\nhttps://pedrovalcarcel.github.io/laspistas.github.io/detalle_partido.html?id=138\n\n🌐 Web oficial\nhttps://pedrovalcarcel.github.io/laspistas.github.io
+STATUS:CONFIRMED
+END:VEVENT
 END:VCALENDAR
