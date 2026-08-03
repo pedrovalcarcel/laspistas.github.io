@@ -29,7 +29,7 @@ DTSTAMP:20250928T000000Z
 DTSTART;TZID=Europe/Madrid:20250928T110000
 DTEND;TZID=Europe/Madrid:20250928T120000
 LOCATION:C2
-DESCRIPTION:Jornada 1\\n\\n🏠 Local: El Columpio FC\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 11:00\\n👨‍⚖️ Árbitro: 103\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=5\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 1\\n\\n🏠 Local: El Columpio FC\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 11:00\\n👨‍⚖️ Árbitro: 103\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=5\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -39,7 +39,7 @@ DTSTAMP:20251005T000000Z
 DTSTART;TZID=Europe/Madrid:20251005T110000
 DTEND;TZID=Europe/Madrid:20251005T120000
 LOCATION:C2
-DESCRIPTION:Jornada 2\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Las Jarritas de la Esquinita\\n\\n📍 Campo: C2\\n🕒 Hora: 11:00\\n👨‍⚖️ Árbitro: 105\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=7\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 2\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Las Jarritas de la Esquinita\\n\\n📍 Campo: C2\\n🕒 Hora: 11:00\\n👨‍⚖️ Árbitro: 105\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=7\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -49,7 +49,7 @@ DTSTAMP:20251018T000000Z
 DTSTART;TZID=Europe/Madrid:20251018T160000
 DTEND;TZID=Europe/Madrid:20251018T170000
 LOCATION:C1
-DESCRIPTION:Jornada 3\\n\\n🏠 Local: Te Camelo FC\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C1\\n🕒 Hora: 16:00\\n👨‍⚖️ Árbitro: 109\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=13\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 3\\n\\n🏠 Local: Te Camelo FC\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C1\\n🕒 Hora: 16:00\\n👨‍⚖️ Árbitro: 109\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=13\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -59,7 +59,7 @@ DTSTAMP:20251026T000000Z
 DTSTART;TZID=Europe/Madrid:20251026T090000
 DTEND;TZID=Europe/Madrid:20251026T100000
 LOCATION:C2
-DESCRIPTION:Jornada Previa Copa\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: River Valdemoro\\n\\n📍 Campo: C2\\n🕒 Hora: 9:00\\n👨‍⚖️ Árbitro: 106\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=19\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada Previa Copa\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: River Valdemoro\\n\\n📍 Campo: C2\\n🕒 Hora: 9:00\\n👨‍⚖️ Árbitro: 106\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=19\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -69,7 +69,7 @@ DTSTAMP:20251108T000000Z
 DTSTART;TZID=Europe/Madrid:20251108T150000
 DTEND;TZID=Europe/Madrid:20251108T160000
 LOCATION:C2
-DESCRIPTION:Jornada 4\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Ramones\\n\\n📍 Campo: C2\\n🕒 Hora: 15:00\\n👨‍⚖️ Árbitro: 103\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=20\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 4\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Ramones\\n\\n📍 Campo: C2\\n🕒 Hora: 15:00\\n👨‍⚖️ Árbitro: 103\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=20\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -79,7 +79,7 @@ DTSTAMP:20251116T000000Z
 DTSTART;TZID=Europe/Madrid:20251116T090000
 DTEND;TZID=Europe/Madrid:20251116T100000
 LOCATION:C2
-DESCRIPTION:Jornada 5\\n\\n🏠 Local: El Chimbazo FC\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 9:00\\n👨‍⚖️ Árbitro: 102\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=26\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 5\\n\\n🏠 Local: El Chimbazo FC\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 9:00\\n👨‍⚖️ Árbitro: 102\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=26\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -89,7 +89,7 @@ DTSTAMP:20251122T000000Z
 DTSTART;TZID=Europe/Madrid:20251122T200000
 DTEND;TZID=Europe/Madrid:20251122T210000
 LOCATION:C2
-DESCRIPTION:Jornada 6\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Interamerica\\n\\n📍 Campo: C2\\n🕒 Hora: 20:00\\n👨‍⚖️ Árbitro: 105\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=32\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 6\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Interamerica\\n\\n📍 Campo: C2\\n🕒 Hora: 20:00\\n👨‍⚖️ Árbitro: 105\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=32\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -99,7 +99,7 @@ DTSTAMP:20251130T000000Z
 DTSTART;TZID=Europe/Madrid:20251130T090000
 DTEND;TZID=Europe/Madrid:20251130T100000
 LOCATION:Bolitas 1
-DESCRIPTION:Jornada Primera ronda Copa\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Samados\\n\\n📍 Campo: Bolitas 1\\n🕒 Hora: 9:00\\n👨‍⚖️ Árbitro: 102\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=38\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada Primera ronda Copa\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Samados\\n\\n📍 Campo: Bolitas 1\\n🕒 Hora: 9:00\\n👨‍⚖️ Árbitro: 102\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=38\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -109,7 +109,7 @@ DTSTAMP:20251214T000000Z
 DTSTART;TZID=Europe/Madrid:20251214T120000
 DTEND;TZID=Europe/Madrid:20251214T130000
 LOCATION:C2
-DESCRIPTION:Jornada 7\\n\\n🏠 Local: Aegis FC\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 12:00\\n👨‍⚖️ Árbitro: 105\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=39\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 7\\n\\n🏠 Local: Aegis FC\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 12:00\\n👨‍⚖️ Árbitro: 105\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=39\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -119,7 +119,7 @@ DTSTAMP:20251221T000000Z
 DTSTART;TZID=Europe/Madrid:20251221T110000
 DTEND;TZID=Europe/Madrid:20251221T120000
 LOCATION:Bolitas 2
-DESCRIPTION:Jornada 8\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Ershiquiteto \\n\\n📍 Campo: Bolitas 2\\n🕒 Hora: 11:00\\n👨‍⚖️ Árbitro: 106\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=45\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 8\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Ershiquiteto \\n\\n📍 Campo: Bolitas 2\\n🕒 Hora: 11:00\\n👨‍⚖️ Árbitro: 106\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=45\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -129,7 +129,7 @@ DTSTAMP:20260110T000000Z
 DTSTART;TZID=Europe/Madrid:20260110T190000
 DTEND;TZID=Europe/Madrid:20260110T200000
 LOCATION:Bolitas 2
-DESCRIPTION:Jornada Dieciseisavos Copa\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Bar Pencho\\n\\n📍 Campo: Bolitas 2\\n🕒 Hora: 19:00\\n👨‍⚖️ Árbitro: 102\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=51\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada Dieciseisavos Copa\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Bar Pencho\\n\\n📍 Campo: Bolitas 2\\n🕒 Hora: 19:00\\n👨‍⚖️ Árbitro: 102\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=51\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -139,7 +139,7 @@ DTSTAMP:20260117T000000Z
 DTSTART;TZID=Europe/Madrid:20260117T160000
 DTEND;TZID=Europe/Madrid:20260117T170000
 LOCATION:C1
-DESCRIPTION:Jornada 9\\n\\n🏠 Local: Área 51 FC\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C1\\n🕒 Hora: 16:00\\n👨‍⚖️ Árbitro: 106\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=52\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 9\\n\\n🏠 Local: Área 51 FC\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C1\\n🕒 Hora: 16:00\\n👨‍⚖️ Árbitro: 106\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=52\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -149,7 +149,7 @@ DTSTAMP:20260125T000000Z
 DTSTART;TZID=Europe/Madrid:20260125T110000
 DTEND;TZID=Europe/Madrid:20260125T120000
 LOCATION:C2
-DESCRIPTION:Jornada 10\\n\\n🏠 Local: Wolfy FC\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 11:00\\n👨‍⚖️ Árbitro: 109\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=58\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 10\\n\\n🏠 Local: Wolfy FC\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 11:00\\n👨‍⚖️ Árbitro: 109\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=58\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -159,7 +159,7 @@ DTSTAMP:20260201T000000Z
 DTSTART;TZID=Europe/Madrid:20260201T090000
 DTEND;TZID=Europe/Madrid:20260201T100000
 LOCATION:C2
-DESCRIPTION:Jornada 11\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Cerberos CF\\n\\n📍 Campo: C2\\n🕒 Hora: 9:00\\n👨‍⚖️ Árbitro: 105\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=64\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 11\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Cerberos CF\\n\\n📍 Campo: C2\\n🕒 Hora: 9:00\\n👨‍⚖️ Árbitro: 105\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=64\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -169,7 +169,7 @@ DTSTAMP:20260208T000000Z
 DTSTART;TZID=Europe/Madrid:20260208T110000
 DTEND;TZID=Europe/Madrid:20260208T120000
 LOCATION:C2
-DESCRIPTION:Jornada 12\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: El Columpio FC\\n\\n📍 Campo: C2\\n🕒 Hora: 11:00\\n👨‍⚖️ Árbitro: 101\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=70\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 12\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: El Columpio FC\\n\\n📍 Campo: C2\\n🕒 Hora: 11:00\\n👨‍⚖️ Árbitro: 101\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=70\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -179,7 +179,7 @@ DTSTAMP:20260214T000000Z
 DTSTART;TZID=Europe/Madrid:20260214T200000
 DTEND;TZID=Europe/Madrid:20260214T210000
 LOCATION:Bolitas 2
-DESCRIPTION:Jornada Octavos Copa\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: ATM TEAM\\n\\n📍 Campo: Bolitas 2\\n🕒 Hora: 20:00\\n👨‍⚖️ Árbitro: 101\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=76\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada Octavos Copa\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: ATM TEAM\\n\\n📍 Campo: Bolitas 2\\n🕒 Hora: 20:00\\n👨‍⚖️ Árbitro: 101\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=76\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -189,7 +189,7 @@ DTSTAMP:20260222T000000Z
 DTSTART;TZID=Europe/Madrid:20260222T090000
 DTEND;TZID=Europe/Madrid:20260222T100000
 LOCATION:C2
-DESCRIPTION:Jornada 13\\n\\n🏠 Local: Las Jarritas de la Esquinita\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 9:00\\n👨‍⚖️ Árbitro: 102\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=77\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 13\\n\\n🏠 Local: Las Jarritas de la Esquinita\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 9:00\\n👨‍⚖️ Árbitro: 102\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=77\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -199,7 +199,7 @@ DTSTAMP:20260228T000000Z
 DTSTART;TZID=Europe/Madrid:20260228T200000
 DTEND;TZID=Europe/Madrid:20260228T210000
 LOCATION:C2
-DESCRIPTION:Jornada 14\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Te Camelo FC\\n\\n📍 Campo: C2\\n🕒 Hora: 20:00\\n👨‍⚖️ Árbitro: 102\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=83\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 14\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Te Camelo FC\\n\\n📍 Campo: C2\\n🕒 Hora: 20:00\\n👨‍⚖️ Árbitro: 102\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=83\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -209,7 +209,7 @@ DTSTAMP:20260308T000000Z
 DTSTART;TZID=Europe/Madrid:20260308T090000
 DTEND;TZID=Europe/Madrid:20260308T100000
 LOCATION:C2
-DESCRIPTION:Jornada 15\\n\\n🏠 Local: Ramones\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 9:00\\n👨‍⚖️ Árbitro: 105\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=89\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 15\\n\\n🏠 Local: Ramones\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 9:00\\n👨‍⚖️ Árbitro: 105\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=89\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -219,7 +219,7 @@ DTSTAMP:20260322T000000Z
 DTSTART;TZID=Europe/Madrid:20260322T110000
 DTEND;TZID=Europe/Madrid:20260322T120000
 LOCATION:C2
-DESCRIPTION:Jornada 16\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: El Chimbazo FC\\n\\n📍 Campo: C2\\n🕒 Hora: 11:00\\n👨‍⚖️ Árbitro: 102\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=95\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 16\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: El Chimbazo FC\\n\\n📍 Campo: C2\\n🕒 Hora: 11:00\\n👨‍⚖️ Árbitro: 102\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=95\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -229,7 +229,7 @@ DTSTAMP:20260412T000000Z
 DTSTART;TZID=Europe/Madrid:20260412T120000
 DTEND;TZID=Europe/Madrid:20260412T130000
 LOCATION:C2
-DESCRIPTION:Jornada 17\\n\\n🏠 Local: Interamerica\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 12:00\\n👨‍⚖️ Árbitro: 106\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=106\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 17\\n\\n🏠 Local: Interamerica\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 12:00\\n👨‍⚖️ Árbitro: 106\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=106\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -239,7 +239,7 @@ DTSTAMP:20260419T000000Z
 DTSTART;TZID=Europe/Madrid:20260419T090000
 DTEND;TZID=Europe/Madrid:20260419T100000
 LOCATION:C2
-DESCRIPTION:Jornada 18\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Aegis FC\\n\\n📍 Campo: C2\\n🕒 Hora: 9:00\\n👨‍⚖️ Árbitro: 102\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=110\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 18\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Aegis FC\\n\\n📍 Campo: C2\\n🕒 Hora: 9:00\\n👨‍⚖️ Árbitro: 102\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=110\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -249,7 +249,7 @@ DTSTAMP:20260425T000000Z
 DTSTART;TZID=Europe/Madrid:20260425T150000
 DTEND;TZID=Europe/Madrid:20260425T160000
 LOCATION:C2
-DESCRIPTION:Jornada 19\\n\\n🏠 Local: Ershiquiteto \\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 15:00\\n👨‍⚖️ Árbitro: 109\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=114\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 19\\n\\n🏠 Local: Ershiquiteto \\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 15:00\\n👨‍⚖️ Árbitro: 109\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=114\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -259,7 +259,7 @@ DTSTAMP:20260510T000000Z
 DTSTART;TZID=Europe/Madrid:20260510T120000
 DTEND;TZID=Europe/Madrid:20260510T130000
 LOCATION:C1
-DESCRIPTION:Jornada 20\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Área 51 FC\\n\\n📍 Campo: C1\\n🕒 Hora: 12:00\\n👨‍⚖️ Árbitro: 103\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=124\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 20\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Área 51 FC\\n\\n📍 Campo: C1\\n🕒 Hora: 12:00\\n👨‍⚖️ Árbitro: 103\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=124\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -269,7 +269,7 @@ DTSTAMP:20260516T000000Z
 DTSTART;TZID=Europe/Madrid:20260516T160000
 DTEND;TZID=Europe/Madrid:20260516T170000
 LOCATION:C1
-DESCRIPTION:Jornada 21\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Wolfy FC\\n\\n📍 Campo: C1\\n🕒 Hora: 16:00\\n👨‍⚖️ Árbitro: 109\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=125\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 21\\n\\n🏠 Local: Las Pistas FC\\n🚌 Visitante: Wolfy FC\\n\\n📍 Campo: C1\\n🕒 Hora: 16:00\\n👨‍⚖️ Árbitro: 109\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=125\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 BEGIN:VEVENT
@@ -279,7 +279,7 @@ DTSTAMP:20260531T000000Z
 DTSTART;TZID=Europe/Madrid:20260531T090000
 DTEND;TZID=Europe/Madrid:20260531T100000
 LOCATION:C2
-DESCRIPTION:Jornada 22\\n\\n🏠 Local: Cerberos CF\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 9:00\\n👨‍⚖️ Árbitro: 106\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/detalle_partido.html?id=134\\n\\n🌐 https://pedrovalcarcel.github.io
+DESCRIPTION:Jornada 22\\n\\n🏠 Local: Cerberos CF\\n🚌 Visitante: Las Pistas FC\\n\\n📍 Campo: C2\\n🕒 Hora: 9:00\\n👨‍⚖️ Árbitro: 106\\n\\n📄 Acta:\\nhttps://pedrovalcarcel.github.io/laspistas.github.io//detalle_partido.html?id=134\\n\\n🌐 https://pedrovalcarcel.github.io/laspistas.github.io/
 STATUS:CONFIRMED
 END:VEVENT
 END:VCALENDAR
