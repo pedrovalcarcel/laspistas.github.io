@@ -332,7 +332,7 @@ async function generarArchivoICS(partidos) {
     const contenido = generarICS(partidos);
 
     fs.writeFileSync(
-        "calendario-test.ics",
+        "laspistasfc_calendario.ics",
         contenido,
         "utf8"
     );
