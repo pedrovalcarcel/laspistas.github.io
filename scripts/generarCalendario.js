@@ -19,7 +19,7 @@ const MI_EQUIPO = "Las Pistas FC";
 
 const DURACION_PARTIDO = 60; // minutos
 
-const URL_WEB = "https://pedrovalcarcel.github.io/laspistas.github.io/";
+const URL_WEB = "https://pedrovalcarcel.github.io/laspistas.github.io";
 
 
 // =======================================================
