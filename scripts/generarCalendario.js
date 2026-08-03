@@ -273,23 +273,24 @@ function generarICS(partidos) {
 
         let descripcion = "";
 
-        descripcion += `Jornada ${partido.jornada}\\n\\n`;
+        descripcion += `Jornada ${partido.jornada}\n`;
+        descripcion += `\n`;
 
-        descripcion += `🏠 Local: ${partido.local}\\n`;
+        descripcion += `🏠 Local: ${partido.local}\n`;
+        descripcion += `🚌 Visitante: ${partido.visitante}\n`;
+        descripcion += `📍 Campo: ${partido.campo || "Por confirmar"}\n`;
+        descripcion += `🕒 Hora: ${partido.hora}\n`;
+        descripcion += `👨‍⚖️ Árbitro: ${partido.arbitro || "Por confirmar"}\n`;
 
-        descripcion += `🚌 Visitante: ${partido.visitante}\\n\\n`;
+        descripcion += `\n`;
 
-        descripcion += `📍 Campo: ${partido.campo || "Por confirmar"}\\n`;
+        descripcion += `📄 Acta\n`;
+        descripcion += `${URL_WEB}/detalle_partido.html?id=${partido.id}\n`;
 
-        descripcion += `🕒 Hora: ${partido.hora}\\n`;
+        descripcion += `\n`;
 
-        descripcion += `👨‍⚖️ Árbitro: ${partido.arbitro || "Por confirmar"}\\n\\n`;
-
-        descripcion += `📄 Acta:\\n`;
-
-        descripcion += `${URL_WEB}/detalle_partido.html?id=${partido.id}\\n\\n`;
-
-        descripcion += `🌐 ${URL_WEB}`;
+        descripcion += `🌐 Web oficial\n`;
+        descripcion += `${URL_WEB}`;
 
         //------------------------------------------
         // Evento
