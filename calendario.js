@@ -180,6 +180,17 @@ const partido = partidos.find(p => {
             </div>
             `;
         }
+        else {
+            resultadoHTML = `
+                <div class="equipos">
+                ${partido.local}
+                <div class="vs">VS</div>
+                ${partido.visitante}
+            </div>
+            `;
+
+            
+        }
         tooltip.innerHTML = `
             <div class="competicion">
                 ${competicion}
