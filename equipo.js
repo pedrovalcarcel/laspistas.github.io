@@ -133,8 +133,7 @@ function pintarRacha(partidos, nombre) {
     const partidosConResultado = partidos.filter(
         p => p.goles_local !== "" && p.goles_visitante !== ""
     );
-
-    const ultimos5 = partidosConResultado.slice(-5);
+    const ultimos5 = partidosConResultado.slice(0, 5).reverse();
 
     if (ultimos5.length === 0) {
         contenedor.innerHTML = '<p class="sin-datos">No hay resultados recientes.</p>';

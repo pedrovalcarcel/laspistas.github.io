@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Generador del calendario Las Pistas FC",
   "main": "scripts/generarCalendario.js",
+  "private": true,
   "scripts": {
     "calendario": "node scripts/generarCalendario.js"
   },
