@@ -31,7 +31,7 @@ const MI_EQUIPO = "Las Pistas FC";
 
 const URL_WEB = "https://pedrovalcarcel.github.io/laspistas.github.io/";
 
-const DURACION_PARTIDO = 90; // minutos
+const DURACION_PARTIDO = 60; // minutos
 
 
 // =======================================================
@@ -441,6 +441,10 @@ function crearEventos(partidos) {
                 minuto
 
             ],
+
+            startInputType: "local",
+
+            startOutputType: "local",
 
             duration: {
 
