@@ -114,7 +114,7 @@ function pintarJugador(jugador){
             alt="${jugador.nacionalidad}">
     `;
     document.getElementById("nacionalidad").textContent =
-        jugador.nacionalidad;
+        jugador.nacionalidad; //Para que haga el rebuild
     document.getElementById("ritmo").textContent=card.ritmo;
     document.getElementById("tiro").textContent=card.tiro;
     document.getElementById("pase").textContent=card.pase;
