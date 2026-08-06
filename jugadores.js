@@ -16,6 +16,11 @@ Promise.all([
     jugadores.forEach(j => {
         // Inicializamos stats aquí mismo para ahorrar bucles
         stats[j.dorsal] = { ...j, goles: 0, asistencias: 0 };
+
+        const paisArchivo = j.nacionalidad
+            .normalize("NFD")
+            .replace(/[\u0300-\u036f]/g, "")
+            .toLowerCase();
         
         const li = document.createElement("li");
         li.innerHTML = `
@@ -29,10 +34,12 @@ Promise.all([
             <div class="jugador-info">
                 <h3>${j.nombre} ${j.apellidos}</h3>
                 <p class="alias"><Strong>${j.alias}</Strong></p>
-                <p>
-                    <strong></strong>
-                    ${j.nacionalidad}
-                </p>
+                <div class="nacionalidad">
+                    <img
+                        class="bandera"
+                        src="img/banderas/${paisArchivo}.png"
+                        alt="${j.nacionalidad}">
+                </div>
                 <p>
                     <strong></strong>
                     ${j.posicion}

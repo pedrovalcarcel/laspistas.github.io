@@ -2419,6 +2419,93 @@ TARJETAS DE JUGADORES
     letter-spacing:.5px;
 }
 
+.bandera{
+
+    width:32px;
+
+    height:auto;
+
+    display:block;
+
+    margin:0 auto;
+
+    object-fit:contain;
+
+    border:none !important;
+
+    border-radius:0 !important;
+
+    box-shadow:none !important;
+
+}
+
+.nacionalidad{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:8px;
+
+}
+
+.bandera-jugador{
+    width:60px;
+    height:auto;
+    display:block;
+    margin:20px auto;
+    border:none;
+    box-shadow:none;
+}
+
+.jugador-foto .bandera-jugador{
+
+    width:60px;
+
+    height:auto;
+
+    object-fit:contain;
+
+    border:none;
+
+    border-radius:0;
+
+    box-shadow:none;
+
+}
+
+.card-flag img{
+
+    width:55px;
+
+    height:auto;
+
+    border:none;
+
+    border-radius:0;
+
+    box-shadow:none;
+
+}
+
+.jugador-info .bandera{
+
+    margin-top: 10px;
+
+    width:55px;
+
+    height:auto;
+
+    border:none !important;
+
+    border-radius:0 !important;
+
+    box-shadow:none !important;
+
+    object-fit:contain;
+
+}
+
 /*==================================================
                 DATOS PERSONALES
 ==================================================*/

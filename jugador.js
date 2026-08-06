@@ -14,6 +14,8 @@ const temporadas={
     }
 };
 
+
+
 const urlJugadores="jugadores.json";
 
 function urlCSV(gid){
@@ -89,13 +91,30 @@ function pintarJugador(jugador){
     document.getElementById("nombre-jugador").textContent=`${jugador.nombre} ${jugador.apellidos}`;
     document.getElementById("alias").textContent=jugador.alias;
     document.getElementById("fecha").textContent=jugador.fecha_nacimiento;
-    document.getElementById("nacionalidad").textContent=jugador.nacionalidad;
+    document.getElementById("nacionalidad").innerHTML = `
+        <img
+            src="img/banderas/${jugador.nacionalidad}.png"
+            class="bandera"
+            alt="${jugador.nacionalidad}">
+        ${jugador.nacionalidad}
+    `;
     document.getElementById("frase").textContent=jugador.frase;
     document.getElementById("foto-jugador").src =`img/jugadores/${jugador.dorsal}.jpg`;
     const card=jugador["card-stats"];
     document.getElementById("card-rating").textContent=card.media;
     document.getElementById("card-pos").textContent=jugador.posicion;
-    document.getElementById("card-flag").textContent=jugador.nacionalidad.split(" ").pop();
+    const paisArchivo = jugador.nacionalidad
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .toLowerCase();
+    document.getElementById("card-flag").innerHTML = `
+        <img
+            src="img/banderas/${paisArchivo}.png"
+            class="bandera-jugador"
+            alt="${jugador.nacionalidad}">
+    `;
+    document.getElementById("nacionalidad").textContent =
+        jugador.nacionalidad;
     document.getElementById("ritmo").textContent=card.ritmo;
     document.getElementById("tiro").textContent=card.tiro;
     document.getElementById("pase").textContent=card.pase;
