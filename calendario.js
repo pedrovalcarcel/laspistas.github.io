@@ -110,9 +110,9 @@ function crearCalendario(ano, mes, partidos, contenedor, idTitulo){
         const vacio = document.createElement("div");
         grid.appendChild(vacio);
     }
-    // Número de días del mes
+    //Número de días del mes
     const diasMes = new Date(ano, mes + 1, 0).getDate();
-    // Crear todos los días
+    //Crear todos los días
     for(let dia = 1; dia <= diasMes; dia++){
         const celda = document.createElement("div");
         celda.className = "dia";
