@@ -1273,19 +1273,20 @@ function generarBloqueClasificacionPrevia(
             posicionesAnteriores[equipo.equipo];
 
         let flecha = "";
+        let diferenciaPosicion = 0;
 
             if (posicionAnterior) {
 
                 if (posicionActual < posicionAnterior) {
-
+                    diferenciaPosicion = posicionAnterior - posicionActual;
                     flecha =
-                        '<span class="flecha-clasi subida">▲</span>';
+                        `<span class="flecha-clasi subida">▲ ${diferenciaPosicion} </span>`;
 
                 }
                 else if (posicionActual > posicionAnterior) {
-
+                    diferenciaPosicion = posicionActual - posicionAnterior;
                     flecha =
-                        '<span class="flecha-clasi bajada">▼</span>';
+                        `<span class="flecha-clasi bajada">▼ ${diferenciaPosicion} </span>`;
 
                 }
                 else {
