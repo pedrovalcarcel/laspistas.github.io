@@ -73,7 +73,7 @@ fetch(urlPartidosC)
                 // Si estamos en la primera jornada no mostramos movimiento
                     // Si estamos en la primera jornada no mostramos movimiento
                     let movimiento = "";
-
+                    let diferencia = 0;
                     if (ultimaJornada > 1) {
 
                         const posicionAnterior =
@@ -84,15 +84,15 @@ fetch(urlPartidosC)
                         if (posicionAnterior !== -1) {
 
                             if (posicionAnterior > i) {
-
+                                diferencia = posicionAnterior - i;
                                 movimiento =
-                                    '<span class="mov subida">▲</span>';
+                                    '<span class="mov subida">▲ ${diferencia}</span>';
 
                             }
                             else if (posicionAnterior < i) {
-
+                                diferencia = posicionAnterior - i;
                                 movimiento =
-                                    '<span class="mov bajada">▼</span>';
+                                    '<span class="mov bajada">▼ -${diferencia}</span>';
 
                             }
                             else {
