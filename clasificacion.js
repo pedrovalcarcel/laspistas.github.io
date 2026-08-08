@@ -63,48 +63,41 @@ fetch(urlPartidosC)
             );
 
         // Imprimir en el tbody
-        const tbody = document.getElementById("cuerpo-clasificacion");
-            tbody.innerHTML = tablaArray.map((eq, i) => {
-                const posicionAnterior =
-                    tablaAnteriorArray.findIndex(
-                        e => e.equipo === eq.equipo
-                    );
+       const tbody = document.getElementById("cuerpo-clasificacion");
 
-                // Si estamos en la primera jornada no mostramos movimiento
-                    // Si estamos en la primera jornada no mostramos movimiento
-                    let movimiento = "";
-                    let diferencia = 0;
-                    if (ultimaJornada > 1) {
-
-                        const posicionAnterior =
-                            tablaAnteriorArray.findIndex(
-                                e => e.equipo === eq.equipo
-                            );
-
-                        if (posicionAnterior !== -1) {
-
-                            if (posicionAnterior > i) {
-                                diferencia = posicionAnterior - i;
-                                movimiento =
-                                    '<span class="mov subida">▲ ${diferencia}</span>';
-
-                            }
-                            else if (posicionAnterior < i) {
-                                diferencia = posicionAnterior - i;
-                                movimiento =
-                                    '<span class="mov bajada">▼ -${diferencia}</span>';
-
-                            }
-                            else {
-
-                                movimiento =
-                                    '<span class="mov igual">=</span>';
-
-                            }
-
-                        }
-
+        tbody.innerHTML = tablaArray.map((eq, i) => {
+        
+            let movimiento = "";
+            let diferencia = 0;
+        
+            // Si no estamos en la primera jornada
+            if (ultimaJornada > 1) {
+        
+                const posicionAnterior = tablaAnteriorArray.findIndex(
+                    e => e.equipo === eq.equipo
+                );
+        
+                if (posicionAnterior !== -1) {
+        
+                    if (posicionAnterior > i) {
+                        // Ha subido posiciones
+                        diferencia = posicionAnterior - i;
+                        movimiento = `<span class="mov subida">▲ ${diferencia}</span>`;
+        
+                    } else if (posicionAnterior < i) {
+                        // Ha bajado posiciones
+                        diferencia = i - posicionAnterior;
+                        movimiento = `<span class="mov bajada">▼ ${diferencia}</span>`;
+        
+                    } else {
+                        // Se mantiene
+                        movimiento = `<span class="mov igual">=</span>`;
                     }
+                }
+            }
+        
+            // Aquí continuarías construyendo el <tr>...
+        });
                 // Lógica para decidir el enlace
                 let enlace;
                 if (eq.equipo.trim() === "Las Pistas FC") {
