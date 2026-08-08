@@ -152,6 +152,7 @@ fetch(urlPartidosC)
             `;
         
         }).join("");
+    });
             
     // ============================================================
 // RANKING DE ATAQUE Y DEFENSA
