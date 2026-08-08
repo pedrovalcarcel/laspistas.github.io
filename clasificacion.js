@@ -70,7 +70,6 @@ fetch(urlPartidosC)
             let movimiento = "";
             let diferencia = 0;
         
-            // Si no estamos en la primera jornada
             if (ultimaJornada > 1) {
         
                 const posicionAnterior = tablaAnteriorArray.findIndex(
@@ -80,62 +79,79 @@ fetch(urlPartidosC)
                 if (posicionAnterior !== -1) {
         
                     if (posicionAnterior > i) {
-                        // Ha subido posiciones
+        
                         diferencia = posicionAnterior - i;
-                        movimiento = `<span class="mov subida">▲ ${diferencia}</span>`;
+                        movimiento =
+                            `<span class="mov subida">▲ ${diferencia}</span>`;
         
                     } else if (posicionAnterior < i) {
-                        // Ha bajado posiciones
+        
                         diferencia = i - posicionAnterior;
-                        movimiento = `<span class="mov bajada">▼ ${diferencia}</span>`;
+                        movimiento =
+                            `<span class="mov bajada">▼ ${diferencia}</span>`;
         
                     } else {
-                        // Se mantiene
-                        movimiento = `<span class="mov igual">=</span>`;
+        
+                        movimiento =
+                            `<span class="mov igual">=</span>`;
                     }
                 }
             }
         
-            // Aquí continuarías construyendo el <tr>...
-        });
-                // Lógica para decidir el enlace
-                let enlace;
-                if (eq.equipo.trim() === "Las Pistas FC") {
-                    enlace = "estadisticas.html"; // Tu página de estadísticas original
-                } else {
-                    enlace = `equipo.html?nombre=${encodeURIComponent(eq.equipo)}`;
-                }
-
-                const nombreArchivoEscudo = obtenerNombreArchivoEscudo(eq.equipo);
-                const escudoUrl = `img/equipos/${nombreArchivoEscudo}.png`;
-                const escudoFallbackUrl = `img/equipos/${nombreArchivoEscudo}.jpg`;
-
-                return `
-                    <tr>
-                       <td class="posicion-clasi">
-
-                            ${i + 1}
-
-                            ${movimiento}
-
-                        </td>
-                        <td>
-                            <div style="display: flex; align-items: center; gap: 8px;">
-                                <img src="${escudoUrl}" alt="Escudo de ${eq.equipo}" style="width: 35px; height: 35px; object-fit: contain;" onerror="this.onerror=null; this.src='${escudoFallbackUrl}'; this.style.display='block'">
-                                <a href="${enlace}" class="link-equipo">${eq.equipo}</a>
-                            </div>
-                        </td>
-                        <td>${eq.pj}</td>
-                        <td>${eq.pg}</td>
-                        <td>${eq.pe}</td>
-                        <td>${eq.pp}</td>
-                        <td>${eq.gf}</td>
-                        <td>${eq.gc}</td>
-                        <td>${eq.ga > 0 ? '+' : ''}${eq.ga}</td>
-                        <td><b>${eq.pts}</b></td>
-                    </tr>
-                `;
-            }).join("");
+            // AQUÍ sigue estando dentro del map
+            let enlace;
+        
+            if (eq.equipo.trim() === "Las Pistas FC") {
+                enlace = "estadisticas.html";
+            } else {
+                enlace = `equipo.html?nombre=${encodeURIComponent(eq.equipo)}`;
+            }
+        
+            const nombreArchivoEscudo =
+                obtenerNombreArchivoEscudo(eq.equipo);
+        
+            const escudoUrl =
+                `img/equipos/${nombreArchivoEscudo}.png`;
+        
+            const escudoFallbackUrl =
+                `img/equipos/${nombreArchivoEscudo}.jpg`;
+        
+            return `
+                <tr>
+                    <td class="posicion-clasi">
+                        ${i + 1}
+                        ${movimiento}
+                    </td>
+        
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 8px;">
+        
+                            <img
+                                src="${escudoUrl}"
+                                alt="Escudo de ${eq.equipo}"
+                                style="width: 35px; height: 35px; object-fit: contain;"
+                                onerror="this.onerror=null; this.src='${escudoFallbackUrl}'; this.style.display='block'"
+                            >
+        
+                            <a href="${enlace}" class="link-equipo">
+                                ${eq.equipo}
+                            </a>
+        
+                        </div>
+                    </td>
+        
+                    <td>${eq.pj}</td>
+                    <td>${eq.pg}</td>
+                    <td>${eq.pe}</td>
+                    <td>${eq.pp}</td>
+                    <td>${eq.gf}</td>
+                    <td>${eq.gc}</td>
+                    <td>${eq.ga > 0 ? '+' : ''}${eq.ga}</td>
+                    <td><b>${eq.pts}</b></td>
+                </tr>
+            `;
+        
+        }).join("");
             // ==========================================
             // TARJETA RANKING
             // ==========================================
