@@ -9,6 +9,7 @@ fetch(csvUrl)
         p.local.trim() === MI_EQUIPO ||
         p.visitante.trim() === MI_EQUIPO
     );
+    const partidosTemporada = filtrarTemporadaActual(partidosRaw);
 
     crearTooltip();
 
@@ -18,7 +19,7 @@ fetch(csvUrl)
     crearCalendario(
         hoy.getFullYear(),
         hoy.getMonth(),
-        partidos,
+        partidosTemporada,
         document.getElementById("calendario-actual"),
         "titulo-calendario-actual"
     );
@@ -32,7 +33,7 @@ fetch(csvUrl)
     crearCalendario(
         anoSiguiente,
         mesSiguiente,
-        partidos,
+        partidosTemporada,
         document.getElementById("calendario-siguiente"),
         "titulo-calendario-siguiente"
     );

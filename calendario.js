@@ -133,7 +133,7 @@ function crearCalendario(ano, mes, partidos, contenedor, idTitulo){
 
 const partido = partidos.find(p => {
 
-    if(!p.fecha) return false;
+    if(!p.fecha || p.local !== "Las Pistas FC" && p.visitante !== "Las Pistas FC") return false;
 
     const f = fechaDesdeString(p.fecha);
 
@@ -181,15 +181,18 @@ const partido = partidos.find(p => {
             `;
         }
         else {
+
+            const posiciones = calcularPosicion(partido, partidos);
+
+            console.log("Posiciones:", posiciones);
+
             resultadoHTML = `
                 <div class="equipos">
-                ${partido.local}
-                <div class="vs">VS</div>
-                ${partido.visitante}
-            </div>
+                    ${partido.local} - ${posiciones.posicionLocal}º
+                    <div class="vs">VS</div>
+                    ${partido.visitante} - ${posiciones.posicionVisitante}º
+                </div>
             `;
-
-            
         }
         tooltip.innerHTML = `
             <div class="competicion">
@@ -239,4 +242,41 @@ const partido = partidos.find(p => {
         grid.appendChild(celda);
     }
     contenedor.appendChild(grid);
+}
+
+function calcularPosicion(partido, partidos) {
+    const tabla = calcularClasificacion(partidos);
+
+    // Ordenamos la clasificación y guardamos el resultado
+    const tablaOrdenada = ordenarTabla(tabla);
+
+    const posicionLocal =
+        tablaOrdenada.findIndex(e => e.equipo === partido.local.trim()) + 1;
+
+    const posicionVisitante =
+        tablaOrdenada.findIndex(e => e.equipo === partido.visitante.trim()) + 1;
+
+    return {
+        posicionLocal,
+        posicionVisitante
+    };
+}
+
+function ordenarTabla(tabla) {
+    return Object.entries(tabla)
+        .map(([equipo, datos]) => ({
+            equipo,
+            ...datos,
+            dg: datos.gf - datos.gc
+        }))
+        .sort((a, b) => {
+
+            if (b.pts !== a.pts)
+                return b.pts - a.pts;
+
+            if (b.dg !== a.dg)
+                return b.dg - a.dg;
+
+            return b.gf - a.gf;
+        });
 }
