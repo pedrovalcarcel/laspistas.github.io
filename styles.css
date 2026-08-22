@@ -3377,6 +3377,62 @@ PÁGINA ESTADÍSTICAS
     text-decoration: underline;
 }
 
+/* ============================================
+   ESCUDOS EN EL ACTA DEL PARTIDO
+   ============================================ */
+
+.escudo-equipo-acta-local {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    display: block;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    margin-right: 20px;
+}
+.escudo-equipo-acta-visitante {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    display: block;
+    flex-shrink: 0;
+    border: none;
+    border-radius: 0;
+    box-shadow: none;
+    order: 1; 
+}
+
+.equipos-acta {
+    display: grid;
+    grid-template-columns: minmax(0, 300px) auto minmax(0, 300px);
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* LOCAL: escudo + nombre */
+.equipo-local-acta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+.equipo-visitante-acta {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    flex-direction: row;
+}
+
+/* Resultado */
+.resultado-acta {
+    margin: 0 25px;
+    flex-shrink: 0;
+}
 
 /* Marcador */
 

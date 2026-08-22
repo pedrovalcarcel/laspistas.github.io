@@ -13,6 +13,27 @@ const urlJugadores = "jugadores.json";
 
 const nombreMiEquipo = "Las Pistas FC"; // Asegúrate de que coincida exactamente con el texto en tu Excel
 
+// ============================================
+// ESCUDOS DE LOS EQUIPOS
+// ============================================
+
+function obtenerEscudoEquipo(nombreEquipo) {
+
+    if (!nombreEquipo) {
+        return "";
+    }
+
+    const nombreArchivo = nombreEquipo
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "_")
+        .replace(/^_+|_+$/g, "");
+
+    return `img/equipos/${nombreArchivo}.png`;
+
+}
+
 
 // Guardamos los partidos globalmente
 let partidosGlobalActa = [];
@@ -315,6 +336,12 @@ function renderizarActa(
 
                 <div class="equipo-acta equipo-local-acta">
 
+                    <img
+                        src="${obtenerEscudoEquipo(partido.local)}"
+                        class="escudo-equipo-acta-local"
+                        alt="Escudo de ${partido.local}"
+                    >
+
                     <a
                         href="equipo.html?nombre=${encodeURIComponent(partido.local)}"
                         class="link-equipo"
@@ -359,6 +386,12 @@ function renderizarActa(
                 <!-- VISITANTE -->
 
                 <div class="equipo-acta equipo-visitante-acta">
+
+                    <img
+                        src="${obtenerEscudoEquipo(partido.visitante)}"
+                        class="escudo-equipo-acta-visitante"
+                        alt="Escudo de ${partido.visitante}"
+                    >
 
                     <a
                         href="equipo.html?nombre=${encodeURIComponent(partido.visitante)}"
