@@ -170,22 +170,41 @@ section{
     CABECERA
 ==================================================*/
 
-.cabecera{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:30px;
-    padding:18px 45px;
-    background:rgba(7,18,58,.96);
-    border-bottom:4px solid var(--amarillo);
-    box-shadow:var(--sombra-l);
-    position:sticky;
-    top:0;
-    z-index:1000;
+.cabecera {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr; /* Divide la cabecera en 3 columnas */
+    align-items: center;
+    gap: 30px;
+    padding: 18px 45px;
+    background: rgba(7,18,58,.96);
+    border-bottom: 4px solid var(--amarillo);
+    box-shadow: var(--sombra-l);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.cabecera-izq {
+    display: flex;
+    justify-content: flex-start;
+}
+
+/* Centramos los elementos del centro entre sí */
+.cabecera-centro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Alineamos el logo de Adri a la derecha del todo */
+.cabecera-der {
+    display: flex;
+    justify-content: flex-end;
 }
 
 .escudo{
-    width:120px;
+    width:150px;
     height:auto;
     transition:var(--transicion);
 }
@@ -197,6 +216,12 @@ section{
 .escudo-derecha{
     margin-left:auto;
 }
+
+.logo{
+    width: 250px;
+}
+
+
 
 @media(max-width:800px){
     .escudo-derecha{
