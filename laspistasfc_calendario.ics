@@ -22,4 +22,14 @@ DTSTART:19701025T030000
 RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
 END:STANDARD
 END:VTIMEZONE
+BEGIN:VEVENT
+UID:partido-137@pedrovalcarcel.github.io
+SUMMARY:⚽ Jornada Amistoso · Las Pistas FC - Picharreal
+DTSTAMP:20261003T000000Z
+DTSTART;TZID=Europe/Madrid:20261003T100000
+DTEND;TZID=Europe/Madrid:20261003T110000
+LOCATION:Ciempozuelos
+DESCRIPTION:Jornada Amistoso\n\n🏠 Local: Las Pistas FC\n🚌 Visitante: Picharreal\n📍 Campo: Ciempozuelos\n🕒 Hora: 10:00\n👨‍⚖️ Árbitro: Por confirmar\n\n📄 Acta\nhttps://pedrovalcarcel.github.io/laspistas.github.io/detalle_partido.html?id=137\n\n🌐 Web oficial\nhttps://pedrovalcarcel.github.io/laspistas.github.io
+STATUS:CONFIRMED
+END:VEVENT
 END:VCALENDAR
