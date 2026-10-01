@@ -10,10 +10,8 @@ const MI_EQUIPO = "Las Pistas FC";
 // CARGAR DATOS
 // =====================================
 
-fetch(csvUrl)
-.then(r => r.text())
-.then(csv => {
-    const partidosRaw = csvToJSON(csv);
+fetchCSV(csvUrl)
+.then(partidosRaw => {
     const partidos = filtrarPartidosPorTemporadaActual(partidosRaw).filter(p =>
         p.local.trim() === MI_EQUIPO ||
         p.visitante.trim() === MI_EQUIPO
@@ -69,6 +67,10 @@ fetch(csvUrl)
 
     });
 
+}).catch(error => {
+    console.error("Error al cargar los resultados:", error);
+    const contenedor = document.getElementById("calendarios-resultados");
+    if (contenedor) contenedor.textContent = "No se pudieron cargar los resultados.";
 });
 
 // =====================================

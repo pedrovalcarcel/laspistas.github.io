@@ -1,10 +1,7 @@
 const csvUrl = obtenerUrlPartidosTemporadaActual();
 
-fetch(csvUrl)
-.then(r => r.text())
-.then(csv => {
-
-    const partidosRaw = csvToJSON(csv);
+fetchCSV(csvUrl)
+.then(partidosRaw => {
     const partidos = filtrarTemporadaActual(partidosRaw).filter(p =>
         p.local.trim() === MI_EQUIPO ||
         p.visitante.trim() === MI_EQUIPO
@@ -38,6 +35,18 @@ fetch(csvUrl)
         "titulo-calendario-siguiente"
     );
 
+}).catch(error => {
+    console.error("Error al cargar los calendarios:", error);
+    ["calendario-actual", "calendario-siguiente"].forEach(id => {
+        const contenedor = document.getElementById(id);
+        if (contenedor) contenedor.textContent = "No se pudo cargar el calendario.";
+    });
+}).catch(error => {
+    console.error("Error al cargar los calendarios:", error);
+    ["calendario-actual", "calendario-siguiente"].forEach(id => {
+        const contenedor = document.getElementById(id);
+        if (contenedor) contenedor.textContent = "No se pudo cargar el calendario.";
+    });
 });
 
 function crearTooltip(){

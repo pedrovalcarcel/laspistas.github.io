@@ -11,23 +11,29 @@ function obtenerNombreArchivoEscudo(equipo) {
         .replace(/[^a-z0-9_]/g, "");
 }
 
-fetch(urlPartidosC)
-    .then(res => res.text())
-    .then(csvText => {
-        const partidos = csvToJSON(csvText);
+fetchCSV(urlPartidosC)
+    .then(partidos => {
         const partidosTemporada = filtrarTemporadaActual(partidos);
         // Filtrar solo partidos oficiales ya jugados
-        const partidosOficiales = partidosTemporada.filter(p => !isNaN(p.jornada) && p.jornada !== "Amistoso" && p.goles_local !== "");
-        
+        const partidosOficiales = partidosTemporada.filter(p =>
+            Number.isFinite(Number(p.jornada)) &&
+            String(p.jornada).trim() !== "" &&
+            String(p.jornada).trim().toLowerCase() !== "amistoso" &&
+            p.goles_local !== "" &&
+            p.goles_visitante !== "" &&
+            Number.isFinite(Number(p.goles_local)) &&
+            Number.isFinite(Number(p.goles_visitante))
+        );
+
         // Calcular clasificación (asumiendo que tienes esta función en tu proyecto)
         // Clasificación actual
         const tabla = calcularClasificacion(partidosOficiales);
         mostrarRankingAtaqueDefensa(tabla);
 
         // Última jornada disputada
-        const ultimaJornada = Math.max(
-            ...partidosOficiales.map(p => Number(p.jornada))
-        );
+        const ultimaJornada = partidosOficiales.length
+            ? Math.max(...partidosOficiales.map(p => Number(p.jornada)))
+            : 0;
 
         // Clasificación de la jornada anterior
         const tablaAnterior = calcularClasificacion(
@@ -39,7 +45,7 @@ fetch(urlPartidosC)
         // RANKING ATAQUE / DEFENSA
         // ==========================================
 
-        
+
         // Convertir a array y ordenar
         const tablaArray = Object.keys(tabla).map(nombre => ({
             equipo: nombre,
@@ -66,80 +72,81 @@ fetch(urlPartidosC)
        const tbody = document.getElementById("cuerpo-clasificacion");
 
         tbody.innerHTML = tablaArray.map((eq, i) => {
-        
+
             let movimiento = "";
             let diferencia = 0;
-        
+
             if (ultimaJornada > 1) {
-        
+
                 const posicionAnterior = tablaAnteriorArray.findIndex(
                     e => e.equipo === eq.equipo
                 );
-        
+
                 if (posicionAnterior !== -1) {
-        
+
                     if (posicionAnterior > i) {
-        
+
                         diferencia = posicionAnterior - i;
                         movimiento =
                             `<span class="mov subida">▲ ${diferencia}</span>`;
-        
+
                     } else if (posicionAnterior < i) {
-        
+
                         diferencia = i - posicionAnterior;
                         movimiento =
                             `<span class="mov bajada">▼ ${diferencia}</span>`;
-        
+
                     } else {
-        
+
                         movimiento =
                             `<span class="mov igual">=</span>`;
                     }
                 }
             }
-        
+
             // AQUÍ sigue estando dentro del map
             let enlace;
-        
+
             if (eq.equipo.trim() === "Las Pistas FC") {
                 enlace = "estadisticas.html";
             } else {
                 enlace = `equipo.html?nombre=${encodeURIComponent(eq.equipo)}`;
             }
-        
+
             const nombreArchivoEscudo =
                 obtenerNombreArchivoEscudo(eq.equipo);
-        
+
             const escudoUrl =
                 `img/equipos/${nombreArchivoEscudo}.png`;
-        
+
             const escudoFallbackUrl =
                 `img/equipos/${nombreArchivoEscudo}.jpg`;
-        
+
+            const escapar = valor => String(valor ?? "").replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]);
             return `
                 <tr>
                     <td class="posicion-clasi">
                         ${i + 1}
                         ${movimiento}
                     </td>
-        
+
                     <td>
                         <div style="display: flex; align-items: center; gap: 8px;">
-        
+
                             <img
                                 src="${escudoUrl}"
-                                alt="Escudo de ${eq.equipo}"
+                                alt="Escudo de ${escapar(eq.equipo)}"
                                 style="width: 35px; height: 35px; object-fit: contain;"
                                 onerror="this.onerror=null; this.src='${escudoFallbackUrl}'; this.style.display='block'"
                             >
-        
-                            <a href="${enlace}" class="link-equipo">
-                                ${eq.equipo}
+
+                            <a href="${escapar(enlace)}" class="link-equipo">
+                                ${escapar(eq.equipo)}
                             </a>
-        
+
                         </div>
                     </td>
-        
+
                     <td>${eq.pj}</td>
                     <td>${eq.pg}</td>
                     <td>${eq.pe}</td>
@@ -150,10 +157,15 @@ fetch(urlPartidosC)
                     <td><b>${eq.pts}</b></td>
                 </tr>
             `;
-        
+
         }).join("");
+    })
+    .catch(error => {
+        console.error("Error al cargar la clasificación:", error);
+        const tbody = document.getElementById("cuerpo-clasificacion");
+        if (tbody) tbody.textContent = "No se pudo cargar la clasificación.";
     });
-            
+
     // ============================================================
 // RANKING DE ATAQUE Y DEFENSA
 // ============================================================
@@ -267,7 +279,7 @@ function actualizarComparacionRanking(
     }
 
     contenedor.innerHTML = `
-    
+
         <table class="tabla-comparacion-ranking">
 
             <thead>
@@ -387,6 +399,11 @@ function mostrarRankingAtaqueDefensa(tablaClasificacion) {
         ranking.defensa.find(
             e => e.equipo === miEquipo
         );
+
+    if (!ataque || !defensa) {
+        contenedor.textContent = "Todavía no hay datos suficientes para mostrar el ranking de Las Pistas FC.";
+        return;
+    }
 
     const opciones =
         ranking.ataque
@@ -637,13 +654,3 @@ function mostrarComparacionRanking(
 }
 
 // Asegúrate de que esta función esté disponible globalmente o importada
-function csvToJSON(csv) {
-    const lines = csv.split("\n");
-    const headers = lines[0].split(",").map(h => h.trim().toLowerCase());
-    return lines.slice(1).filter(l => l.trim() !== "").map(line => {
-        const values = line.split(",");
-        let obj = {};
-        headers.forEach((h, i) => obj[h] = values[i] ? values[i].trim() : "");
-        return obj;
-    });
-}

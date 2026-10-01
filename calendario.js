@@ -16,27 +16,7 @@ function fechaDesdeString(fecha){
     return new Date(a,m-1,d);
 }
 
-function csvToJSON(csv){
-    const lines=csv.split("\n");
-    const headers=lines[0]
-        .split(",")
-        .map(h=>h.trim().toLowerCase());
-    return lines
-        .slice(1)
-        .filter(l=>l.trim()!=="")
-        .map(line=>{
-            const values=line.split(",");
-            const obj={};
-            headers.forEach((h,i)=>{
-                obj[h]=values[i]
-                    ? values[i].trim()
-                    : "";
 
-            });
-            return obj;
-        });
-
-}
 
 function obtenerTemporadaActual(){
     const hoy = new Date();
@@ -174,35 +154,41 @@ const partido = partidos.find(p => {
         if(partido.goles_local !== "" && partido.goles_visitante !== ""){
             resultadoHTML = `
                 <div class="equipos">
-                ${partido.local} : ${partido.goles_local} 
+                ${escaparTextoHTML(partido.local)} : ${escaparTextoHTML(partido.goles_local)}
                 <div class="vs">VS</div>
-                ${partido.visitante} : ${partido.goles_visitante}
+                ${escaparTextoHTML(partido.visitante)} : ${escaparTextoHTML(partido.goles_visitante)}
             </div>
             `;
         }
         else {
-
-            const posiciones = calcularPosicion(partido, partidos);
-
-            console.log("Posiciones:", posiciones);
-
+            const esPartidoLiga = /^\d+$/.test(String(partido.jornada || "").trim());
+            const posiciones = esPartidoLiga
+                ? calcularPosicion(partido, partidos)
+                : null;
+            const nombresEquipos = posiciones &&
+                posiciones.posicionLocal > 0 &&
+                posiciones.posicionVisitante > 0
+                ? `${escaparTextoHTML(partido.local)} - ${posiciones.posicionLocal}º
+                    <div class="vs">VS</div>
+                    ${escaparTextoHTML(partido.visitante)} - ${posiciones.posicionVisitante}º`
+                : `${escaparTextoHTML(partido.local)}
+                    <div class="vs">VS</div>
+                    ${escaparTextoHTML(partido.visitante)}`;
             resultadoHTML = `
                 <div class="equipos">
-                    ${partido.local} - ${posiciones.posicionLocal}º
-                    <div class="vs">VS</div>
-                    ${partido.visitante} - ${posiciones.posicionVisitante}º
+                    ${nombresEquipos}
                 </div>
             `;
         }
         tooltip.innerHTML = `
             <div class="competicion">
-                ${competicion}
+                ${escaparTextoHTML(competicion)}
             </div>
             ${resultadoHTML}
             <div class="info">
-                <div> ${partido.fecha || "-"} </div>
-                <div>🕒 ${partido.hora || "-"}</div>
-                <div>📍 ${partido.campo || "-"}</div>
+                <div> ${escaparTextoHTML(partido.fecha || "-")} </div>
+                <div>🕒 ${escaparTextoHTML(partido.hora || "-")}</div>
+                <div>📍 ${escaparTextoHTML(partido.campo || "-")}</div>
             </div>
         `;
         tooltip.classList.add("visible");
@@ -236,7 +222,7 @@ const partido = partidos.find(p => {
     });
 
     celda.addEventListener("click",()=>{
-        location.href = `partido.html?id=${partido.id}`;
+        location.href = `partido.html?id=${encodeURIComponent(partido.id || "")}`;
     });
     }
         grid.appendChild(celda);
@@ -279,4 +265,10 @@ function ordenarTabla(tabla) {
 
             return b.gf - a.gf;
         });
+}
+
+function escaparTextoHTML(valor) {
+    return String(valor ?? "").replace(/[&<>"']/g, caracter => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[caracter]);
 }

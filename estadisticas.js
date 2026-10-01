@@ -17,13 +17,13 @@ async function inicializarDashboard() {
 
     // 2. Cargar clasificación (tu JSON)
     const datosClasif = await fetch(urlPartidosCSV);
-    
+
     // 3. Crear el cerebro (El punto 3 del proceso)
     const mapaPoder = obtenerMapaPoder(datosClasif);
-    
+
     console.log("Entrenando IA...");
     //entrenarIA(datosPartidos, mapaPoder, listaArbitros);
-    
+
     modeloEntrenado = true;
     console.log("IA lista para predecir.");
 }
@@ -33,37 +33,55 @@ window.onload = inicializarDashboard;
 async function cargarDatosYGraficar() {
     try {
         // 1. Cargamos todos los archivos en paralelo
-        const [resPartidos, resGoles, resJugadores] = await Promise.all([
-            fetch(urlPartidosCSV),
-            fetch(urlGolesCSV),
-            fetch(urlJugadores)
+        const temporadas = Object.keys(TEMPORADA_CSV_GIDS).sort();
+        const temporadaActual = obtenerTemporadaActualCsv();
+        const [cargasPartidos, golesData, resJugadores] = await Promise.all([
+            Promise.allSettled(temporadas.map(temporada =>
+                fetchCSV(obtenerUrlPartidosTemporada(temporada))
+            )),
+            fetchCSV(urlGolesCSV),
+            fetchChecked(urlJugadores)
         ]);
 
-        // 2. Procesamos cada archivo
-        const partidos = csvToJSON(await resPartidos.text());
-        console.log(partidos[0]);
-        const partidosTemporada = filtrarTemporadaActual(partidos);
-        const golesData = csvToJSON(await resGoles.text());
-        
+        const partidosPorTemporada = new Map();
+        cargasPartidos.forEach((resultado, indice) => {
+            if (resultado.status === "fulfilled") {
+                partidosPorTemporada.set(temporadas[indice], resultado.value);
+            } else {
+                console.warn(`No se pudieron cargar los partidos de ${temporadas[indice]}.`, resultado.reason);
+            }
+        });
+
+        const partidosTemporada = partidosPorTemporada.get(temporadaActual);
+        if (!partidosTemporada) {
+            throw new Error(`No se pudieron cargar los partidos de la temporada ${temporadaActual}.`);
+        }
+        const partidosTodasTemporadas = [...partidosPorTemporada.values()].flat();
+
         // 3. Obtenemos el JSON y nos aseguramos de que sea un array
         const rawJugadores = await resJugadores.json();
         const jugadores = Array.isArray(rawJugadores) ? rawJugadores : [rawJugadores];
 
-        console.log("Datos cargados correctamente:", { partidos, golesData, jugadores });
-
         // 4. Dibujamos las gráficas
         generarGraficaEvolucion(partidosTemporada, nombreMiEquipo,'graficaPuntos');
         generarGraficaVictoriasPorHora(partidosTemporada);
-        
+
         // Pasamos ambos argumentos: los goles (CSV) y la lista (Array) de jugadores
         generarGraficaGolesPorJugador(golesData, jugadores);
-        generarGraficaAsistenciasPorJugador(golesData, jugadores); 
+        generarGraficaAsistenciasPorJugador(golesData, jugadores);
         generarGraficaPosicionJornada(partidosTemporada, nombreMiEquipo, 'graficaPosicion');
 
-        crearEstadisticasArbitros(partidosTemporada);
-        
+        crearEstadisticasArbitros(partidosTodasTemporadas);
+
     } catch (error) {
         console.error("Error al cargar los datos:", error);
+        document.querySelectorAll(".estadisticas-seccion canvas").forEach(canvas => {
+            const aviso = document.createElement("p");
+            aviso.className = "error-carga";
+            aviso.setAttribute("role", "alert");
+            aviso.textContent = "No se pudieron cargar las estadísticas.";
+            canvas.parentElement?.appendChild(aviso);
+        });
     }
 }
 
@@ -78,7 +96,7 @@ function generarGraficaEvolucion(partidos, nombreEquipo, canvasId = 'graficaPunt
     if (!canvas) return; // Salida segura si el gráfico no está en esta página
     const ctx = canvas.getContext('2d');
     let puntosAcumulados = 0;
-    const datosGrafica = [0]; 
+    const datosGrafica = [0];
     const etiquetas = ["Inicio"];
 
     const partidosFiltrados = partidos.filter(p => {
@@ -93,7 +111,7 @@ function generarGraficaEvolucion(partidos, nombreEquipo, canvasId = 'graficaPunt
     partidosFiltrados.forEach(p => {
         const golesL = parseInt(p.goles_local);
         const golesV = parseInt(p.goles_visitante);
-        
+
         if (p.local === nombreEquipo) {
             if (golesL > golesV) puntosAcumulados += 3;
             else if (golesL === golesV) puntosAcumulados += 1;
@@ -775,19 +793,19 @@ function generarGraficaPosicionJornada(partidos, nombreEquipo, canvasId = 'grafi
 
     const partidosLiga = partidos.filter(p => /^\d+$/.test(p.jornada) && p.goles_local !== "");
     const maxJornada = Math.max(...partidosLiga.map(p => parseInt(p.jornada)));
-    
+
     const etiquetas = [];
     const posiciones = [];
-    
+
     // Limpiamos el nombre buscado una sola vez fuera del bucle
     const nombreBuscado = nombreEquipo.trim().toLowerCase();
 
     for (let j = 1; j <= maxJornada; j++) {
-        const tabla = calcularClasificacion(partidos, j + 1); 
-        
+        const tabla = calcularClasificacion(partidos, j + 1);
+
         // Protección extra: aseguramos que tabla sea un objeto válido
         if (!tabla) continue;
-        
+
         const tablaOrdenada = Object.keys(tabla).map(nombre => ({
             nombre: nombre,
             // Usamos ?. (encadenamiento opcional) por si alguna propiedad falta
@@ -799,7 +817,7 @@ function generarGraficaPosicionJornada(partidos, nombreEquipo, canvasId = 'grafi
             if (!e.nombre) return false;
             return e.nombre.trim().toLowerCase() === nombreBuscado;
         }) + 1;
-        
+
         if (puesto > 0) {
             etiquetas.push(`J-${j}`);
             posiciones.push(puesto);
@@ -1047,23 +1065,7 @@ function obtenerTemporadaActual(partidos){
 }
 
 
-function csvToJSON(csv) {
-    const lines = csv.split("\n");
-    const headers = lines[0].split(",").map(h => h.trim().toLowerCase());
-    
-    // --- AÑADE ESTA LÍNEA PARA VER EN CONSOLA ---
-    console.log("Encabezados detectados:", headers); 
-    // ---------------------------------------------
-    
-    return lines.slice(1).filter(l => l.trim() !== "").map(line => {
-        const values = line.split(",");
-        let obj = {};
-        headers.forEach((h, i) => {
-            obj[h] = values[i] ? values[i].trim() : "";
-        });
-        return obj;
-    });
-}
+
 
 window.cerrarCuadro = function() {
     const contenedorLista = document.getElementById('lista-partidos');

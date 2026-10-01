@@ -8,15 +8,14 @@ const barraResumen = document.getElementById("barra-resumen");
 const calendariosResultados = document.getElementById("calendarios-resultados");
 const ultimoPartidoCopa = document.getElementById("ultimo-partido-copa");
 
-const TEMPORADAS_DISPONIBLES = [
-    "2025/26",
-    "2026/27"
-];
+const TEMPORADAS_DISPONIBLES = Object.keys(TEMPORADA_CSV_GIDS).sort();
 
 function obtenerTemporadaActualHistorico() {
     const hoy = new Date();
     const año = hoy.getFullYear();
-    return `${año}/${String(año + 1).slice(-2)}`;
+    return hoy.getMonth() >= 8
+        ? `${año}/${String(año + 1).slice(-2)}`
+        : `${año - 1}/${String(año).slice(-2)}`;
 }
 
 const urlJugadores = "jugadores.json";
@@ -53,9 +52,9 @@ async function cargarHistorico(temporada) {
     const urlEventos = obtenerUrlEventosTemporada(temporada);
 
         const [partidosCsv, eventosCsv, jugadoresData] = await Promise.all([
-        fetch(urlPartidos).then(r => r.text()),
-        fetch(urlEventos).then(r => r.text()),
-        fetch(urlJugadores).then(r => r.json())
+        fetchChecked(urlPartidos).then(r => r.text()),
+        fetchChecked(urlEventos).then(r => r.text()),
+        fetchChecked(urlJugadores).then(r => r.json())
     ]);
 
     const partidos = csvToJSON(partidosCsv);

@@ -62,16 +62,16 @@ function activarTooltipsRacha(contenedor, todosLosPartidos) {
         elemento.addEventListener("mouseenter", () => {
 
             tooltipRacha.innerHTML = `
-                <div class="competicion">${competicion}</div>
+                <div class="competicion">${escaparTextoHTML(competicion)}</div>
                 <div class="equipos">
-                    ${partido.local} : ${partido.goles_local}
+                    ${escaparTextoHTML(partido.local)} : ${escaparTextoHTML(partido.goles_local)}
                     <div class="vs">VS</div>
-                    ${partido.visitante} : ${partido.goles_visitante}
+                    ${escaparTextoHTML(partido.visitante)} : ${escaparTextoHTML(partido.goles_visitante)}
                 </div>
                 <div class="info">
-                    <div>${partido.fecha || "-"}</div>
-                    <div>🕒 ${partido.hora || "-"}</div>
-                    <div>📍 ${partido.campo || "-"}</div>
+                    <div>${escaparTextoHTML(partido.fecha || "-")}</div>
+                    <div>🕒 ${escaparTextoHTML(partido.hora || "-")}</div>
+                    <div>📍 ${escaparTextoHTML(partido.campo || "-")}</div>
                 </div>
             `;
 
@@ -107,4 +107,10 @@ function activarTooltipsRacha(contenedor, todosLosPartidos) {
 
     });
 
+}
+
+function escaparTextoHTML(valor) {
+    return String(valor ?? "").replace(/[&<>"']/g, caracter => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    })[caracter]);
 }

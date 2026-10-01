@@ -11,10 +11,8 @@ const MI_EQUIPO = "Las Pistas FC";
 // PORTADA (INDEX)
 // ================================
 
-fetch(urlPartidos)
-.then(r => r.text())
-.then(csv => {
-    const partidos = csvToJSON(csv);
+fetchCSV(urlPartidos)
+.then(partidos => {
     const hoy = new Date();
     // Últimos 5 partidos oficiales disputados
     const ultimos5 = partidos
@@ -67,6 +65,10 @@ fetch(urlPartidos)
             activarTooltipsRacha(contenedorRacha, partidos);
         }
     }
+    }).catch(error => {
+        console.error("Error al cargar la racha:", error);
+        const contenedor = document.getElementById("racha");
+        if (contenedor) contenedor.textContent = "No se pudo cargar la racha reciente.";
     });
 // ================================
 // FUNCIÓN PARA OTRAS PÁGINAS
@@ -131,24 +133,6 @@ function generarHTMLRacha(nombreEquipo, todosLosPartidos, fechaPartido){
 // ================================
 // CSV -> JSON
 // ================================
-
-function csvToJSON(csv){
-    const lines = csv.split("\n");
-    const headers = lines[0]
-        .split(",")
-        .map(h=>h.trim().toLowerCase());
-    return lines
-        .slice(1)
-        .filter(l=>l.trim()!=="")
-        .map(line=>{
-            const values=line.split(",");
-            const obj={};
-            headers.forEach((h,i)=>{
-                obj[h]=values[i] ? values[i].trim() : "";
-            });
-            return obj;
-        });
-}
 
 function partidoJugado(partido) {
     return partido &&

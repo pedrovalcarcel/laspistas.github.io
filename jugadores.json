@@ -86,7 +86,7 @@
                 "fisico": 81
             }},
 
-        {"dorsal": "17", "nombre": "Francisco Javier", "alias": "Fran",
+        {"dorsal": "5", "nombre": "Francisco Javier", "alias": "Fran",
             "apellidos": "Bastardo Bermúdez",
             "fecha_nacimiento": "10/09/2005",
             "nacionalidad": "España",
@@ -198,7 +198,7 @@
                 "defensa": 72,
                 "fisico": 77
             }},
-        {"dorsal": "77", "nombre": "Zouhayr", "alias": "Zouhayr",
+        {"dorsal": "42", "nombre": "Zouhayr", "alias": "Zouhayr",
             "apellidos": "Serroukh Serroukh",
             "fecha_nacimiento": "22/5/2004",
             "nacionalidad": "Mundo",

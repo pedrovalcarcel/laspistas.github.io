@@ -1,9 +1,9 @@
 const urlJugadores = "jugadores.json";
-const urlEventos = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSGb45ee7oLsTv2vO5bmbkdsEOV_mMpCOi_jpINeNh7d5xAu8CMo7r8C5yFZS7amamHT7rfKiL39U6C/pub?gid=1785101781&single=true&output=csv";
+const urlEventos = obtenerUrlEventosTemporadaActual();
 
 Promise.all([
-    fetch(urlJugadores).then(res => res.json()),
-    fetch(urlEventos).then(res => res.text())
+    fetchChecked(urlJugadores).then(res => res.json()),
+    fetchChecked(urlEventos).then(res => res.text())
 ]).then(([dataJSON, csvText]) => {
     const jugadores = dataJSON.jugadores;
     const eventos = csvToJSON(csvText);
@@ -12,7 +12,7 @@ Promise.all([
     // --- 1. PINTAR BOTONES DE JUGADORES ---
     const contenedorBotones = document.getElementById("lista-jugadores");
     jugadores.sort((a, b) => parseInt(a.dorsal) - parseInt(b.dorsal));
-    
+
     jugadores.forEach(j => {
         // Inicializamos stats aquí mismo para ahorrar bucles
         stats[j.dorsal] = { ...j, goles: 0, asistencias: 0 };
@@ -21,7 +21,7 @@ Promise.all([
             .normalize("NFD")
             .replace(/[\u0300-\u036f]/g, "")
             .toLowerCase();
-        
+
         const li = document.createElement("li");
         li.innerHTML = `
         <a class="jugador-card" href="jugador.html?dorsal=${j.dorsal}">
@@ -65,6 +65,10 @@ Promise.all([
     pintarRanking("ranking-goles", jugadoresStats.sort((a, b) => b.goles - a.goles), "goles");
     pintarRanking("ranking-asistencias", jugadoresStats.sort((a, b) => b.asistencias - a.asistencias), "asistencias");
     pintarRanking("ranking-total", jugadoresStats.sort((a, b) => (b.goles + b.asistencias) - (a.goles + a.asistencias)), j => j.goles + j.asistencias);
+}).catch(error => {
+    console.error("Error al cargar la plantilla:", error);
+    const contenedor = document.getElementById("lista-jugadores");
+    if (contenedor) contenedor.textContent = "No se pudo cargar la plantilla.";
 });
 
 // --- FUNCIONES AUXILIARES ---
@@ -73,23 +77,16 @@ function pintarRanking(id, ranking, valor) {
     const ul = document.getElementById(id);
     if (!ul) return; // Por seguridad
     ul.innerHTML = "";
-    
+
     ranking.forEach((j, i) => {
         const cantidad = typeof valor === "function" ? valor(j) : j[valor];
             const li = document.createElement("li");
-            li.innerHTML = `<strong>${i + 1}</strong> <a href="jugador.html?dorsal=${j.dorsal}">${j.alias}</a> ${cantidad}`;
+            const posicion = document.createElement("strong");
+            posicion.textContent = String(i + 1);
+            const enlace = document.createElement("a");
+            enlace.href = `jugador.html?dorsal=${encodeURIComponent(j.dorsal)}`;
+            enlace.textContent = j.alias;
+            li.append(posicion, document.createTextNode(" "), enlace, document.createTextNode(` ${cantidad}`));
             ul.appendChild(li);
-    });
-}
-
-function csvToJSON(csv) {
-    const lines = csv.split("\n");
-    // Convertimos a minúsculas para evitar problemas con nombres de columnas como "Dorsal_Goleador"
-    const headers = lines[0].split(",").map(h => h.trim().toLowerCase());
-    return lines.slice(1).filter(l => l.trim() !== "").map(line => {
-        const values = line.split(",");
-        let obj = {};
-        headers.forEach((h, i) => obj[h] = values[i] ? values[i].trim() : "");
-        return obj;
     });
 }

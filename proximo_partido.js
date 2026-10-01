@@ -1,15 +1,11 @@
-fetch(obtenerUrlPartidosTemporadaActual())
-.then(r=>r.text())
-.then(csv=>{
-    const partidos = csvToJSON(csv);
+fetchCSV(obtenerUrlPartidosTemporadaActual())
+.then(partidos=>{
     const partidosTemporada = filtrarTemporadaActual(partidos);
     console.log(partidosTemporada);
-    const hoy = new Date();
-
     const proximo = partidosTemporada
         .filter(p =>
-            (p.local.trim() === MI_EQUIPO ||
-            p.visitante.trim() === MI_EQUIPO) &&
+            (String(p.local || "").trim() === MI_EQUIPO ||
+            String(p.visitante || "").trim() === MI_EQUIPO) &&
             p.goles_local.trim() === "" &&
             p.fecha
         )
@@ -18,10 +14,9 @@ fetch(obtenerUrlPartidosTemporadaActual())
             const fb = new Date(b.fecha.split("/").reverse().join("-"));
             return fa-fb;
         })[0];
-        console.log("Proximo partido", proximo);
+    const contenedorProximo = document.getElementById("proximo-partido");
     if(!proximo){
-        document.getElementById("proximo-partido").innerHTML=
-        "<p>No hay partidos programados.</p>";
+        if (contenedorProximo) contenedorProximo.textContent = "No hay partidos programados.";
         return;
     }
 
@@ -54,7 +49,8 @@ fetch(obtenerUrlPartidosTemporadaActual())
         competicion = `${proximo.jornada}`;
     }
 
-    document.getElementById("proximo-partido").innerHTML = `
+    if (!contenedorProximo) return;
+    contenedorProximo.innerHTML = `
     <a class="tarjeta-proximo" href="partido.html?id=${proximo.id}">
 
         <div class="fecha">
@@ -81,22 +77,9 @@ fetch(obtenerUrlPartidosTemporadaActual())
     </a>
     `;
 
+}).catch(error => {
+    console.error("Error al cargar el próximo partido:", error);
+    const contenedor = document.getElementById("proximo-partido");
+    if (contenedor) contenedor.textContent = "No se pudo cargar el próximo partido.";
 });
 
-function csvToJSON(csv){
-    const lines=csv.split("\n");
-    const headers=lines[0]
-        .split(",")
-        .map(h=>h.trim().toLowerCase());
-    return lines.slice(1)
-        .filter(l=>l.trim()!=="")
-        .map(line=>{
-            const values=line.split(",");
-            const obj={};
-            headers.forEach((h,i)=>{
-                obj[h]=values[i] ? values[i].trim() : "";
-            });
-            return obj;
-        });
-
-}

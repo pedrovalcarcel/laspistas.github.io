@@ -157,7 +157,16 @@ function calcularFirmaDatos(partidos) {
         )
         .sort();
 
-    return `${jugados.length}-${hashSimple(partes.join("~"))}`;
+    const temporada = typeof obtenerTemporadaActualCsv === "function"
+        ? obtenerTemporadaActualCsv()
+        : "sin-temporada";
+    const contenido = `${temporada}~${partes.join("~")}`;
+    let hash = 2166136261;
+    for (let i = 0; i < contenido.length; i++) {
+        hash ^= contenido.charCodeAt(i);
+        hash = Math.imul(hash, 16777619);
+    }
+    return `${jugados.length}-${(hash >>> 0).toString(16)}`;
 
 }
 
@@ -784,9 +793,9 @@ function obtenerCaracteristicasEquipo(
         golesFavorUltimos5PP,
 
         golesContraUltimos5PP,
-        
+
         fuerzaMediaRivales,
-        
+
         potenciaOfensiva,
 
         potenciaDefensiva
@@ -1087,6 +1096,13 @@ function entrenarModeloEnWorker(ejemplos, configRed, opcionesEntrenamiento) {
         }
 
         let worker;
+        let finalizado = false;
+        const fallar = error => {
+            if (finalizado) return;
+            finalizado = true;
+            if (worker) worker.terminate();
+            reject(error);
+        };
 
         try {
             worker = new Worker("entrenamiento.worker.js");
@@ -1096,6 +1112,9 @@ function entrenarModeloEnWorker(ejemplos, configRed, opcionesEntrenamiento) {
         }
 
         worker.onmessage = (evento) => {
+
+            if (finalizado) return;
+            finalizado = true;
 
             worker.terminate();
 
@@ -1111,11 +1130,16 @@ function entrenarModeloEnWorker(ejemplos, configRed, opcionesEntrenamiento) {
         };
 
         worker.onerror = (error) => {
-            worker.terminate();
-            reject(error);
+            fallar(error);
         };
 
-        worker.postMessage({ ejemplos, configRed, opcionesEntrenamiento });
+        worker.onmessageerror = () => fallar(new Error("No se pudo interpretar la respuesta del worker."));
+
+        try {
+            worker.postMessage({ ejemplos, configRed, opcionesEntrenamiento });
+        } catch (error) {
+            fallar(error);
+        }
 
     });
 
@@ -1163,7 +1187,12 @@ async function inicializarIA(
     // -------------------------------------
 
     const firmaActual = calcularFirmaDatos(partidos);
-    const cacheGuardada = localStorage.getItem("modeloIA");
+    let cacheGuardada = null;
+    try {
+        cacheGuardada = localStorage.getItem("modeloIA-v2");
+    } catch (error) {
+        console.warn("No se pudo acceder al caché local del modelo.", error);
+    }
 
     if (cacheGuardada) {
 
@@ -1264,15 +1293,12 @@ async function inicializarIA(
     // datos usados, para poder detectar cuándo hay que reentrenar.
     modeloGuardado = entrenamiento.modelo;
 
-    localStorage.setItem(
-        "modeloIA",
-        JSON.stringify({
-            modelo: modeloGuardado,
-            firma: firmaActual
-        })
-    );
-
-    console.log("💾 Modelo IA guardado.");
+    try {
+        localStorage.setItem("modeloIA-v2", JSON.stringify({ modelo: modeloGuardado, firma: firmaActual }));
+        console.log("💾 Modelo IA guardado.");
+    } catch (error) {
+        console.warn("No se pudo guardar el modelo localmente.", error);
+    }
 
     iaEntrenada = true;
 
@@ -1291,6 +1317,13 @@ async function inicializarIA(
 // fiable de lo que realmente es.
 const MIN_PARTIDOS_PARA_PREDECIR = 3;
 
+function contarPartidosLigaJugados(partidos) {
+    if (!Array.isArray(partidos)) return 0;
+    return filtrarTemporadaActual(partidos).filter(partido =>
+        esPartidoLiga(partido) && partidoJugado(partido)
+    ).length;
+}
+
 function predecirPartido(partido, partidosSinFiltrar) {
 
     if (!redIA) {
@@ -1302,6 +1335,15 @@ function predecirPartido(partido, partidosSinFiltrar) {
     }
 
     const partidos = filtrarTemporadaActual(partidosSinFiltrar);
+
+    if (contarPartidosLigaJugados(partidos) === 0) {
+        return {
+            datosSuficientes: false,
+            sinPartidosTemporada: true,
+            partidosLocal: 0,
+            partidosVisitante: 0
+        };
+    }
 
     const jornada = Number(partido.jornada);
 
@@ -1393,6 +1435,7 @@ function obtenerPrediccionesGuardadas() {
 
     try {
 
+        if (typeof localStorage === "undefined") return {};
         const datos = localStorage.getItem(CLAVE_PREDICCIONES_GUARDADAS);
         return datos ? JSON.parse(datos) : {};
 
@@ -1406,15 +1449,8 @@ function obtenerPrediccionesGuardadas() {
 }
 
 function obtenerPrediccionGuardadaDePartido(idPartido) {
-
-    if (idPartido === undefined || idPartido === null || idPartido === "") {
-        return null;
-    }
-
-    const todas = obtenerPrediccionesGuardadas();
-
-    return todas[idPartido] || null;
-
+    if (idPartido === undefined || idPartido === null || idPartido === "") return null;
+    return obtenerPrediccionesGuardadas()[idPartido] || null;
 }
 
 function guardarPrediccionParaPartido(idPartido, resultado) {
@@ -1422,7 +1458,7 @@ function guardarPrediccionParaPartido(idPartido, resultado) {
     if (idPartido === undefined || idPartido === null || idPartido === "") {
         return;
     }
-
+    if (typeof localStorage === "undefined") return;
     const todas = obtenerPrediccionesGuardadas();
 
     todas[idPartido] = resultado;
@@ -1446,7 +1482,7 @@ function guardarPrediccionParaPartido(idPartido, resultado) {
 // por ejemplo si quieres forzar que se recalculen todas de nuevo.
 function reiniciarPrediccionesGuardadas() {
 
-    localStorage.removeItem(CLAVE_PREDICCIONES_GUARDADAS);
+    try { localStorage.removeItem(CLAVE_PREDICCIONES_GUARDADAS); } catch (error) { console.warn("No se pudo borrar el caché local.", error); }
     console.log("🗑 Predicciones congeladas eliminadas.");
 
 }
@@ -1467,10 +1503,25 @@ function mostrarPrediccion(partido) {
         return;
     }
 
+    if (contarPartidosLigaJugados(partidosGlobalActa) === 0) {
+        try {
+            localStorage.removeItem(CLAVE_PREDICCIONES_GUARDADAS);
+        } catch (error) {
+            console.warn("No se pudieron limpiar predicciones antiguas.", error);
+        }
+        contenedor.innerHTML = `
+            <p class="sin-datos">
+                Aún no se ha disputado ningún partido de liga esta temporada; todavía no se puede hacer una predicción.
+            </p>
+        `;
+        return;
+    }
+
     const idPartido = partido && partido.id;
 
     // 1) ¿Ya teníamos una predicción congelada para este partido?
     let resultado = obtenerPrediccionGuardadaDePartido(idPartido);
+    if (resultado && !resultado.datosSuficientes) resultado = null;
 
     // 2) Si no, la calculamos ahora (necesitamos el modelo cargado)
     //    y la dejamos guardada para que no vuelva a cambiar.
@@ -1482,7 +1533,7 @@ function mostrarPrediccion(partido) {
 
         resultado = predecirPartido(partido, partidosGlobalActa);
 
-        if (resultado) {
+        if (resultado && !resultado.sinPartidosTemporada) {
             guardarPrediccionParaPartido(idPartido, resultado);
         }
 
@@ -1504,15 +1555,15 @@ function mostrarPrediccion(partido) {
 
     }
 
-    if (!resultado.datosSuficientes) {
+    if (!resultado.datosSuficientes || resultado.sinPartidosTemporada) {
 
         contenedor.innerHTML = `
 
             <p class="sin-datos">
 
-                Aún no hay partidos suficientes de ${partido.local}
-                y ${partido.visitante} esta temporada para hacer
-                una predicción fiable.
+                ${resultado.sinPartidosTemporada
+                    ? "Aún no se ha disputado ningún partido de liga esta temporada; todavía no se puede hacer una predicción."
+                    : `Aún no hay partidos suficientes de ${partido.local} y ${partido.visitante} esta temporada para hacer una predicción fiable.`}
 
             </p>
 
@@ -1651,7 +1702,7 @@ function mostrarPrediccion(partido) {
 
 function reiniciarModeloIA() {
 
-    localStorage.removeItem("modeloIA");
+    try { localStorage.removeItem("modeloIA-v2"); } catch (error) { console.warn("No se pudo borrar el modelo local.", error); }
 
     modeloGuardado = null;
 

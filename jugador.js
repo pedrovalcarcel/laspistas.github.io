@@ -283,19 +283,3 @@ async function cargarGeneral(){
     );
 
 }
-
-function csvToJSON(csv){
-    const lines=csv.split("\n");
-    const headers=lines[0].split(",").map(h=>h.trim().toLowerCase());
-    return lines.slice(1)
-        .filter(l=>l.trim()!=="")
-        .map(line=>{
-            const values=line.split(",");
-            const obj={};
-            headers.forEach((h,i)=>{
-                obj[h]=values[i]?values[i].trim():"";
-            });
-            return obj;
-        });
-}
-
