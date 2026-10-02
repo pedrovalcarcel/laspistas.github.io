@@ -285,7 +285,7 @@ function generarICS(partidos) {
         descripcion += `\n`;
 
         descripcion += `📄 Acta\n`;
-        descripcion += `${URL_WEB}/detalle_partido.html?id=${partido.id}\n`;
+        descripcion += `${URL_WEB}/partido.html?id=${partido.id}\n`;
 
         descripcion += `\n`;
 
