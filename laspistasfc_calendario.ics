@@ -32,4 +32,14 @@ LOCATION:Ciempozuelos
 DESCRIPTION:Jornada Amistoso\n\n🏠 Local: Las Pistas FC\n🚌 Visitante: Picharreal \n📍 Campo: Ciempozuelos\n🕒 Hora: 10:00\n👨‍⚖️ Árbitro: Por confirmar\n\n📄 Acta\nhttps://pedrovalcarcel.github.io/laspistas.github.io/partido.html?id=137\n\n🌐 Web oficial\nhttps://pedrovalcarcel.github.io/laspistas.github.io
 STATUS:CONFIRMED
 END:VEVENT
+BEGIN:VEVENT
+UID:partido-138@pedrovalcarcel.github.io
+SUMMARY:⚽ Jornada Amistoso · Las Pistas FC - Cofradía Brecera
+DTSTAMP:20261011T000000Z
+DTSTART;TZID=Europe/Madrid:20261011T110000
+DTEND;TZID=Europe/Madrid:20261011T120000
+LOCATION:Pinto
+DESCRIPTION:Jornada Amistoso\n\n🏠 Local: Las Pistas FC\n🚌 Visitante: Cofradía Brecera\n📍 Campo: Pinto\n🕒 Hora: 11:00\n👨‍⚖️ Árbitro: Por confirmar\n\n📄 Acta\nhttps://pedrovalcarcel.github.io/laspistas.github.io/partido.html?id=138\n\n🌐 Web oficial\nhttps://pedrovalcarcel.github.io/laspistas.github.io
+STATUS:CONFIRMED
+END:VEVENT
 END:VCALENDAR
