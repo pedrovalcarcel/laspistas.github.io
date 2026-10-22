@@ -6,6 +6,10 @@
     let jugadorSeleccionado = null;
     let estadisticasTemporada = {};
 
+    const navegacion = performance.getEntriesByType?.("navigation")?.[0];
+    const esRecarga = navegacion?.type === "reload" || performance.navigation?.type === 1;
+    if (esRecarga) sessionStorage.removeItem(CLAVE_GUARDADO);
+
     fetch("jugadores.json")
         .then(respuesta => {
             if (!respuesta.ok) throw new Error(`HTTP ${respuesta.status}`);
@@ -27,7 +31,7 @@
 
     function leerGuardado() {
         try {
-            return JSON.parse(localStorage.getItem(CLAVE_GUARDADO) || "{}");
+            return JSON.parse(sessionStorage.getItem(CLAVE_GUARDADO) || "{}");
         } catch {
             return {};
         }
@@ -35,7 +39,7 @@
 
     function guardar() {
         try {
-            localStorage.setItem(CLAVE_GUARDADO, JSON.stringify(alineaciones));
+            sessionStorage.setItem(CLAVE_GUARDADO, JSON.stringify(alineaciones));
         } catch (error) {
             console.warn("No se pudieron guardar las alineaciones:", error);
         }
