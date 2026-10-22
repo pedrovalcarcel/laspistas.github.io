@@ -4362,7 +4362,6 @@ PÁGINA ESTADÍSTICAS
 .alineacion-circulo.calidad-regular{border-color:#facc15}
 .alineacion-circulo.calidad-mala{border-color:#dc2626}
 .alineacion-circulo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.alineacion-dorsal{position:relative;z-index:1}
 .alineacion-alias{max-width:100%;min-height:1.15em;color:#fff;font-size:.76rem;line-height:1.1;font-weight:700;overflow-wrap:anywhere;text-shadow:0 1px 3px rgba(0,0,0,.85)}
 .papelera-alineacion{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;margin:10px auto 0;padding:8px 14px;border:2px dashed #9aa7bc;border-radius:12px;background:#f5f7fc;color:#34405a;font-size:.84rem;font-weight:700;transition:background .15s,border-color .15s,color .15s,transform .15s}
 .papelera-alineacion.papelera-activa,.papelera-alineacion:focus-visible{border-color:#b42318;background:#fee2e2;color:#991b1b;transform:scale(1.02);outline:none}

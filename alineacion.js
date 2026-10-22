@@ -321,10 +321,6 @@
             foto.alt = "";
             foto.addEventListener("error", () => foto.remove(), { once: true });
             circulo.appendChild(foto);
-            const textoDorsal = document.createElement("span");
-            textoDorsal.className = "alineacion-dorsal";
-            textoDorsal.textContent = String(jugador.dorsal);
-            circulo.appendChild(textoDorsal);
             const alias = document.createElement("span");
             alias.className = "alineacion-alias";
             alias.textContent = jugador.alias || jugador.nombre;
