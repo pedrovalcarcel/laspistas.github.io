@@ -4351,9 +4351,10 @@ PÁGINA ESTADÍSTICAS
 .campo-alineacion{position:relative;isolation:isolate;overflow:hidden;touch-action:manipulation}
 .campo-alineacion.drop-activo{box-shadow:0 0 0 4px #ffe066,0 0 18px rgba(255,224,102,.75)}
 .alineacion-jugadores-campo{position:absolute;inset:0;z-index:3}
-.jugador-en-campo{position:absolute;display:flex;flex-direction:column;align-items:center;gap:2px;width:80px;transform:translate(-50%,-50%);cursor:grab;touch-action:none;user-select:none}
+.jugador-en-campo{position:absolute;display:flex;flex-direction:column;align-items:center;gap:2px;width:80px;transform:translate(-50%,-50%);cursor:grab;touch-action:manipulation;user-select:none}
 .jugador-en-campo:active{cursor:grabbing}
 .jugador-en-campo.arrastrando{opacity:.4}
+.jugador-en-campo.seleccionado-para-mover .alineacion-circulo{outline:3px solid #fff;outline-offset:2px;box-shadow:0 0 0 6px rgba(255,212,71,.95),0 0 14px rgba(255,212,71,.8)}
 .jugador-en-campo:focus-visible{outline:2px solid #ffe066;border-radius:8px}
 .jugador-estadisticas-temporada{min-height:1em;color:#fff;font-size:.72rem;font-weight:800;line-height:1;text-shadow:0 1px 3px #000,0 0 4px #000;white-space:nowrap}
 .alineacion-circulo{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none;width:50px;height:50px;border:2px solid #fff;border-radius:50%;color:#fff;font-weight:800;text-shadow:0 1px 3px #000}

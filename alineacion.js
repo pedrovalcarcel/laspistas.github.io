@@ -50,7 +50,7 @@
         const guardado = leerGuardado();
         crearAlineacion(listado, "a", "Con posesión", guardado.a || {});
         crearAlineacion(listado, "b", "Sin posesión", guardado.b || {});
-        estado.textContent = "Arrastra jugadores a cualquier punto del campo. En móvil, toca un jugador y después el campo.";
+        estado.textContent = "Arrastra jugadores a cualquier punto del campo. En móvil, toca un jugador —también si ya está en el campo— y después el destino.";
         contenedor.hidden = false;
     }
 
@@ -226,7 +226,7 @@
         titulo.textContent = "Plantilla";
         const ayuda = document.createElement("p");
         ayuda.className = "banquillo-ayuda";
-        ayuda.textContent = "Arrastra hasta 7 jugadores a cualquier punto del campo.";
+        ayuda.textContent = "Hasta 7 jugadores. En móvil, toca un jugador y después el punto del campo donde quieras colocarlo.";
         const lista = document.createElement("div");
         lista.className = "lista-arrastrable";
         panel.append(titulo, ayuda, lista);
@@ -269,10 +269,13 @@
             elemento.querySelectorAll(".jugador-arrastrable").forEach(boton => {
                 boton.setAttribute("aria-pressed", String(elemento.dataset.lineup === id && boton.dataset.dorsal === dorsal));
             });
+            elemento.querySelectorAll(".jugador-en-campo").forEach(ficha => {
+                ficha.classList.toggle("seleccionado-para-mover", elemento.dataset.lineup === id && ficha.dataset.dorsal === dorsal);
+            });
         });
         anunciar(card, pos
-            ? "Jugador seleccionado. Toca otra posición para moverlo."
-            : "Jugador seleccionado. Toca una posición del campo para colocarlo.");
+            ? "Jugador seleccionado. Toca el campo para moverlo."
+            : "Jugador seleccionado. Toca el campo para colocarlo.");
     }
 
     function asignar(id, dorsal, posDestino, posOrigen, jugadores, card) {
@@ -306,7 +309,9 @@
             if (!jugador) return;
             const ficha = document.createElement("div");
             ficha.className = "jugador-en-campo";
-            ficha.draggable = true;
+            ficha.dataset.dorsal = dorsal;
+            const esTactil = window.matchMedia("(pointer: coarse)").matches || window.innerWidth <= 800;
+            ficha.draggable = !esTactil;
             ficha.tabIndex = 0;
             ficha.style.left = `${coordenadas.x}%`;
             ficha.style.top = `${coordenadas.y}%`;
@@ -342,7 +347,11 @@
                 ficha.classList.add("arrastrando");
             });
             ficha.addEventListener("dragend", () => ficha.classList.remove("arrastrando"));
-            ficha.addEventListener("click", evento => evento.stopPropagation());
+            ficha.addEventListener("click", evento => {
+                evento.stopPropagation();
+                if (!esTactil) return;
+                seleccionarJugador(id, dorsal, "campo", card);
+            });
             ficha.addEventListener("keydown", evento => {
                 if ((evento.key === "Delete" || evento.key === "Backspace") && !evento.repeat) {
                     delete asignacion[dorsal];
