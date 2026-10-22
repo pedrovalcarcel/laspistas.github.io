@@ -81,8 +81,11 @@ function crearBarraResumen(partidos){
     let v = 0;
     let e = 0;
     let d = 0;
+    const partidosContables = partidos.filter(p =>
+        String(p.jornada || "").trim().toLocaleLowerCase("es") !== "amistoso"
+    );
 
-    partidos.forEach(p=>{
+    partidosContables.forEach(p=>{
         if(p.goles_local==="" || p.goles_visitante==="") return;
         const gl = Number(p.goles_local);
         const gv = Number(p.goles_visitante);

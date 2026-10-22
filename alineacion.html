@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Haz tu alineación - Las Pistas FC</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="pagina-alineacion">
+    <header class="cabecera">
+        <a href="index.html">
+            <img src="escudo_laspistas.png" alt="Escudo de Las Pistas FC" class="escudo">
+        </a>
+        <div class="cabecera-centro">
+            <h1>Haz tu alineación</h1>
+            <nav>
+                <a href="index.html">Inicio</a>
+                <a href="resultados.html">Resultados</a>
+                <a href="jugadores.html">Plantilla</a>
+                <a href="estadisticas.html">Estadísticas</a>
+                <a href="historico.html">Histórico</a>
+            </nav>
+        </div>
+        <div class="cabecera-der">
+            <a href="https://restauranteadri.com" aria-label="Restaurante Adri"><img src="logo_adri_restaurante.png" alt="Restaurante Adri" class="logo"></a>
+            <a href="https://synergiafisio.com/#inicio" aria-label="Synergia Fisioterapia"><img src="logo_synergia.png" alt="Synergia Fisioterapia" class="logo-synergia"></a>
+        </div>
+    </header>
+
+    <main class="alineacion-page">
+        <div class="alineacion-intro">
+            <h2>Elige tu siete</h2>
+            <p>Arrastra a cada jugador a cualquier punto del campo. En móvil, toca un jugador y después el punto donde quieras colocarlo. Puedes preparar dos alineaciones y comparar tus combinaciones.</p>
+        </div>
+        <div id="estado-alineacion" class="estado-alineacion" role="status">Cargando plantilla…</div>
+        <div id="alineaciones" class="alineaciones-grid" hidden></div>
+        <p class="alineacion-privacidad">Tus elecciones se guardan en este navegador.</p>
+        <a class="volver-plantilla" href="jugadores.html">← Volver a la plantilla</a>
+    </main>
+
+    <script src="configTemporadas.js"></script>
+    <script src="temporada.js"></script>
+    <script src="csv.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.2/papaparse.min.js"></script>
+    <script src="alineacion.js"></script>
+</body>
+</html>
+

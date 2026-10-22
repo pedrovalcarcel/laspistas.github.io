@@ -201,6 +201,21 @@ section{
 .cabecera-der {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.cabecera-der a {
+    display: flex;
+    align-items: center;
+}
+
+.cabecera-der .logo,
+.cabecera-der .logo-synergia {
+    width: 215px;
+    height: 88px;
+    object-fit: contain;
 }
 
 .escudo{
@@ -224,6 +239,21 @@ section{
 
 
 @media(max-width:800px){
+    .cabecera {
+        grid-template-columns: 1fr;
+    }
+
+    .cabecera-der {
+        justify-content: center;
+        gap: 16px;
+    }
+
+    .cabecera-der .logo,
+    .cabecera-der .logo-synergia {
+        width: 168px;
+        height: 69px;
+    }
+
     .escudo-derecha{
         display:none;
     }
@@ -4280,3 +4310,78 @@ PÁGINA ESTADÍSTICAS
     }
 
 }
+.alineacion-cta-wrap{
+    display:flex;
+    justify-content:center;
+    margin:-8px 0 28px;
+}
+.btn-alineacion{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    padding:13px 24px;
+    border-radius:999px;
+    background:#143FAF;
+    color:#fff;
+    font-weight:700;
+    text-decoration:none;
+    box-shadow:0 7px 18px rgba(20,63,175,.25);
+    transition:transform .2s, background .2s;
+}
+.btn-alineacion:hover{background:#0e2f8c;color:#fff;transform:translateY(-2px)}
+.alineacion-page{width:min(1100px,95%);margin:36px auto 64px}
+.alineacion-intro{text-align:center;margin-bottom:22px}
+.pagina-alineacion .alineacion-intro h2{color:#fff;font-size:2rem;margin-bottom:8px}
+.pagina-alineacion .alineacion-intro p{color:#f1f5ff;margin:0 auto;max-width:700px}
+.pagina-alineacion .estado-alineacion{text-align:center;color:#fff;min-height:24px;margin:16px 0;font-weight:600}
+.pagina-alineacion .estado-alineacion.error{color:#fecaca}
+.alineaciones-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:28px;align-items:start}
+.alineacion-card{min-width:0;background:#fff;padding:20px;border-radius:20px;box-shadow:0 12px 30px rgba(0,0,0,.16)}
+.alineacion-card-header{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:18px}
+.alineacion-card-header h3{color:#143FAF;margin:0;font-size:1.35rem}
+.alineacion-acciones{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:7px}
+.limpiar-alineacion{border:1px solid #d6deef;background:#f4f7fc;color:#143FAF;border-radius:9px;padding:7px 12px;font-weight:600;cursor:pointer}
+.limpiar-alineacion:hover{background:#e8efff}
+.copiar-alineacion{border:1px solid #143FAF;background:#143FAF;color:#fff;border-radius:9px;padding:7px 12px;font-weight:600;cursor:pointer}
+.copiar-alineacion:hover{background:#0e2f8c}
+.alineacion-workspace{display:grid;grid-template-columns:minmax(0,1fr) 155px;gap:14px;align-items:start}
+.alineacion-campo-panel{min-width:0}
+.campo-alineacion{width:min(300px,100%);height:500px;margin:0 auto;padding:25px 8px;background:linear-gradient(180deg,#39b85a,#248c43)}
+.campo-alineacion::before{inset:12px;border:2px solid rgba(255,255,255,.78);background:radial-gradient(circle at center,transparent 0 34px,rgba(255,255,255,.72) 35px 37px,transparent 38px)}
+.campo-alineacion::after{left:12px;right:12px;top:50%;bottom:auto;width:auto;height:2px;transform:none;background:rgba(255,255,255,.78)}
+.campo-alineacion{position:relative;isolation:isolate;overflow:hidden;touch-action:manipulation}
+.campo-alineacion.drop-activo{box-shadow:0 0 0 4px #ffe066,0 0 18px rgba(255,224,102,.75)}
+.alineacion-jugadores-campo{position:absolute;inset:0;z-index:3}
+.jugador-en-campo{position:absolute;display:flex;flex-direction:column;align-items:center;gap:2px;width:80px;transform:translate(-50%,-50%);cursor:grab;touch-action:none;user-select:none}
+.jugador-en-campo:active{cursor:grabbing}
+.jugador-en-campo.arrastrando{opacity:.4}
+.jugador-en-campo:focus-visible{outline:2px solid #ffe066;border-radius:8px}
+.jugador-estadisticas-temporada{min-height:1em;color:#fff;font-size:.72rem;font-weight:800;line-height:1;text-shadow:0 1px 3px #000,0 0 4px #000;white-space:nowrap}
+.alineacion-circulo{position:relative;display:flex;align-items:center;justify-content:center;overflow:hidden;flex:none;width:50px;height:50px;border:2px solid #fff;border-radius:50%;color:#fff;font-weight:800;text-shadow:0 1px 3px #000}
+.alineacion-circulo.calidad-buena{border-color:#b7ff3c;box-shadow:0 0 0 1px rgba(20,70,20,.8),0 0 8px rgba(183,255,60,.9)}
+.alineacion-circulo.calidad-regular{border-color:#facc15}
+.alineacion-circulo.calidad-mala{border-color:#dc2626}
+.alineacion-circulo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.alineacion-dorsal{position:relative;z-index:1}
+.alineacion-alias{max-width:100%;min-height:1.15em;color:#fff;font-size:.76rem;line-height:1.1;font-weight:700;overflow-wrap:anywhere;text-shadow:0 1px 3px rgba(0,0,0,.85)}
+.papelera-alineacion{display:flex;align-items:center;justify-content:center;gap:8px;min-height:48px;margin:10px auto 0;padding:8px 14px;border:2px dashed #9aa7bc;border-radius:12px;background:#f5f7fc;color:#34405a;font-size:.84rem;font-weight:700;transition:background .15s,border-color .15s,color .15s,transform .15s}
+.papelera-alineacion.papelera-activa,.papelera-alineacion:focus-visible{border-color:#b42318;background:#fee2e2;color:#991b1b;transform:scale(1.02);outline:none}
+.icono-papelera{font-size:1.3rem;line-height:1}
+.alineacion-banquillo{min-width:0;padding:10px;background:#f5f7fc;border:1px solid #e5eaf4;border-radius:13px}
+.alineacion-banquillo h4{margin:0 0 5px;color:#143FAF;font-size:1rem}
+.banquillo-ayuda{margin:0 0 9px;color:#68738a;font-size:.72rem;line-height:1.35}
+.lista-arrastrable{display:flex;flex-direction:column;gap:5px;max-height:420px;overflow:auto}
+.jugador-arrastrable{display:flex;align-items:center;gap:7px;width:100%;min-width:0;padding:6px;border:1px solid #dce3f0;border-radius:8px;background:#fff;color:#202a40;text-align:left;cursor:grab;transition:background .15s,border-color .15s,opacity .15s}
+.jugador-arrastrable:hover,.jugador-arrastrable:focus-visible{border-color:#143FAF;background:#edf2ff}
+.jugador-arrastrable:active{cursor:grabbing}
+.jugador-arrastrable.arrastrando{opacity:.45}
+.jugador-arrastrable.en-campo{border-color:#b7c7ee;background:#edf2ff}
+.jugador-arrastrable.seleccionado{outline:2px solid #f5c400;outline-offset:1px}
+.jugador-arrastrable-dorsal{display:grid;place-items:center;flex:none;width:24px;height:24px;border-radius:50%;background:#143FAF;color:#fff;font-size:.72rem;font-weight:800}
+.jugador-arrastrable-nombre{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:.76rem;font-weight:600}
+.alineacion-mensaje{min-height:1.2em;margin:10px 0 0;color:#68738a;font-size:.78rem;text-align:center}
+.pagina-alineacion .alineacion-privacidad{text-align:center;color:#e2eaff;font-size:.9rem;margin:20px 0 12px}
+.pagina-alineacion .volver-plantilla{display:block;text-align:center;color:#ffe36e;font-weight:700;text-decoration:none}
+.pagina-alineacion .volver-plantilla:hover{text-decoration:underline;color:#fff}
+@media(max-width:1050px){.alineaciones-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.alineacion-card{padding:16px}.alineacion-workspace{grid-template-columns:1fr}.alineacion-banquillo{order:2}.lista-arrastrable{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));max-height:250px}.campo-alineacion{width:min(320px,100%);margin-inline:auto}}
