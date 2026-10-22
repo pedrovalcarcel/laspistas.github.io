@@ -179,8 +179,7 @@ section{
     background: rgba(7,18,58,.96);
     border-bottom: 4px solid var(--amarillo);
     box-shadow: var(--sombra-l);
-    position: sticky;
-    top: 0;
+    position: static;
     z-index: 1000;
 }
 
@@ -4395,12 +4394,121 @@ PÁGINA ESTADÍSTICAS
         padding:10px 12px;
     }
     .cabecera > a:first-child{grid-area:escudo;align-self:center}
-    .cabecera > a:first-child .escudo{width:62px}
+    .cabecera > a:first-child .escudo{width:68px}
     .cabecera-centro{grid-area:centro;min-width:0}
     .cabecera h1{font-size:clamp(1rem,4vw,1.35rem);letter-spacing:.5px;margin:0 0 6px;text-align:center}
     .cabecera-centro nav{gap:5px}
     .cabecera-centro nav a{padding:6px 8px;font-size:.72rem}
     .cabecera-der{grid-area:marcas;justify-content:center;gap:12px}
     .cabecera-der .logo,
-    .cabecera-der .logo-synergia{width:112px;height:46px}
+    .cabecera-der .logo-synergia{width:clamp(105px,36vw,128px);height:54px}
+}
+
+@media(min-width:801px){
+    .cabecera{
+        grid-template-columns:110px minmax(0,1fr) auto;
+        gap:clamp(16px,2vw,32px);
+        padding:10px clamp(20px,3vw,46px);
+        background:linear-gradient(105deg,#071638 0%,#102a70 52%,#071638 100%);
+        border-bottom:2px solid rgba(255,212,71,.8);
+        box-shadow:0 8px 28px rgba(3,12,38,.28);
+    }
+    .cabecera > a:first-child .escudo{width:96px}
+    .cabecera-centro{
+        min-width:0;
+        align-items:center;
+        gap:4px;
+    }
+    .cabecera h1{
+        margin:0;
+        font-size:1.3rem;
+        line-height:1.2;
+        letter-spacing:.11em;
+        text-align:center;
+    }
+    .cabecera-centro nav{gap:2px}
+    .cabecera-centro nav a{
+        position:relative;
+        padding:9px 11px;
+        border:0;
+        border-radius:4px;
+        background:transparent;
+        color:#e5edff;
+        font-size:.78rem;
+        font-weight:700;
+        letter-spacing:.055em;
+        text-transform:uppercase;
+        transition:color .18s,background .18s;
+    }
+    .cabecera-centro nav a::after{
+        position:absolute;
+        right:11px;
+        bottom:3px;
+        left:11px;
+        height:2px;
+        background:var(--amarillo);
+        content:"";
+        transform:scaleX(0);
+        transition:transform .18s;
+    }
+    .cabecera-centro nav a:hover,
+    .cabecera-centro nav a:focus-visible{
+        background:rgba(255,255,255,.08);
+        color:#fff;
+        box-shadow:none;
+        transform:none;
+    }
+    .cabecera-centro nav a:hover::after,
+    .cabecera-centro nav a:focus-visible::after{transform:scaleX(1)}
+    .cabecera-der{
+        padding-left:clamp(12px,1.5vw,24px);
+        border-left:1px solid rgba(255,255,255,.2);
+    }
+}
+
+@media(min-width:801px) and (max-width:1250px){
+    .cabecera{grid-template-columns:76px minmax(0,1fr) auto;gap:12px;padding-inline:16px}
+    .cabecera > a:first-child .escudo{width:72px}
+    .cabecera-der{gap:8px;padding-left:10px}
+    .cabecera-der .logo,.cabecera-der .logo-synergia{width:clamp(100px,12vw,145px);height:60px}
+    .cabecera-centro nav a{padding:8px 7px;font-size:.69rem}
+    .cabecera h1{font-size:1.12rem}
+}
+
+.cabecera h1{display:none}
+.cabecera-centro{gap:0}
+.cabecera-centro nav a.seccion-activa{
+    color:var(--amarillo);
+    background:rgba(255,212,71,.08);
+}
+.cabecera-centro nav a.seccion-activa::after{transform:scaleX(1)}
+.cabecera-centro nav a{
+    font-family:inherit;
+    font-style:normal;
+    font-size:.88rem;
+    padding:10px 14px;
+}
+
+@supports (animation-timeline: view()) and (animation-range: exit 0% exit 100%){
+    .cabecera{
+        animation: cabecera-sale linear both;
+        animation-timeline: view();
+        animation-range: exit 0% exit 100%;
+    }
+    @keyframes cabecera-sale{
+        to{opacity:0;transform:translateY(-18px)}
+    }
+}
+
+@media(prefers-reduced-motion:reduce){
+    .cabecera{animation:none!important}
+}
+
+@media(max-width:800px){
+    .cabecera-centro nav a.seccion-activa{
+        color:#0c1e5b;
+        background:var(--amarillo);
+        box-shadow:0 3px 9px rgba(0,0,0,.2);
+    }
+    .cabecera-centro nav a.seccion-activa::after{display:none}
 }
