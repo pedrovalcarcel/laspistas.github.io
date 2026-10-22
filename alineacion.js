@@ -50,6 +50,8 @@
         const guardado = leerGuardado();
         crearAlineacion(listado, "a", "Con posesión", guardado.a || {});
         crearAlineacion(listado, "b", "Sin posesión", guardado.b || {});
+        contenedor.appendChild(crearBanquillo(listado));
+        actualizarSeleccionVisual();
         estado.textContent = "Arrastra jugadores a cualquier punto del campo. En móvil, toca un jugador —también si ya está en el campo— y después el destino.";
         contenedor.hidden = false;
     }
@@ -120,11 +122,21 @@
         acciones.appendChild(limpiar);
         encabezado.append(h3, acciones);
 
-        const espacioTrabajo = document.createElement("div");
-        espacioTrabajo.className = "alineacion-workspace";
         const campo = document.createElement("div");
         campo.className = "campo-futbol campo-alineacion";
         campo.setAttribute("aria-label", `Campo de ${titulo}`);
+        campo.setAttribute("role", "group");
+        ["superior", "inferior"].forEach(lado => {
+            const area = document.createElement("div");
+            area.className = `area-grande area-${lado}`;
+            area.setAttribute("aria-hidden", "true");
+            const areaPequena = document.createElement("div");
+            areaPequena.className = `area-pequena area-${lado}`;
+            const porteria = document.createElement("div");
+            porteria.className = `porteria porteria-${lado}`;
+            porteria.setAttribute("aria-hidden", "true");
+            campo.append(area, areaPequena, porteria);
+        });
         const panelCampo = document.createElement("div");
         panelCampo.className = "alineacion-campo-panel";
         const jugadoresColocados = document.createElement("div");
@@ -177,25 +189,22 @@
             quitarJugador(id, datos.dorsal, jugadores, card);
         });
         papelera.addEventListener("click", () => {
-            if (jugadorSeleccionado?.id === id) quitarJugador(id, jugadorSeleccionado.dorsal, jugadores, card);
+            if (jugadorSeleccionado) quitarJugador(id, jugadorSeleccionado.dorsal, jugadores, card);
         });
         papelera.addEventListener("keydown", evento => {
-            if ((evento.key === "Enter" || evento.key === " ") && jugadorSeleccionado?.id === id) {
+            if ((evento.key === "Enter" || evento.key === " ") && jugadorSeleccionado) {
                 evento.preventDefault();
                 quitarJugador(id, jugadorSeleccionado.dorsal, jugadores, card);
             }
         });
         panelCampo.append(campo, papelera);
 
-        const banquillo = crearBanquillo(jugadores, id, card);
-        espacioTrabajo.append(panelCampo, banquillo);
-
         const mensaje = document.createElement("p");
         mensaje.className = "alineacion-mensaje";
         mensaje.setAttribute("aria-live", "polite");
         card._mensaje = mensaje;
 
-        card.append(encabezado, espacioTrabajo, mensaje);
+        card.append(encabezado, panelCampo, mensaje);
         contenedor.appendChild(card);
         card._campo = campo;
         card._jugadoresColocados = jugadoresColocados;
@@ -219,14 +228,14 @@
         pintarAlineacion(card, jugadores);
     }
 
-    function crearBanquillo(jugadores, id, card) {
+    function crearBanquillo(jugadores) {
         const panel = document.createElement("aside");
         panel.className = "alineacion-banquillo";
         const titulo = document.createElement("h4");
         titulo.textContent = "Plantilla";
         const ayuda = document.createElement("p");
         ayuda.className = "banquillo-ayuda";
-        ayuda.textContent = "Hasta 7 jugadores. En móvil, toca un jugador y después el punto del campo donde quieras colocarlo.";
+        ayuda.textContent = "Usa esta plantilla para los dos campos. En móvil, toca un jugador y después su destino.";
         const lista = document.createElement("div");
         lista.className = "lista-arrastrable";
         panel.append(titulo, ayuda, lista);
@@ -247,12 +256,14 @@
             boton.append(numero, nombre);
 
             boton.addEventListener("click", () => {
-                const yaColocado = Object.prototype.hasOwnProperty.call(alineaciones[id], dorsal);
-                seleccionarJugador(id, dorsal, yaColocado ? "campo" : null, card);
+                const yaColocado = Object.values(alineaciones).some(asignacion =>
+                    Object.prototype.hasOwnProperty.call(asignacion, dorsal)
+                );
+                const cardAviso = document.querySelector('.alineacion-card[data-lineup="a"]');
+                seleccionarJugador("compartido", dorsal, yaColocado ? "campo" : null, cardAviso);
             });
             boton.addEventListener("dragstart", evento => {
-                const posActual = Object.prototype.hasOwnProperty.call(alineaciones[id], dorsal) ? "campo" : null;
-                evento.dataTransfer.setData("text/plain", JSON.stringify({ dorsal, pos: posActual }));
+                evento.dataTransfer.setData("text/plain", JSON.stringify({ dorsal }));
                 evento.dataTransfer.effectAllowed = "move";
                 boton.classList.add("arrastrando");
             });
@@ -265,14 +276,9 @@
     function seleccionarJugador(id, dorsal, pos, card) {
         jugadorSeleccionado = { id, dorsal, pos };
         document.querySelectorAll(".alineacion-card").forEach(elemento => {
-            elemento.classList.toggle("tiene-seleccion", elemento.dataset.lineup === id);
-            elemento.querySelectorAll(".jugador-arrastrable").forEach(boton => {
-                boton.setAttribute("aria-pressed", String(elemento.dataset.lineup === id && boton.dataset.dorsal === dorsal));
-            });
-            elemento.querySelectorAll(".jugador-en-campo").forEach(ficha => {
-                ficha.classList.toggle("seleccionado-para-mover", elemento.dataset.lineup === id && ficha.dataset.dorsal === dorsal);
-            });
+            elemento.classList.toggle("tiene-seleccion", id === "compartido" || elemento.dataset.lineup === id);
         });
+        actualizarSeleccionVisual();
         anunciar(card, pos
             ? "Jugador seleccionado. Toca el campo para moverlo."
             : "Jugador seleccionado. Toca el campo para colocarlo.");
@@ -362,9 +368,22 @@
             });
             zona.appendChild(ficha);
         });
-        card.querySelectorAll(".jugador-arrastrable").forEach(boton => {
-            boton.classList.toggle("en-campo", Object.prototype.hasOwnProperty.call(asignacion, boton.dataset.dorsal));
-            boton.classList.toggle("seleccionado", Boolean(jugadorSeleccionado && jugadorSeleccionado.id === id && jugadorSeleccionado.dorsal === boton.dataset.dorsal));
+        actualizarSeleccionVisual();
+    }
+
+    function actualizarSeleccionVisual() {
+        document.querySelectorAll(".jugador-arrastrable").forEach(boton => {
+            const dorsal = boton.dataset.dorsal;
+            const enAlgunCampo = Object.values(alineaciones).some(asignacion =>
+                Object.prototype.hasOwnProperty.call(asignacion, dorsal)
+            );
+            const estaSeleccionado = Boolean(jugadorSeleccionado && jugadorSeleccionado.dorsal === dorsal);
+            boton.classList.toggle("en-campo", enAlgunCampo);
+            boton.classList.toggle("seleccionado", estaSeleccionado);
+            boton.setAttribute("aria-pressed", String(estaSeleccionado));
+        });
+        document.querySelectorAll(".jugador-en-campo").forEach(ficha => {
+            ficha.classList.toggle("seleccionado-para-mover", Boolean(jugadorSeleccionado && ficha.dataset.dorsal === jugadorSeleccionado.dorsal));
         });
     }
 
@@ -389,7 +408,8 @@
     }
 
     function detectarPosicion({ x, y }) {
-        if (y >= 75) return "por";
+        // La zona del portero llega desde la línea del área grande hasta el fondo.
+        if (y >= 85) return "por";
         const lado = x < 34 ? "i" : x > 66 ? "d" : "c";
         if (y < 25) return `dc${lado}`;
         if (y < 50) return `mc${lado}`;
