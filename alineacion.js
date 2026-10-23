@@ -288,7 +288,7 @@
         if (!dorsal || !card || card.dataset.lineup !== id) return;
         const asignacion = alineaciones[id];
         const dorsalJugador = String(dorsal);
-        if (!Object.prototype.hasOwnProperty.call(asignacion, dorsalJugador) && Object.keys(asignacion).length >= 7) {
+        if (!Object.prototype.hasOwnProperty.call(asignacion, dorsalJugador) && Object.keys(asignacion).length >= 15) {
             jugadorSeleccionado = null;
             pintarAlineacion(card, jugadores);
             anunciar(card, "El campo ya tiene siete jugadores. Quita uno antes de añadir otro.");
