@@ -17,7 +17,7 @@
         })
         .then(datos => {
             const jugadores = Array.isArray(datos) ? datos : datos.jugadores;
-            if (!Array.isArray(jugadores) || jugadores.length < 7) {
+            if (!Array.isArray(jugadores) || jugadores.length < 15) {
                 throw new Error("No hay siete jugadores disponibles en la plantilla.");
             }
             inicializar(jugadores);
