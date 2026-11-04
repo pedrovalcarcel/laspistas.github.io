@@ -29,6 +29,61 @@ function convertirFechaIA(fecha) {
 
 }
 
+function obtenerOrdenPartidoIA(partido) {
+    const fecha = convertirFechaIA(partido?.fecha);
+    if (fecha === null) return null;
+    const hora = String(partido?.hora || "").trim().match(/^(\d{1,2}):(\d{2})/);
+    return {
+        fecha,
+        minutos: hora ? Number(hora[1]) * 60 + Number(hora[2]) : null
+    };
+}
+
+function ocurrioAntesDelPartidoIA(partido, partidoObjetivo) {
+    const idPartido = String(partido?.id ?? "").trim();
+    const idObjetivo = String(partidoObjetivo?.id ?? "").trim();
+    if (idPartido && idObjetivo && idPartido === idObjetivo) return false;
+
+    const ordenPartido = obtenerOrdenPartidoIA(partido);
+    const ordenObjetivo = obtenerOrdenPartidoIA(partidoObjetivo);
+    if (ordenPartido && ordenObjetivo) {
+        if (ordenPartido.fecha !== ordenObjetivo.fecha) {
+            return ordenPartido.fecha < ordenObjetivo.fecha;
+        }
+        if (ordenPartido.minutos === null || ordenObjetivo.minutos === null) {
+            return false;
+        }
+        return ordenPartido.minutos < ordenObjetivo.minutos;
+    }
+
+    const jornadaPartido = Number(partido?.jornada);
+    const jornadaObjetivo = Number(partidoObjetivo?.jornada);
+    return Number.isFinite(jornadaPartido) &&
+        Number.isFinite(jornadaObjetivo) &&
+        jornadaPartido < jornadaObjetivo;
+}
+
+function obtenerPartidosAnterioresIA(partidoObjetivo, partidos) {
+    if (!Array.isArray(partidos)) return [];
+    return partidos.filter(partido =>
+        esPartidoLiga(partido) &&
+        partidoJugado(partido) &&
+        ocurrioAntesDelPartidoIA(partido, partidoObjetivo)
+    );
+}
+
+function filtrarTemporadaIA(partidos, temporada) {
+    if (!Array.isArray(partidos)) return [];
+    if (!temporada) return filtrarTemporadaActual(partidos);
+
+    const hayTemporadasEnDatos = partidos.some(partido =>
+        String(partido?.temporada || "").trim() !== ""
+    );
+    return hayTemporadasEnDatos
+        ? partidos.filter(partido => String(partido?.temporada || "").trim() === temporada)
+        : partidos;
+}
+
 
 // ============================================================
 // ¿ES PARTIDO DE LIGA?
@@ -139,7 +194,7 @@ function hashSimple(cadena) {
 
 }
 
-function calcularFirmaDatos(partidos) {
+function calcularFirmaDatos(partidos, temporadaObjetivo = null) {
 
     if (!Array.isArray(partidos)) return "0";
 
@@ -157,9 +212,9 @@ function calcularFirmaDatos(partidos) {
         )
         .sort();
 
-    const temporada = typeof obtenerTemporadaActualCsv === "function"
+    const temporada = temporadaObjetivo || (typeof obtenerTemporadaActualCsv === "function"
         ? obtenerTemporadaActualCsv()
-        : "sin-temporada";
+        : "sin-temporada");
     const contenido = `${temporada}~${partes.join("~")}`;
     let hash = 2166136261;
     for (let i = 0; i < contenido.length; i++) {
@@ -213,7 +268,8 @@ function filtrarTemporadaActual(partidos) {
 
 function calcularClasificacion(
     partidos,
-    jornadaMaxima = Infinity
+    jornadaMaxima = Infinity,
+    incluirProgramados = false
 ) {
 
     const tabla = {};
@@ -229,10 +285,6 @@ function calcularClasificacion(
         // ----------------------------
 
         if (!esPartidoLiga(partido)) {
-            return;
-        }
-
-        if (!partidoJugado(partido)) {
             return;
         }
 
@@ -255,6 +307,21 @@ function calcularClasificacion(
             return;
         }
 
+        const jugado = partidoJugado(partido);
+        if (!jugado && !incluirProgramados) return;
+
+        // Crear los equipos con estadísticas a cero permite mostrar la
+        // clasificación desde que se publica la jornada 1, aunque aún no
+        // se haya jugado ningún encuentro.
+        if (!tabla[local]) {
+            tabla[local] = { pj: 0, pg: 0, pe: 0, pp: 0, gf: 0, gc: 0, pts: 0 };
+        }
+        if (!tabla[visitante]) {
+            tabla[visitante] = { pj: 0, pg: 0, pe: 0, pp: 0, gf: 0, gc: 0, pts: 0 };
+        }
+
+        if (!jugado) return;
+
         const golesLocal =
             Number(partido.goles_local);
 
@@ -264,50 +331,6 @@ function calcularClasificacion(
         // ----------------------------
         // Crear equipos
         // ----------------------------
-
-        if (!tabla[local]) {
-
-            tabla[local] = {
-
-                pj: 0,
-
-                pg: 0,
-
-                pe: 0,
-
-                pp: 0,
-
-                gf: 0,
-
-                gc: 0,
-
-                pts: 0
-
-            };
-
-        }
-
-        if (!tabla[visitante]) {
-
-            tabla[visitante] = {
-
-                pj: 0,
-
-                pg: 0,
-
-                pe: 0,
-
-                pp: 0,
-
-                gf: 0,
-
-                gc: 0,
-
-                pts: 0
-
-            };
-
-        }
 
         // ----------------------------
         // Actualizar estadísticas
@@ -442,13 +465,19 @@ function obtenerCaracteristicasEquipo(
 
             diferenciaGolesPorPartido: 0,
 
+            diferenciaGolesClasificacion: 0,
+
+            puntosClasificacionPorPartido: 0,
+
             puntosPorPartido: 0,
 
             forma: 0,
 
             posicion: 0,
 
-            enfrentamientosDirectos: 0
+            enfrentamientosDirectos: 0,
+
+            balanceEnfrentamientosDirectos: 0
 
         };
 
@@ -696,29 +725,25 @@ function obtenerCaracteristicasEquipo(
     // ---------------------------------------
 
     let enfrentamientosDirectos = 0;
+    let balanceEnfrentamientosDirectos = 0;
 
     if (equipoRival) {
-
-        enfrentamientosDirectos =
-            partidosEquipo.filter(p => {
-
-                const local =
-                    String(p.local).trim();
-
-                const visitante =
-                    String(p.visitante).trim();
-
-                return (
-                    (local === nombreEquipo &&
-                     visitante === equipoRival) ||
-
-                    (visitante === nombreEquipo &&
-                     local === equipoRival)
-
-                );
-
-            }).length;
-
+        const directos = partidosEquipo.filter(p => {
+            const local = String(p.local).trim();
+            const visitante = String(p.visitante).trim();
+            return (local === nombreEquipo && visitante === equipoRival) ||
+                (visitante === nombreEquipo && local === equipoRival);
+        });
+        enfrentamientosDirectos = directos.length;
+        const puntosDirectos = directos.reduce((totalPuntos, p) => {
+            const equipoLocal = String(p.local).trim() === nombreEquipo;
+            const gf = Number(equipoLocal ? p.goles_local : p.goles_visitante);
+            const gc = Number(equipoLocal ? p.goles_visitante : p.goles_local);
+            return totalPuntos + (gf > gc ? 3 : gf === gc ? 1 : 0);
+        }, 0);
+        balanceEnfrentamientosDirectos = directos.length
+            ? (2 * puntosDirectos) / (3 * directos.length) - 1
+            : 0;
     }
 
     // ---------------------------------------
@@ -782,6 +807,15 @@ function obtenerCaracteristicasEquipo(
 
         diferenciaGolesPorPartido,
 
+        diferenciaGolesClasificacion: tablaClasificacion?.[nombreEquipo]
+            ? (tablaClasificacion[nombreEquipo].gf - tablaClasificacion[nombreEquipo].gc) /
+                Math.max(tablaClasificacion[nombreEquipo].pj, 1)
+            : 0,
+
+        puntosClasificacionPorPartido: tablaClasificacion?.[nombreEquipo]
+            ? tablaClasificacion[nombreEquipo].pts / Math.max(tablaClasificacion[nombreEquipo].pj, 1)
+            : 0,
+
         puntosPorPartido,
 
         forma,
@@ -789,6 +823,8 @@ function obtenerCaracteristicasEquipo(
         posicion,
 
         enfrentamientosDirectos,
+
+        balanceEnfrentamientosDirectos,
 
         golesFavorUltimos5PP,
 
@@ -909,14 +945,15 @@ function construirEntradaIA(local, visitante, totalEquipos = 20) {
 
 function prepararDatosEntrenamiento(
     partidosSinFiltrar,
-    tablaClasificacion
+    tablaClasificacion,
+    temporadaObjetivo = null
 ) {
 
     if (!Array.isArray(partidosSinFiltrar)) {
         return [];
     }
 
-    const partidos = filtrarTemporadaActual(partidosSinFiltrar);
+    const partidos = filtrarTemporadaIA(partidosSinFiltrar, temporadaObjetivo);
 
     const ejemplos = [];
 
@@ -1156,7 +1193,8 @@ let modeloGuardado = null;
 
 async function inicializarIA(
     partidosSinFiltrar,
-    tablaClasificacion
+    tablaClasificacion,
+    temporadaObjetivo = null
 ) {
 
     if(iaEntrenada && redIA) {
@@ -1178,7 +1216,7 @@ async function inicializarIA(
         return null;
     }
 
-    const partidos = filtrarTemporadaActual(partidosSinFiltrar);
+    const partidos = filtrarTemporadaIA(partidosSinFiltrar, temporadaObjetivo);
 
     console.log(`🤖 Inicializando IA con ${partidos.length} partidos.`);
 
@@ -1186,10 +1224,10 @@ async function inicializarIA(
     // ¿Existe un modelo ya entrenado Y los datos no han cambiado?
     // -------------------------------------
 
-    const firmaActual = calcularFirmaDatos(partidos);
+    const firmaActual = calcularFirmaDatos(partidos, temporadaObjetivo);
     let cacheGuardada = null;
     try {
-        cacheGuardada = localStorage.getItem("modeloIA-v2");
+        cacheGuardada = localStorage.getItem("modeloIA-v4");
     } catch (error) {
         console.warn("No se pudo acceder al caché local del modelo.", error);
     }
@@ -1230,7 +1268,7 @@ async function inicializarIA(
     // PREPARAR DATOS
     //----------------------------------------------------------
 
-    const ejemplos = prepararDatosEntrenamiento(partidos, tablaClasificacion);
+    const ejemplos = prepararDatosEntrenamiento(partidos, tablaClasificacion, temporadaObjetivo);
 
     if (ejemplos.length === 0) {
         console.error("❌ No hay datos suficientes para entrenar la IA.");
@@ -1294,7 +1332,7 @@ async function inicializarIA(
     modeloGuardado = entrenamiento.modelo;
 
     try {
-        localStorage.setItem("modeloIA-v2", JSON.stringify({ modelo: modeloGuardado, firma: firmaActual }));
+        localStorage.setItem("modeloIA-v4", JSON.stringify({ modelo: modeloGuardado, firma: firmaActual }));
         console.log("💾 Modelo IA guardado.");
     } catch (error) {
         console.warn("No se pudo guardar el modelo localmente.", error);
@@ -1317,14 +1355,95 @@ async function inicializarIA(
 // fiable de lo que realmente es.
 const MIN_PARTIDOS_PARA_PREDECIR = 3;
 
-function contarPartidosLigaJugados(partidos) {
+function contarPartidosLigaJugados(partidos, temporadaObjetivo = null) {
     if (!Array.isArray(partidos)) return 0;
-    return filtrarTemporadaActual(partidos).filter(partido =>
+    return filtrarTemporadaIA(partidos, temporadaObjetivo).filter(partido =>
         esPartidoLiga(partido) && partidoJugado(partido)
     ).length;
 }
 
-function predecirPartido(partido, partidosSinFiltrar) {
+function calibrarProbabilidadesIA(probabilidades, partidosPrevios) {
+    const claves = ["victoria_local", "empate", "victoria_visitante"];
+    const prediccionCruda = Object.fromEntries(claves.map(clave => [
+        clave,
+        Math.max(0, Number(probabilidades?.[clave]) || 0)
+    ]));
+    const sumaCruda = Object.values(prediccionCruda).reduce((suma, valor) => suma + valor, 0);
+    if (sumaCruda > 0) {
+        claves.forEach(clave => { prediccionCruda[clave] /= sumaCruda; });
+    } else {
+        claves.forEach(clave => { prediccionCruda[clave] = 1 / claves.length; });
+    }
+
+    const resultadosPrevios = { victoria_local: 0, empate: 0, victoria_visitante: 0 };
+    (Array.isArray(partidosPrevios) ? partidosPrevios : []).forEach(partido => {
+        if (!esPartidoLiga(partido) || !partidoJugado(partido)) return;
+        const golesLocal = Number(partido.goles_local);
+        const golesVisitante = Number(partido.goles_visitante);
+        if (golesLocal > golesVisitante) resultadosPrevios.victoria_local++;
+        else if (golesLocal < golesVisitante) resultadosPrevios.victoria_visitante++;
+        else resultadosPrevios.empate++;
+    });
+
+    const cantidad = Object.values(resultadosPrevios).reduce((suma, valor) => suma + valor, 0);
+    if (cantidad === 0) return prediccionCruda;
+
+    // La red tiende a sobreajustar y expresar demasiada seguridad con
+    // pocas jornadas. Mezclamos su salida con las frecuencias reales
+    // anteriores, aumentando el peso de la red gradualmente con datos.
+    const pesoRed = cantidad / (cantidad + 60);
+    return Object.fromEntries(claves.map(clave => {
+        const frecuenciaHistorica = (resultadosPrevios[clave] + 1) / (cantidad + claves.length);
+        return [
+            clave,
+            prediccionCruda[clave] * pesoRed + frecuenciaHistorica * (1 - pesoRed)
+        ];
+    }));
+}
+
+function calcularProbabilidadesPorPrioridades(local, visitante, partidosPrevios) {
+    const limitar = valor => Math.max(-1, Math.min(1, valor));
+    const ventajaDiferenciaGoles = limitar(
+        (local.diferenciaGolesClasificacion - visitante.diferenciaGolesClasificacion) / 2
+    );
+    const ventajaPuntos = limitar(
+        (local.puntosClasificacionPorPartido - visitante.puntosClasificacionPorPartido) / 3
+    );
+    const ventajaRacha = limitar(local.forma - visitante.forma);
+    const ventajaEnfrentamientos = limitar(
+        local.balanceEnfrentamientosDirectos - visitante.balanceEnfrentamientosDirectos
+    );
+
+    // Pesos descendentes: diferencia de goles > puntos > racha > duelos directos.
+    const ventajaTotal =
+        0.48 * ventajaDiferenciaGoles +
+        0.30 * ventajaPuntos +
+        0.16 * ventajaRacha +
+        0.06 * ventajaEnfrentamientos;
+
+    const resultados = { empates: 0, total: 0 };
+    (Array.isArray(partidosPrevios) ? partidosPrevios : []).forEach(partido => {
+        if (!esPartidoLiga(partido) || !partidoJugado(partido)) return;
+        resultados.total++;
+        if (Number(partido.goles_local) === Number(partido.goles_visitante)) {
+            resultados.empates++;
+        }
+    });
+    const probabilidadEmpate = Math.max(0.10, Math.min(
+        0.35,
+        (resultados.empates + 2) / (resultados.total + 10)
+    ));
+    const probabilidadVictoriaLocalSinEmpate = 1 / (1 + Math.exp(-3 * ventajaTotal));
+    const probabilidadVictoriaSinEmpate = 1 - probabilidadEmpate;
+
+    return {
+        victoria_local: probabilidadVictoriaSinEmpate * probabilidadVictoriaLocalSinEmpate,
+        empate: probabilidadEmpate,
+        victoria_visitante: probabilidadVictoriaSinEmpate * (1 - probabilidadVictoriaLocalSinEmpate)
+    };
+}
+
+function predecirPartido(partido, partidosSinFiltrar, temporadaObjetivo = null) {
 
     if (!redIA) {
         return null;
@@ -1334,9 +1453,12 @@ function predecirPartido(partido, partidosSinFiltrar) {
         return null;
     }
 
-    const partidos = filtrarTemporadaActual(partidosSinFiltrar);
+    const partidos = obtenerPartidosAnterioresIA(
+        partido,
+        filtrarTemporadaIA(partidosSinFiltrar, temporadaObjetivo)
+    );
 
-    if (contarPartidosLigaJugados(partidos) === 0) {
+    if (contarPartidosLigaJugados(partidos, temporadaObjetivo) === 0) {
         return {
             datosSuficientes: false,
             sinPartidosTemporada: true,
@@ -1345,12 +1467,9 @@ function predecirPartido(partido, partidosSinFiltrar) {
         };
     }
 
-    const jornada = Number(partido.jornada);
-
     const clasificacion =
         calcularClasificacion(
-            partidos,
-            jornada - 1
+            partidos
         );
 
     const local =
@@ -1359,7 +1478,7 @@ function predecirPartido(partido, partidosSinFiltrar) {
             partidos,
             clasificacion,
             partido.visitante,
-            jornada
+            Infinity
         );
 
     const visitante =
@@ -1368,7 +1487,7 @@ function predecirPartido(partido, partidosSinFiltrar) {
             partidos,
             clasificacion,
             partido.local,
-            jornada
+            Infinity
         );
 
     if (!local || !visitante) {
@@ -1392,9 +1511,20 @@ function predecirPartido(partido, partidosSinFiltrar) {
         return null;
     }
 
+    const probabilidadesRed = calibrarProbabilidadesIA(redIA.run(entrada), partidos);
+    const probabilidadesPrioritarias = calcularProbabilidadesPorPrioridades(local, visitante, partidos);
+    const pesoRed = 0.10;
+    const probabilidades = Object.fromEntries(
+        ["victoria_local", "empate", "victoria_visitante"].map(clave => [
+            clave,
+            probabilidadesPrioritarias[clave] * (1 - pesoRed) +
+                probabilidadesRed[clave] * pesoRed
+        ])
+    );
+
     return {
 
-        probabilidades: redIA.run(entrada),
+        probabilidades,
 
         partidosLocal: local.partidos,
 
@@ -1429,7 +1559,7 @@ function predecirPartido(partido, partidosSinFiltrar) {
 // primera predicción calculada, que es la mejor aproximación
 // disponible, y a partir de ahí ya no volverá a cambiar.)
 
-const CLAVE_PREDICCIONES_GUARDADAS = "prediccionesGuardadas";
+const CLAVE_PREDICCIONES_GUARDADAS = "prediccionesGuardadas-v3";
 
 function obtenerPrediccionesGuardadas() {
 
@@ -1448,12 +1578,19 @@ function obtenerPrediccionesGuardadas() {
 
 }
 
-function obtenerPrediccionGuardadaDePartido(idPartido) {
-    if (idPartido === undefined || idPartido === null || idPartido === "") return null;
-    return obtenerPrediccionesGuardadas()[idPartido] || null;
+function obtenerClavePrediccion(idPartido, temporadaObjetivo = null) {
+    const temporada = temporadaObjetivo || (typeof obtenerTemporadaActualCsv === "function"
+        ? obtenerTemporadaActualCsv()
+        : "sin-temporada");
+    return `${temporada}:${idPartido}`;
 }
 
-function guardarPrediccionParaPartido(idPartido, resultado) {
+function obtenerPrediccionGuardadaDePartido(idPartido, temporadaObjetivo = null) {
+    if (idPartido === undefined || idPartido === null || idPartido === "") return null;
+    return obtenerPrediccionesGuardadas()[obtenerClavePrediccion(idPartido, temporadaObjetivo)] || null;
+}
+
+function guardarPrediccionParaPartido(idPartido, resultado, temporadaObjetivo = null) {
 
     if (idPartido === undefined || idPartido === null || idPartido === "") {
         return;
@@ -1461,7 +1598,7 @@ function guardarPrediccionParaPartido(idPartido, resultado) {
     if (typeof localStorage === "undefined") return;
     const todas = obtenerPrediccionesGuardadas();
 
-    todas[idPartido] = resultado;
+    todas[obtenerClavePrediccion(idPartido, temporadaObjetivo)] = resultado;
 
     try {
 
@@ -1492,7 +1629,11 @@ function reiniciarPrediccionesGuardadas() {
 // BLOQUE 7 - MOSTRAR PREDICCIÓN
 // ============================================================
 
-function mostrarPrediccion(partido) {
+function mostrarPrediccion(
+    partido,
+    partidosReferencia = partidosGlobalActa,
+    temporadaObjetivo = null
+) {
 
     const contenedor =
         document.getElementById(
@@ -1503,15 +1644,14 @@ function mostrarPrediccion(partido) {
         return;
     }
 
-    if (contarPartidosLigaJugados(partidosGlobalActa) === 0) {
-        try {
-            localStorage.removeItem(CLAVE_PREDICCIONES_GUARDADAS);
-        } catch (error) {
-            console.warn("No se pudieron limpiar predicciones antiguas.", error);
-        }
+    const partidosPrevios = obtenerPartidosAnterioresIA(
+        partido,
+        filtrarTemporadaIA(partidosReferencia, temporadaObjetivo)
+    );
+    if (contarPartidosLigaJugados(partidosPrevios, temporadaObjetivo) === 0) {
         contenedor.innerHTML = `
             <p class="sin-datos">
-                Aún no se ha disputado ningún partido de liga esta temporada; todavía no se puede hacer una predicción.
+                No hay partidos de liga anteriores a este encuentro para calcular una predicción.
             </p>
         `;
         return;
@@ -1520,7 +1660,7 @@ function mostrarPrediccion(partido) {
     const idPartido = partido && partido.id;
 
     // 1) ¿Ya teníamos una predicción congelada para este partido?
-    let resultado = obtenerPrediccionGuardadaDePartido(idPartido);
+    let resultado = obtenerPrediccionGuardadaDePartido(idPartido, temporadaObjetivo);
     if (resultado && !resultado.datosSuficientes) resultado = null;
 
     // 2) Si no, la calculamos ahora (necesitamos el modelo cargado)
@@ -1528,13 +1668,18 @@ function mostrarPrediccion(partido) {
     if (!resultado) {
 
         if (!redIA) {
+            contenedor.innerHTML = `
+                <p class="sin-datos">
+                    No hay suficientes partidos anteriores para calcular una predicción.
+                </p>
+            `;
             return;
         }
 
-        resultado = predecirPartido(partido, partidosGlobalActa);
+        resultado = predecirPartido(partido, partidosPrevios, temporadaObjetivo);
 
         if (resultado && !resultado.sinPartidosTemporada) {
-            guardarPrediccionParaPartido(idPartido, resultado);
+            guardarPrediccionParaPartido(idPartido, resultado, temporadaObjetivo);
         }
 
     }
@@ -1702,7 +1847,7 @@ function mostrarPrediccion(partido) {
 
 function reiniciarModeloIA() {
 
-    try { localStorage.removeItem("modeloIA-v2"); } catch (error) { console.warn("No se pudo borrar el modelo local.", error); }
+    try { localStorage.removeItem("modeloIA-v4"); } catch (error) { console.warn("No se pudo borrar el modelo local.", error); }
 
     modeloGuardado = null;
 

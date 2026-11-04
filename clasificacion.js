@@ -14,20 +14,14 @@ function obtenerNombreArchivoEscudo(equipo) {
 fetchCSV(urlPartidosC)
     .then(partidos => {
         const partidosTemporada = filtrarTemporadaActual(partidos);
-        // Filtrar solo partidos oficiales ya jugados
-        const partidosOficiales = partidosTemporada.filter(p =>
-            Number.isFinite(Number(p.jornada)) &&
-            String(p.jornada).trim() !== "" &&
-            String(p.jornada).trim().toLowerCase() !== "amistoso" &&
-            p.goles_local !== "" &&
-            p.goles_visitante !== "" &&
-            Number.isFinite(Number(p.goles_local)) &&
-            Number.isFinite(Number(p.goles_visitante))
-        );
+        const partidosLiga = partidosTemporada.filter(esPartidoLiga);
+        const hayJornadaUno = partidosLiga.some(p => Number(p.jornada) === 1);
+        const partidosOficiales = partidosLiga.filter(partidoJugado);
+        const partidosParaTabla = hayJornadaUno ? partidosLiga : partidosOficiales;
 
-        // Calcular clasificación (asumiendo que tienes esta función en tu proyecto)
-        // Clasificación actual
-        const tabla = calcularClasificacion(partidosOficiales);
+        // Al publicarse la jornada 1, mostrar todos los equipos de la hoja
+        // aunque todavía no tengan resultados.
+        const tabla = calcularClasificacion(partidosParaTabla, Infinity, hayJornadaUno);
         mostrarRankingAtaqueDefensa(tabla);
 
         // Última jornada disputada

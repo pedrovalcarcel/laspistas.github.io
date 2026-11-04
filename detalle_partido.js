@@ -2,12 +2,6 @@
 // BLOQUE 1 - CARGA DE DATOS DEL ACTA
 // ============================================
 
-// URL de partidos
-const urlPartidosActa = obtenerUrlPartidosTemporadaActual();
-
-// URL de eventos: goles, asistencias y tarjetas
-const urlEventos = obtenerUrlEventosTemporadaActual();
-
 // Jugadores
 const urlJugadores = "jugadores.json";
 
@@ -49,6 +43,9 @@ async function cargarDatosActa() {
         // Obtener ID del partido desde la URL
         const params = new URLSearchParams(window.location.search);
         const partidoId = params.get("id");
+        const temporadaSolicitada = params.get("temporada") || obtenerTemporadaActualCsv();
+        const urlPartidosActa = obtenerUrlPartidosTemporada(temporadaSolicitada);
+        const urlEventos = obtenerUrlEventosTemporada(temporadaSolicitada);
 
         if (!partidoId) {
 
@@ -125,7 +122,10 @@ async function cargarDatosActa() {
         // Cada hoja del Excel es ya de una única temporada, así
         // que de momento usamos toda la hoja tal cual.
 
-        const partidosTemporada = partidosGlobalActa;
+        const partidosTemporada = filtrarPartidosPorTemporada(
+            partidosGlobalActa,
+            temporadaSolicitada
+        );
 
         // ============================================
         // EVENTOS DEL PARTIDO
@@ -141,18 +141,11 @@ async function cargarDatosActa() {
         // CLASIFICACIÓN
         // ============================================
 
-        let tabla = {};
-
-        const jornadaActual = parseInt(partido.jornada);
-
-        if (!isNaN(jornadaActual)) {
-
-            tabla = calcularClasificacion(
-                partidosTemporada,
-                jornadaActual
-            );
-
-        }
+        const partidosAnteriores = obtenerPartidosAnterioresIA(
+            partido,
+            partidosTemporada
+        );
+        const tabla = calcularClasificacion(partidosAnteriores);
 
         // ============================================
         // IA DE PREDICCIÓN
@@ -161,8 +154,9 @@ async function cargarDatosActa() {
         if (typeof inicializarIA === "function") {
 
             await inicializarIA(
-                partidosTemporada,
-                tabla
+                partidosAnteriores,
+                tabla,
+                temporadaSolicitada
             );
 
         } else {
@@ -180,20 +174,10 @@ async function cargarDatosActa() {
             partido,
             eventosDelPartido,
             jugadores,
-            partidosTemporada
+            partidosTemporada,
+            partidosAnteriores,
+            temporadaSolicitada
         );
-
-        // ============================================
-        // PREDICCIÓN
-        // ============================================
-
-        if (
-            typeof mostrarPrediccion === "function"
-        ) {
-
-            mostrarPrediccion(partido);
-
-        }
 
     } catch (error) {
 
@@ -218,7 +202,9 @@ function renderizarActa(
     partido,
     eventos,
     jugadores,
-    partidosTemporada
+    partidosTemporada,
+    partidosAnteriores = [],
+    temporadaObjetivo = null
 ) {
 
     const contenedor =
@@ -531,7 +517,7 @@ function renderizarActa(
             typeof mostrarPrediccion === "function"
         ) {
 
-            mostrarPrediccion(partido);
+            mostrarPrediccion(partido, partidosAnteriores, temporadaObjetivo);
 
         }
 
@@ -930,10 +916,7 @@ function generarBloqueConvocados(partido, jugadores) {
     // --------------------------------------------
 
     const dorsalesConvocados = partido.convocados
-        ? String(partido.convocados)
-            .split("-")
-            .map(dorsal => dorsal.trim())
-            .filter(dorsal => dorsal !== "")
+        ? parsearConvocados(partido.convocados)
         : [];
 
 
@@ -1065,33 +1048,19 @@ function generarBloqueClasificacionPrevia(
     }
 
 
-    // ============================================
-    // PARTIDOS ANTERIORES AL PARTIDO ACTUAL
-    // ============================================
-
-    const fechaPartido =
-        convertirFecha(partido.fecha);
-
-
-    const partidosPrevios = partidos.filter(p => {
-
-        if (
-            !p.jornada ||
-            !/^\d+$/.test(String(p.jornada))
-        ) {
-            return false;
-        }
-
-        if (
-            p.goles_local === "" ||
-            p.goles_visitante === ""
-        ) {
-            return false;
-        }
-
-        return Number(p.jornada) < Number(partido.jornada);
-
-    });
+    // Solo se computan resultados anteriores al partido; los encuentros
+    // pendientes aportan los nombres de equipos, pero nunca estadísticas.
+    const partidosPrevios = typeof obtenerPartidosAnterioresIA === "function"
+        ? obtenerPartidosAnterioresIA(partido, partidos)
+        : partidos.filter(p => esPartidoLiga(p) && partidoJugado(p) &&
+            Number(p.jornada) < Number(partido.jornada));
+    const hayJornadaUno = partidos.some(p =>
+        esPartidoLiga(p) && Number(p.jornada) === 1
+    );
+    const partidosPendientes = hayJornadaUno
+        ? partidos.filter(p => esPartidoLiga(p) && !partidoJugado(p))
+        : [];
+    const partidosParaClasificacion = [...partidosPrevios, ...partidosPendientes];
 
 
     // ============================================
@@ -1106,8 +1075,9 @@ function generarBloqueClasificacionPrevia(
 
         tabla =
             calcularClasificacion(
-                partidosPrevios,
-                Infinity
+                partidosParaClasificacion,
+                Infinity,
+                hayJornadaUno
             ) || {};
 
     }
@@ -1124,28 +1094,10 @@ function generarBloqueClasificacionPrevia(
 
         tablaAnterior =
             calcularClasificacion(
-                partidos.filter(p => {
-
-                    if (
-                        !p.jornada ||
-                        !/^\d+$/.test(String(p.jornada))
-                    ) {
-                        return false;
-                    }
-
-                    if (
-                        p.goles_local === "" ||
-                        p.goles_visitante === ""
-                    ) {
-                        return false;
-                    }
-
-                    return (
-                        Number(p.jornada) <
-                        Number(partido.jornada) - 1
-                    );
-
-                }),
+                partidosPrevios.filter(p =>
+                    Number.isFinite(Number(partido.jornada)) &&
+                    Number(p.jornada) < Number(partido.jornada) - 1
+                ),
                 Infinity
             ) || {};
 

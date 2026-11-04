@@ -47,3 +47,10 @@ async function fetchChecked(url, options) {
 async function fetchCSV(url, options) {
     return csvToJSON(await (await fetchChecked(url, options)).text());
 }
+
+function parsearConvocados(valor) {
+    return String(valor ?? "")
+        .split(/[,-]/)
+        .map(dorsal => dorsal.trim())
+        .filter(Boolean);
+}

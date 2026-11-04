@@ -1,6 +1,21 @@
 // 1. Obtener el nombre del equipo de la URL
 const urlParams = new URLSearchParams(window.location.search);
 const nombreEquipo = urlParams.get('nombre');
+const temporadaEquipo = urlParams.get('temporada') || obtenerTemporadaActualCsv();
+
+function normalizarNombreEquipo(nombre) {
+    return String(nombre || '').trim().toLocaleLowerCase('es');
+}
+
+function urlEquipo(nombre) {
+    const parametros = new URLSearchParams({ nombre, temporada: temporadaEquipo });
+    return `equipo.html?${parametros.toString()}`;
+}
+
+function urlPartidoEquipo(id) {
+    const parametros = new URLSearchParams({ id, temporada: temporadaEquipo });
+    return `partido.html?${parametros.toString()}`;
+}
 
 // Convierte el nombre del equipo en el nombre de archivo de su
 // escudo (misma lógica que en clasificacion.js/historico.js, para
@@ -42,26 +57,50 @@ function mostrarEscudoEquipo(equipo) {
 document.addEventListener("DOMContentLoaded", async () => {
     if (!nombreEquipo) {
         document.getElementById('tituloEquipo').innerText = "Equipo no encontrado";
+        document.getElementById('tituloEquipoPagina').innerText = "Equipo no encontrado";
         return;
     }
 
     document.getElementById('tituloEquipo').innerText = nombreEquipo;
+    document.getElementById('tituloEquipoPagina').innerText = nombreEquipo;
     mostrarEscudoEquipo(nombreEquipo);
 
 
     // 2. Cargar los datos (Asumiendo que 'partidos.csv' es tu fuente y 'csvToJSON' está global)
     try {
-        const res = await fetch(urlPartidosCSV);
-        const csvText = await res.text();
-        const partidos = csvToJSON(csvText);
-        const partidosTemporada = filtrarTemporadaActual(partidos);
-        const partidosLiga = partidosTemporada.filter(p => !isNaN(parseInt(p.jornada)));
+        let partidosTemporada = null;
+        try {
+            const datosHistorico = JSON.parse(sessionStorage.getItem("equipoDesdeHistorico") || "null");
+            sessionStorage.removeItem("equipoDesdeHistorico");
+            if (datosHistorico?.temporada === temporadaEquipo && Array.isArray(datosHistorico.partidos)) {
+                partidosTemporada = datosHistorico.partidos;
+            }
+        } catch (error) {
+            console.warn("No se pudieron leer los partidos recibidos desde el histórico.", error);
+        }
+
+        // Al entrar desde otra sección, cargar la pestaña de la temporada
+        // correspondiente y aplicar el mismo filtro que usa el histórico.
+        if (!partidosTemporada) {
+            const res = await fetchChecked(obtenerUrlPartidosTemporada(temporadaEquipo));
+            const csvText = await res.text();
+            const partidos = csvToJSON(csvText);
+            partidosTemporada = filtrarPartidosPorTemporada(partidos, temporadaEquipo);
+        }
+        if (partidosTemporada.length === 0) {
+            throw new Error(`La hoja de ${temporadaEquipo} no contiene partidos para mostrar.`);
+        }
+        const partidosLiga = partidosTemporada.filter(p =>
+            /^\d+$/.test(String(p.jornada || "").trim())
+        );
         const equiposLiga = [...new Set(
             partidosLiga.map(p => p.local).concat(partidosLiga.map(p => p.visitante))
         )].filter(nombre => nombre && nombre.trim() !== ""); // Limpieza extra
 
-        const partidosEquipo = partidosTemporada.filter(p => 
-            (p.local === nombreEquipo || p.visitante === nombreEquipo) 
+        const nombreBuscado = normalizarNombreEquipo(nombreEquipo);
+        const partidosEquipo = partidosTemporada.filter(p =>
+            normalizarNombreEquipo(p.local) === nombreBuscado ||
+            normalizarNombreEquipo(p.visitante) === nombreBuscado
         );
         partidosEquipo.sort((a, b) => parseInt(b.jornada) - parseInt(a.jornada));
 
@@ -74,10 +113,27 @@ document.addEventListener("DOMContentLoaded", async () => {
         generarGraficaPosicionJornada(partidosTemporada, nombreEquipo, 'graficaPosicionEquipo');
         inicializarComparador(equiposLiga, nombreEquipo,partidosLiga);
         inicializarExpandirGraficas();
+
+        if (partidosEquipo.length === 0) {
+            const lista = document.getElementById('listaPartidosEquipo');
+            if (lista) {
+                const aviso = document.createElement('p');
+                aviso.className = 'sin-datos';
+                aviso.textContent = `No hay partidos de ${nombreEquipo} en la temporada ${temporadaEquipo}.`;
+                lista.replaceChildren(aviso);
+            }
+        }
         
         // NO llames a generarGraficaVictoriasPorHora aquí a menos que tengas ese canvas en equipo.html
     } catch (error) {
         console.error("Error al cargar los datos:", error);
+        const lista = document.getElementById('listaPartidosEquipo');
+        if (lista) {
+            const aviso = document.createElement('p');
+            aviso.className = 'sin-datos';
+            aviso.textContent = `No se pudieron cargar los datos de ${temporadaEquipo}.`;
+            lista.replaceChildren(aviso);
+        }
     }
 });
 
@@ -112,11 +168,11 @@ function mostrarListaPartidos(partidos) {
         li.className = 'partido-item';
         
         // Link equipo local
-        const linkLocal = `<a href="equipo.html?nombre=${encodeURIComponent(p.local)}" class="link-equipo">${p.local}</a>`;
+        const linkLocal = `<a href="${urlEquipo(p.local)}" class="link-equipo">${p.local}</a>`;
         // Link goles al acta
-        const linkActa = `<a href="partido.html?id=${p.id}" class="link-acta">${p.goles_local} - ${p.goles_visitante}</a>`;
+        const linkActa = `<a href="${urlPartidoEquipo(p.id)}" class="link-acta">${p.goles_local} - ${p.goles_visitante}</a>`;
         // Link equipo visitante
-        const linkVisitante = `<a href="equipo.html?nombre=${encodeURIComponent(p.visitante)}" class="link-equipo">${p.visitante}</a>`;
+        const linkVisitante = `<a href="${urlEquipo(p.visitante)}" class="link-equipo">${p.visitante}</a>`;
 
         li.innerHTML = `J-${p.jornada}: ${linkLocal} ${linkActa} ${linkVisitante}`;
         lista.appendChild(li);
@@ -158,7 +214,7 @@ function pintarRacha(partidos, nombre) {
         }
 
         return `
-            <a href="partido.html?id=${encodeURIComponent(p.id)}" style="text-decoration:none;">
+            <a href="${urlPartidoEquipo(p.id)}" style="text-decoration:none;">
                 <div class="partido-racha ${claseResultado}" data-id="${p.id}">
                     ${letra}
                 </div>
@@ -221,45 +277,39 @@ function inicializarComparador(equipos, equipoActual, todosLosPartidos) {
             .reverse();
 
         // 4. Renderizar HTML
-        const colorPos = posActual < posSel ? "#28a745" : (posActual > posSel ? "#dc3545" : "white");
-        const colorPosSel = posSel < posActual ? "#28a745" : (posSel > posActual ? "#dc3545" : "white");
-        const colorPtos = getColor(statsActual.puntos, statsSel.puntos);
-        const colorGF = getColor(statsActual.gf, statsSel.gf);
-        const colorGC = getColor(statsActual.gc, statsSel.gc, true);
-
         contenedor.innerHTML = `
             <div class="comparacion-box">
                 <h4>
-                    <a href="equipo.html?nombre=${encodeURIComponent(equipoActual)}" class="link-comparar">${equipoActual}</a> 
+                    <a href="${urlEquipo(equipoActual)}" class="link-comparar">${equipoActual}</a> 
                     vs 
-                    <a href="equipo.html?nombre=${encodeURIComponent(equipoSel)}" class="link-comparar">${equipoSel}</a>
+                    <a href="${urlEquipo(equipoSel)}" class="link-comparar">${equipoSel}</a>
                 </h4>
                 <div class="stat-row">
-                    <span class="val" style="color:${colorPos}">${posActual}º</span>
+                    <span class="val">${posActual}º</span>
                     <span class="lab">POSICIÓN</span>
-                    <span class="val" style="color:${colorPosSel}">${posSel}º</span>
+                    <span class="val">${posSel}º</span>
                 </div>
                 <div class="stat-row">
-                    <span class="val" style="color:${colorPtos}">${statsActual.puntos}</span>
+                    <span class="val">${statsActual.puntos}</span>
                     <span class="lab">PUNTOS</span>
-                    <span class="val" style="color:${statsSel.puntos > statsActual.puntos ? '#28a745' : statsSel.puntos < statsActual.puntos ? '#dc3545' : 'white'}">${statsSel.puntos}</span>
+                    <span class="val">${statsSel.puntos}</span>
                 </div>
                 <div class="stat-row">
-                    <span class="val" style="color:${colorGF}">${statsActual.gf}</span>
+                    <span class="val">${statsActual.gf}</span>
                     <span class="lab">GOLES FAVOR</span>
-                    <span class="val" style="color:${statsSel.gf > statsActual.gf ? '#28a745' : statsSel.gf < statsActual.gf ? '#dc3545' : 'white'}">${statsSel.gf}</span>
+                    <span class="val">${statsSel.gf}</span>
                 </div>
                 <div class="stat-row">
-                    <span class="val" style="color:${colorGC}">${statsActual.gc}</span>
+                    <span class="val">${statsActual.gc}</span>
                     <span class="lab">GOLES CONTRA</span>
-                    <span class="val" style="color:${statsSel.gc < statsActual.gc ? '#28a745' : statsSel.gc > statsActual.gc ? '#dc3545' : 'white'}">${statsSel.gc}</span>
+                    <span class="val">${statsSel.gc}</span>
                 </div>
 
                 <h5>Enfrentamientos Previos</h5>
                 <ul class="h2h-lista">
                     ${h2h.length > 0 ? h2h.map(p => `
                         <li>J-${p.jornada}: 
-                            <a href="partido.html?id=${p.id}">
+                            <a href="${urlPartidoEquipo(p.id)}">
                                 ${p.local} ${p.goles_local} - ${p.goles_visitante} ${p.visitante}
                             </a>
                         </li>
@@ -312,10 +362,3 @@ function obtenerResultado(p, nombre) {
     return (gv > gl) ? "v" : (gv < gl) ? "d" : "e";
 }
 
-function getColor(val1, val2, esContra = false) {
-    if (val1 === val2) return "white";
-    if (esContra) {
-        return val1 < val2 ? "#28a745" : "#dc3545"; // Menor es mejor
-    }
-    return val1 > val2 ? "#28a745" : "#dc3545"; // Mayor es mejor
-}

@@ -6,7 +6,9 @@ const urlGolesCSV = obtenerUrlEventosTemporadaActual();
 const nombreMiEquipo = "Las Pistas FC"; // Asegúrate de que coincida exactamente con el texto en tu Excel
 const urlJugadores = "jugadores.json"; // Para mostrar alias en lugar de dorsales en la gráfica de goles por jugador
 
-document.addEventListener("DOMContentLoaded", cargarDatosYGraficar);
+if (!document.body.classList.contains("pagina-equipo")) {
+    document.addEventListener("DOMContentLoaded", cargarDatosYGraficar);
+}
 //let modeloEntrenado = false;
 
 async function inicializarDashboard() {
@@ -29,7 +31,9 @@ async function inicializarDashboard() {
 }
 
 // Ejecutar al cargar la página
-window.onload = inicializarDashboard;
+if (!document.body.classList.contains("pagina-equipo")) {
+    window.addEventListener("load", inicializarDashboard);
+}
 async function cargarDatosYGraficar() {
     try {
         // 1. Cargamos todos los archivos en paralelo

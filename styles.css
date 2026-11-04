@@ -340,6 +340,10 @@ nav a:active{
     PÁGINA EQUIPO
 ==================================================*/
 
+.pagina-equipo .equipo-page{width:min(1500px,95%);margin:0 auto}
+.pagina-equipo .equipo-identidad{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;width:min(1400px,100%);margin:30px auto 0;padding:0 20px;background:transparent;border:0;border-radius:0;box-shadow:none;box-sizing:border-box;text-align:center}
+.pagina-equipo .equipo-identidad-escudo{display:block;flex:none;width:112px;height:112px;object-fit:contain;padding:0;background:transparent;border:0;border-radius:0;box-sizing:border-box}
+.pagina-equipo .equipo-identidad h2{margin:0;color:#fff;font-size:clamp(1.6rem,3vw,2.5rem);line-height:1.15;overflow-wrap:anywhere}
 
 .pagina-equipo .dashboard-grid {
     display: grid;
@@ -567,6 +571,7 @@ nav a:active{
 .pagina-equipo .comparacion-box .val {
     font-size: 1.4rem;
     font-weight: 800;
+    color: #111827;
 }
 
 .pagina-equipo .comparacion-box .lab {
@@ -603,6 +608,11 @@ nav a:active{
     .pagina-equipo .cabecera {
         padding: 16px 20px;
     }
+
+    .pagina-equipo .equipo-page{width:95%}
+    .pagina-equipo .equipo-identidad{gap:12px;margin-top:20px;padding:0 12px}
+    .pagina-equipo .equipo-identidad-escudo{width:78px;height:78px}
+    .pagina-equipo .equipo-identidad h2{font-size:1.5rem}
 
     .pagina-equipo .dashboard-grid {
         margin: 20px auto;

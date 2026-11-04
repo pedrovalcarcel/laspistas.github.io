@@ -75,11 +75,13 @@ async function cargarHistorico(temporada) {
         p.goles_local !== ""
     );
 
-    const partidosClasificacion = partidosTemporadaAll.filter(p =>
-        !isNaN(Number(p.jornada)) &&
-        p.jornada !== "Amistoso" &&
-        p.goles_local !== ""
+    const partidosLiga = partidosTemporadaAll.filter(p =>
+        Number.isFinite(Number(p.jornada)) && String(p.jornada || "").trim() !== ""
     );
+    const hayJornadaUno = partidosLiga.some(p => Number(p.jornada) === 1);
+    const partidosClasificacion = hayJornadaUno
+        ? partidosLiga
+        : partidosLiga.filter(partidoJugado);
 
     const partidosCopa = partidosTemporada.filter(p =>
         isNaN(Number(p.jornada)) &&
@@ -104,8 +106,8 @@ async function cargarHistorico(temporada) {
 
     llenarBarraResumen(partidosOficiales);
     crearTooltip();
-    crearCalendarios(partidosTemporada);
-    llenarClasificacion(partidosClasificacion);
+    crearCalendarios(partidosTemporada, temporada);
+    llenarClasificacion(partidosClasificacion, temporada, hayJornadaUno, partidosTemporadaAll);
     llenarRankings(eventosCsv, jugadores);
     mostrarUltimoPartidoCopa(ultimoCopa, temporada);
 }
@@ -137,7 +139,7 @@ function llenarBarraResumen(partidos) {
     `;
 }
 
-function crearCalendarios(partidos) {
+function crearCalendarios(partidos, temporada) {
     if (!calendariosResultados) return;
     calendariosResultados.innerHTML = "";
 
@@ -168,7 +170,7 @@ function crearCalendarios(partidos) {
         tarjeta.appendChild(titulo);
         tarjeta.appendChild(contenido);
         calendariosResultados.appendChild(tarjeta);
-        crearCalendario(año, mes, partidos, contenido, titulo.id);
+        crearCalendario(año, mes, partidos, contenido, titulo.id, temporada);
     });
 }
 
@@ -190,10 +192,10 @@ function obtenerNombreArchivoEscudo(equipo) {
         .replace(/[^a-z0-9_]/g, "");
 }
 
-function llenarClasificacion(partidos) {
+function llenarClasificacion(partidos, temporada, incluirProgramados = false, partidosTemporada = []) {
     if (!tablaClasificacionBody) return;
 
-    const tabla = calcularClasificacion(partidos);
+    const tabla = calcularClasificacion(partidos, Infinity, incluirProgramados);
     const tablaArray = Object.keys(tabla).map(nombre => ({
             equipo: nombre,
             ...tabla[nombre],
@@ -206,11 +208,7 @@ function llenarClasificacion(partidos) {
                 
                 // Lógica para decidir el enlace
                 let enlace;
-                if (eq.equipo.trim() === "Las Pistas FC") {
-                    enlace = "estadisticas.html"; // Tu página de estadísticas original
-                } else {
-                    enlace = `equipo.html?nombre=${encodeURIComponent(eq.equipo)}`;
-                }
+                enlace = `equipo.html?nombre=${encodeURIComponent(eq.equipo)}&temporada=${encodeURIComponent(temporada)}`;
 
                 const nombreArchivoEscudo = obtenerNombreArchivoEscudo(eq.equipo);
                 const escudoUrl = `img/equipos/${nombreArchivoEscudo}.png`;
@@ -236,6 +234,21 @@ function llenarClasificacion(partidos) {
                     </tr>
                 `;
             }).join("");
+
+        // La ficha usará la misma lista que el histórico ya cargó para esta
+        // temporada, evitando volver a resolver el CSV con otro contexto.
+        tbody.querySelectorAll("a.link-equipo").forEach(link => {
+            link.addEventListener("click", () => {
+                try {
+                    sessionStorage.setItem("equipoDesdeHistorico", JSON.stringify({
+                        temporada,
+                        partidos: partidosTemporada
+                    }));
+                } catch (error) {
+                    console.warn("No se pudieron compartir los partidos del histórico con la ficha.", error);
+                }
+            });
+        });
 }
 
 function llenarRankings(eventosCsv, jugadores) {
@@ -287,7 +300,9 @@ function mostrarUltimoPartidoCopa(partido, temporada) {
         year: "numeric"
     });
 
-    const enlaceActa = partido.id ? `partido.html?id=${encodeURIComponent(partido.id)}` : null;
+    const enlaceActa = partido.id
+        ? `partido.html?id=${encodeURIComponent(partido.id)}&temporada=${encodeURIComponent(temporada)}`
+        : null;
     ultimoPartidoCopa.innerHTML = `
         ${enlaceActa ? `<a href="${enlaceActa}" class="partido-copa-enlace">` : ""}
             <div class="partido-copa">

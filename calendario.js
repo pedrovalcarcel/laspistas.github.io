@@ -59,7 +59,7 @@ function filtrarPartidosPorTemporadaActual(partidos){
     return partidos.filter(p => fechaEnTemporada(p.fecha, temporadaActual));
 }
 
-function crearCalendario(ano, mes, partidos, contenedor, idTitulo){
+function crearCalendario(ano, mes, partidos, contenedor, idTitulo, temporada = null){
     const meses = [
         "Enero","Febrero","Marzo","Abril","Mayo","Junio",
         "Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"
@@ -222,7 +222,9 @@ const partido = partidos.find(p => {
     });
 
     celda.addEventListener("click",()=>{
-        location.href = `partido.html?id=${encodeURIComponent(partido.id || "")}`;
+        const parametros = new URLSearchParams({ id: partido.id || "" });
+        if (temporada) parametros.set("temporada", temporada);
+        location.href = `partido.html?${parametros.toString()}`;
     });
     }
         grid.appendChild(celda);

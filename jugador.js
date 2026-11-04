@@ -156,7 +156,7 @@ async function cargarEstadisticas(temporada,jugador){
             return;
         }
         const convocados=partido.convocados
-            ?partido.convocados.split("-").map(x=>x.trim())
+            ?parsearConvocados(partido.convocados)
             :[];
         if(convocados.includes(String(dorsal))){
             partidosJugados++;
@@ -243,7 +243,7 @@ async function cargarGeneral(){
                 return;
             }
             const convocados=partido.convocados
-                ?partido.convocados.split("-").map(x=>x.trim())
+                ?parsearConvocados(partido.convocados)
                 :[];
             if(convocados.includes(String(dorsal))){
                 partidosJugados++;
