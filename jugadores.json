@@ -20,7 +20,7 @@
                 "dcc": "regular",
                 "dcd": "mala"},
             "card-stats":{
-                "media": 82,
+                "media": 80,
                 "ritmo": 70,
                 "tiro": 73,
                 "pase": 77,
@@ -77,7 +77,7 @@
                 "dcc": "mala",
                 "dcd": "regular"},
             "card-stats":{
-                "media": 81,
+                "media": 83,
                 "ritmo": 81,
                 "tiro": 71,
                 "pase": 72,
@@ -105,7 +105,7 @@
                 "dcc": "mala",
                 "dcd": "regular"},
             "card-stats":{
-                "media": 83,
+                "media": 82,
                 "ritmo": 78,
                 "tiro": 81,
                 "pase": 75,
@@ -161,7 +161,7 @@
                 "dcc": "mala",
                 "dcd": "mala"},
             "card-stats":{
-                "media": 79,
+                "media": 80,
                 "ritmo": 65,
                 "tiro": 52,
                 "pase": 68,
@@ -190,7 +190,7 @@
                 "dcc": "mala",
                 "dcd": "mala"},
             "card-stats":{
-                "media": 83,
+                "media": 84,
                 "ritmo": 72,
                 "tiro": 78,
                 "pase": 85,
@@ -246,7 +246,7 @@
                 "dcc": "mala",
                 "dcd": "buena"} ,
             "card-stats":{
-                "media": 82,
+                "media": 83,
                 "ritmo": 84,
                 "tiro": 79,
                 "pase": 65,
@@ -274,7 +274,7 @@
                 "dcc": "mala",
                 "dcd": "mala"},
             "card-stats":{
-                "media": 83,
+                "media": 84,
                 "ritmo": 79,
                 "tiro": 78,
                 "pase": 87,
@@ -330,7 +330,7 @@
                 "dcc": "regular",
                 "dcd": "buena"},
             "card-stats":{
-                "media": 84,
+                "media": 85,
                 "ritmo": 78,
                 "tiro": 85,
                 "pase": 1,
@@ -386,7 +386,7 @@
                 "dcc": "mala",
                 "dcd": "regular"},
             "card-stats":{
-                "media": 85,
+                "media": 84,
                 "ritmo": 87,
                 "tiro": 82,
                 "pase": 85,
