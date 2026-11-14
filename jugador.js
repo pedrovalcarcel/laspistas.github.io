@@ -99,7 +99,7 @@ function pintarJugador(jugador){
         ${jugador.nacionalidad}
     `;
     document.getElementById("frase").textContent=jugador.frase;
-    document.getElementById("foto-jugador").src =`img/jugadores/${jugador.dorsal}.jpg`;
+    document.getElementById("foto-jugador").src =`img/jugadores/${jugador.dorsal}.png`;
     const card=jugador["card-stats"];
     document.getElementById("card-rating").textContent=card.media;
     document.getElementById("card-pos").textContent=jugador.posicion;

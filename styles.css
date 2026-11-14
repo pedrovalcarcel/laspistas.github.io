@@ -2140,6 +2140,11 @@ TARJETAS DE JUGADORES
     height:100%;
 }
 
+.lista-jugadores a.jugador-card{
+    justify-content:flex-start;
+    padding:12px 14px 16px;
+}
+
 .jugador-card:hover{
     transform:translateY(-8px);
     border-color:#FFD447;
@@ -2151,21 +2156,24 @@ TARJETAS DE JUGADORES
     text-align:center;
     font-size:34px;
     font-weight:700;
-    padding:12px;
+    padding:6px 10px 0;
     border-radius: 18px;
+    line-height:1.2;
 }
 
 .jugador-foto{
     display:flex;
     justify-content:center;
     align-items:center;
-    padding:25px 20px;
+    padding:12px 12px 6px;
 }
 
 .jugador-foto img{
-    width:225px;
-    height:225px;
+    width:200px;
+    height:200px;
+    aspect-ratio:1;
     object-fit:cover;
+    object-position:center 2%;
     border-radius:50%;
     border:5px solid #143FAF;
     transition:.3s;
@@ -2176,7 +2184,7 @@ TARJETAS DE JUGADORES
 }
 
 .jugador-info{
-    padding:22px;
+    padding:12px 14px 8px;
     text-align:center;
 }
 
@@ -2192,8 +2200,14 @@ TARJETAS DE JUGADORES
 }
 
 .jugador-info p{
-    margin:8px 0;
+    margin:6px 0;
     font-size:15px;
+}
+
+@media(max-width:700px){
+    .lista-jugadores a.jugador-card{padding:10px 12px 14px}
+    .jugador-foto img{width:155px;height:155px}
+    .jugador-info{padding:10px 12px 6px}
 }
 
 .jugador-info strong{

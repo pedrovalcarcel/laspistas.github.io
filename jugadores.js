@@ -29,7 +29,7 @@ Promise.all([
                 ${j.dorsal}
             </div>
             <div class="jugador-foto">
-                <img src="img/jugadores/${j.dorsal}.jpg" alt="${j.alias}">
+                <img src="img/jugadores/${j.dorsal}.png" alt="${j.alias}">
             </div>
             <div class="jugador-info">
                 <h3>${j.nombre} ${j.apellidos}</h3>
