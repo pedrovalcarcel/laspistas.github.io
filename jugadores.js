@@ -29,7 +29,7 @@ Promise.all([
                 ${j.dorsal}
             </div>
             <div class="jugador-foto">
-                <img src="img/jugadores/${j.dorsal}.png" alt="${j.alias}">
+                <img src="img/jugadores/${j.dorsal}.PNG" data-fallback="${j.foto ? `img/jugadores/${j.foto}` : ''}" alt="" aria-hidden="true">
             </div>
             <div class="jugador-info">
                 <h3>${j.nombre} ${j.apellidos}</h3>
@@ -47,6 +47,16 @@ Promise.all([
             </div>
         </a>
         `;
+        const fotoJugador = li.querySelector(".jugador-foto img");
+        fotoJugador.addEventListener("error", () => {
+            const alternativa = fotoJugador.dataset.fallback;
+            if (alternativa && fotoJugador.src !== new URL(alternativa, document.baseURI).href) {
+                fotoJugador.dataset.fallback = "";
+                fotoJugador.src = alternativa;
+            } else {
+                fotoJugador.hidden = true;
+            }
+        });
         contenedorBotones.appendChild(li);
     });
 

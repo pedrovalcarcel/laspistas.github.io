@@ -332,7 +332,7 @@
             ficha.title = `${nombrePosicion} · ${nombreCalidad}`;
             ficha.setAttribute("aria-label", `${jugador.alias || jugador.nombre}, ${nombrePosicion}. ${nombreCalidad}. Arrastra para cambiar su posición.`);
             const foto = document.createElement("img");
-            foto.src = `img/jugadores/${encodeURIComponent(jugador.dorsal)}.jpg`;
+            foto.src = `img/jugadores/${encodeURIComponent(jugador.dorsal)}.PNG`;
             foto.alt = "";
             foto.addEventListener("error", () => foto.remove(), { once: true });
             circulo.appendChild(foto);
